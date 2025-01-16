@@ -17,7 +17,6 @@ const Bg1 = document.querySelector('.bg-1');
 const Bg2 = document.querySelector('.bg-2');
 const Bg3 = document.querySelector('.bg-3');
 
-
 // ============== SIDEBAR NAVIGATION ============== 
 
 // Remove active class from all menu items
