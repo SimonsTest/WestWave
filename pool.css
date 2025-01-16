@@ -1,175 +1,238 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap');
 
 :root {
-    --primary-color: hsl(220, 75%, 60%);
-    --background-color: hsl(220, 30%, 10%);
-    --card-color: hsl(220, 30%, 15%);
-    --text-color: hsl(220, 100%, 90%);
-    --border-radius: 1rem;
+    --primary-color-hue: 220;
+    --dark-bg: hsl(220, 30%, 10%);
+    --dark-card: hsl(220, 30%, 15%);
+    --dark-border: hsl(220, 30%, 20%);
+    --dark-text: hsl(220, 100%, 90%);
+    --primary-color: hsl(var(--primary-color-hue), 75%, 60%);
+    --secondary-color: hsl(var(--primary-color-hue), 100%, 80%);
+    --success-color: hsl(120, 95%, 65%);
+    --danger-color: hsl(0, 95%, 65%);
+    --border-radius: 2rem;
+    --card-border-radius: 1rem;
     --btn-padding: 0.6rem 2rem;
+    --search-padding: 0.6rem 1rem;
+    --card-padding: 1rem;
 }
 
+/* Background Styling */
 body {
     font-family: 'Poppins', sans-serif;
-    background: var(--background-color);
-    color: var(--text-color);
+    color: var(--dark-text);
+    background-color: #ffffff;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100%25'%3E%3Cdefs%3E%3ClinearGradient id='a' gradientUnits='userSpaceOnUse' x1='0' x2='0' y1='0' y2='100%25' gradientTransform='rotate(239,720,389)'%3E%3Cstop offset='0' stop-color='%23ffffff'/%3E%3Cstop offset='1' stop-color='%234FE'/%3E%3C/linearGradient%3E%3Cpattern patternUnits='userSpaceOnUse' id='b' width='467' height='389.2' x='0' y='0' viewBox='0 0 1080 900'%3E%3Cg fill-opacity='0.05'%3E%3Cpolygon fill='%23444' points='90 150 0 300 180 300'/%3E%3Cpolygon points='90 150 180 0 0 0'/%3E%3Cpolygon fill='%23AAA' points='270 150 360 0 180 0'/%3E%3Cpolygon fill='%23DDD' points='450 150 360 300 540 300'/%3E%3Cpolygon fill='%23999' points='450 150 540 0 360 0'/%3E%3C/g%3E%3C/pattern%3E%3C/defs%3E%3Crect x='0' y='0' fill='url(%23a)' width='100%25' height='100%25'/%3E%3Crect x='0' y='0' fill='url(%23b)' width='100%25' height='100%25'/%3E%3C/svg%3E");
+    background-attachment: fixed;
+    background-size: cover;
+    overflow-x: hidden;
+}
+
+/* Navbar */
+nav {
+    width: 100%;
+    background: var(--dark-card);
+    padding: 1rem 0;
+    position: fixed;
+    top: 0;
+    z-index: 10;
     display: flex;
-    justify-content: center;
+    justify-content: space-between;
     align-items: center;
-    height: 100vh;
-    flex-direction: column;
-    text-align: center;
-    padding: 20px;
+    box-shadow: 0 2px 10px var(--dark-border);
 }
 
-/* Container */
-.container {
-    max-width: 800px;
-    padding: 2rem;
-    background: var(--card-color);
-    border-radius: var(--border-radius);
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
-}
-
-/* Flashcard Navigation */
-.flashcard-container {
+nav .container {
     display: flex;
+    width: 90%;
+    margin: 0 auto;
+    justify-content: space-between;
     align-items: center;
-    justify-content: center;
-    gap: 1rem;
-    margin: 2rem 0;
 }
 
-/* Navigation Buttons */
-.nav-btn {
+.logo img {
+    height: 50px;
+}
+
+nav h2 {
+    color: var(--dark-text);
+    font-size: 1.5rem;
+    font-weight: 600;
+}
+
+.btn {
     background: var(--primary-color);
     color: white;
-    font-size: 2rem;
-    padding: 0.5rem 1rem;
-    border: none;
-    border-radius: 50%;
+    padding: var(--btn-padding);
+    border-radius: var(--border-radius);
     cursor: pointer;
-    transition: 0.3s;
+    transition: all 300ms ease;
+    font-size: 0.9rem;
 }
 
-.nav-btn:hover {
+.btn:hover {
     opacity: 0.8;
 }
 
-/* Flash Card */
-.card {
-    width: 190px;
-    height: 254px;
-    perspective: 1000px;
-    cursor: pointer;
+/* Pool Carousel */
+.pool-carousel {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 8rem;
+    position: relative;
 }
 
-.card .content {
+.card {
+    width: 300px;
+    height: 400px;
+    perspective: 1000px;
+}
+
+.content {
     width: 100%;
     height: 100%;
     transform-style: preserve-3d;
     transition: transform 0.5s;
-    box-shadow: 0px 0px 10px 1px #000000ee;
-    border-radius: var(--border-radius);
+    box-shadow: 0px 0px 10px 2px var(--dark-border);
+    border-radius: var(--card-border-radius);
+    background: var(--dark-card);
 }
 
-/* Flip Effect */
-.card.flipped .content {
-    transform: rotateY(180deg);
-}
-
-/* Front & Back */
 .front, .back {
-    background-color: var(--card-color);
     position: absolute;
     width: 100%;
     height: 100%;
     backface-visibility: hidden;
     -webkit-backface-visibility: hidden;
-    border-radius: var(--border-radius);
+    border-radius: var(--card-border-radius);
     display: flex;
-    align-items: center;
+    flex-direction: column;
     justify-content: center;
-    flex-direction: column;
-}
-
-/* Front Side */
-.front {
-    color: white;
-    font-size: 1.2rem;
-    font-weight: bold;
-    text-align: center;
-    padding: 10px;
-}
-
-/* Back Side */
-.back {
-    transform: rotateY(180deg);
-    text-align: center;
-    padding: 1rem;
-}
-
-.back-content {
-    color: white;
-    display: flex;
-    flex-direction: column;
     align-items: center;
-    gap: 10px;
 }
 
-/* Pool Description */
-.back p {
-    font-size: 0.9rem;
-    margin-bottom: 0.5rem;
-}
-
-/* Join Button */
-.join-btn {
-    background: var(--primary-color);
+.front {
+    background: var(--dark-card);
     color: white;
-    padding: 0.5rem 1rem;
-    border-radius: var(--border-radius);
-    cursor: pointer;
-    font-size: 0.9rem;
-    border: none;
-    transition: 0.3s;
 }
 
-.join-btn.joined {
-    background: hsl(120, 75%, 40%);
+.front-content {
+    text-align: center;
+}
+
+.badge {
+    background: var(--primary-color);
+    padding: 5px 15px;
+    border-radius: 12px;
+    font-weight: 600;
+    font-size: 1rem;
+}
+
+.description h3 {
+    font-size: 1.4rem;
+    margin-top: 10px;
+}
+
+.description p {
+    font-size: 1rem;
+    opacity: 0.8;
+}
+
+.back {
+    background: var(--primary-color);
+    transform: rotateY(180deg);
+    color: white;
+    text-align: center;
+    padding: 20px;
+}
+
+.card:hover .content {
+    transform: rotateY(180deg);
+}
+
+.join-btn {
+    background: white;
+    color: var(--primary-color);
+    padding: 10px 20px;
+    border-radius: 10px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: 0.3s ease;
 }
 
 .join-btn:hover {
-    opacity: 0.8;
+    background: var(--dark-bg);
+    color: white;
 }
 
-/* Go Home Button */
-.btn-primary {
+/* Carousel Navigation */
+.nav-btn {
+    position: absolute;
+    top: 50%;
     background: var(--primary-color);
     color: white;
-    padding: var(--btn-padding);
-    border-radius: var(--border-radius);
-    font-size: 1rem;
-    cursor: pointer;
     border: none;
-    transition: 0.3s;
-    margin-top: 20px;
+    font-size: 2rem;
+    padding: 10px 15px;
+    border-radius: 50%;
+    cursor: pointer;
+    transform: translateY(-50%);
 }
 
-.btn-primary:hover {
-    opacity: 0.8;
+.left {
+    left: 10%;
 }
 
-/* Responsive Design */
-@media (max-width: 768px) {
-    .flashcard-container {
-        flex-direction: column;
+.right {
+    right: 10%;
+}
+
+/* Joined Pools Section */
+.joined-pools {
+    text-align: center;
+    margin-top: 2rem;
+}
+
+.joined-pools h2 {
+    color: var(--dark-text);
+    font-size: 1.5rem;
+}
+
+.joined-list {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 10px;
+    margin-top: 10px;
+}
+
+.joined-list .pool-item {
+    background: var(--primary-color);
+    color: white;
+    padding: 10px 20px;
+    border-radius: 15px;
+    font-size: 1rem;
+    font-weight: bold;
+}
+
+/* Responsive */
+@media screen and (max-width: 768px) {
+    .nav-btn {
+        font-size: 1.5rem;
+        padding: 5px 10px;
     }
-}
 
-@media (max-width: 480px) {
     .card {
-        width: 160px;
-        height: 220px;
+        width: 250px;
+        height: 350px;
+    }
+
+    .left {
+        left: 5%;
+    }
+
+    .right {
+        right: 5%;
     }
 }
