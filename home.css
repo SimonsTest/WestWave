@@ -31,10 +31,14 @@
     border: none;
 }
 
+/* Background Styling (Added) */
 body {
     font-family: 'Poppins', sans-serif;
     color: var(--dark-text);
-    background: var(--dark-bg);
+    background-color: #ffffff;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100%25'%3E%3Cdefs%3E%3ClinearGradient id='a' gradientUnits='userSpaceOnUse' x1='0' x2='0' y1='0' y2='100%25' gradientTransform='rotate(239,720,389)'%3E%3Cstop offset='0' stop-color='%23ffffff'/%3E%3Cstop offset='1' stop-color='%234FE'/%3E%3C/linearGradient%3E%3Cpattern patternUnits='userSpaceOnUse' id='b' width='467' height='389.2' x='0' y='0' viewBox='0 0 1080 900'%3E%3Cg fill-opacity='0.05'%3E%3Cpolygon fill='%23444' points='90 150 0 300 180 300'/%3E%3Cpolygon points='90 150 180 0 0 0'/%3E%3Cpolygon fill='%23AAA' points='270 150 360 0 180 0'/%3E%3Cpolygon fill='%23DDD' points='450 150 360 300 540 300'/%3E%3Cpolygon fill='%23999' points='450 150 540 0 360 0'/%3E%3Cpolygon points='630 150 540 300 720 300'/%3E%3Cpolygon fill='%23DDD' points='630 150 720 0 540 0'/%3E%3Cpolygon fill='%23444' points='810 150 720 300 900 300'/%3E%3Cpolygon fill='%23FFF' points='810 150 900 0 720 0'/%3E%3Cpolygon fill='%23DDD' points='990 150 900 300 1080 300'/%3E%3Cpolygon fill='%23444' points='990 150 1080 0 900 0'/%3E%3C/g%3E%3C/pattern%3E%3C/defs%3E%3Crect x='0' y='0' fill='url(%23a)' width='100%25' height='100%25'/%3E%3Crect x='0' y='0' fill='url(%23b)' width='100%25' height='100%25'/%3E%3C/svg%3E");
+    background-attachment: fixed;
+    background-size: cover;
     overflow-x: hidden;
 }
 
@@ -73,14 +77,6 @@ img {
 .btn-primary {
     background: var(--primary-color);
     color: white;
-}
-
-.text-bold {
-    font-weight: 500;
-}
-
-.text-muted {
-    color: var(--secondary-color);
 }
 
 /* =============== Navbar ============== */
@@ -132,34 +128,11 @@ nav .create {
     gap: 2rem;
 }
 
-/* =============== Main Layout ============== */
-main {
-    position: relative;
-    top: 5.4rem;
-}
-
-main .container {
-    display: grid;
-    grid-template-columns: 18vw auto 20vw;
-    column-gap: 2rem;
-    position: relative;
-}
-
 /* =============== Sidebar (Left Panel) ============== */
 main .container .left {
     height: max-content;
     position: sticky;
     top: var(--sticky-top-left);
-}
-
-main .container .left .profile {
-    padding: var(--card-padding);
-    background: var(--dark-card);
-    border-radius: var(--card-border-radius);
-    display: flex;
-    align-items: center;
-    column-gap: 1rem;
-    width: 100%;
 }
 
 .left .sidebar {
@@ -181,18 +154,6 @@ main .container .left .profile {
     background: var(--dark-border);
 }
 
-.left .sidebar i {
-    font-size: 1.4rem;
-    color: var(--secondary-color);
-    margin-left: 2rem;
-    position: relative;
-}
-
-.left .sidebar h3 {
-    margin-left: 1.5rem;
-    font-size: 1rem;
-}
-
 .left .sidebar .active {
     background: var(--primary-color);
     color: white;
@@ -212,21 +173,6 @@ main .container .left .profile {
     margin-bottom: 0.5rem;
 }
 
-.joined-pool-list {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.5rem;
-}
-
-.joined-pool-list .pool-item {
-    background: var(--primary-color);
-    color: white;
-    padding: 0.5rem 1rem;
-    border-radius: var(--border-radius);
-    font-size: 0.85rem;
-    font-weight: 500;
-}
-
 /* =============== Post Feed ============== */
 .middle .feeds .feed {
     background: var(--dark-card);
@@ -240,12 +186,6 @@ main .container .left .profile {
 .middle .feed .head {
     display: flex;
     justify-content: space-between;
-}
-
-.middle .feed .photo {
-    border-radius: var(--card-border-radius);
-    overflow: hidden;
-    margin: 0.7rem 0;
 }
 
 /* =============== Media Queries ============== */
