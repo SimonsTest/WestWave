@@ -3,97 +3,88 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>WestWave - Home</title>
-    
-    <!-- Stylesheets -->
-    <link rel="stylesheet" href="styles/index.css">
-    <link rel="stylesheet" href="styles/home.css">
-    
-    <!-- Font Awesome for Icons -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    
-    <!-- Scripts -->
-    <script src="scripts/home.js" defer></script>
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>WestWave Home</title>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <!-- Icons -->
+    <link rel="stylesheet" href="https://unicons.iconscout.com/release/v4.0.0/css/line.css">
+    <!-- CSS -->
+    <link rel="stylesheet" href="home.css">
 </head>
 <body>
-
-    <!-- 🔹 Background -->
-    <div class="background-overlay"></div>
-
-    <!-- 🔹 Navbar -->
-    <nav class="navbar">
-        <div class="logo">🌊 WestWave</div>
-        <ul class="nav-links">
-            <li><a href="home.html" class="active">🏠 Home</a></li>
-            <li><a href="pools.html">💬 Pools</a></li>
-            <li><a href="profile.html">👤 Profile</a></li>
-            <li><a href="notifications.html">🔔 Notifications</a></li>
-            <li><a href="settings.html">⚙️ Settings</a></li>
-        </ul>
-        <div class="search-bar">
-            <input type="text" placeholder="Search WestWave...">
-            <i class="fas fa-search"></i>
+    <!-- Navigation Bar -->
+    <nav>
+        <div class="container">
+            <div class="logo">
+                <img src="./images/logo.png" alt="WestWave Logo">
+            </div>
+            <div class="search-bar">
+                <i class="uil uil-search"></i>
+                <input type="text" placeholder="Search for creators, inspirations, and communities">
+            </div>
+            <div class="nav-links">
+                <a href="#" class="nav-item"><i class="uil uil-home"></i></a>
+                <a href="#" class="nav-item"><i class="uil uil-bell"></i></a>
+                <a href="#" class="nav-item"><i class="uil uil-envelope"></i></a>
+                <div class="profile-photo">
+                    <img src="./images/profile.jpg" alt="Profile">
+                </div>
+            </div>
         </div>
     </nav>
 
-    <!-- 🔹 Sidebar (User Profile & Quick Links) -->
-    <aside class="sidebar">
-        <div class="profile-box">
-            <img src="assets/user.jpg" alt="User Avatar">
-            <h3>@username</h3>
-            <p>🌊 Wave Level: 12</p>
-            <button class="edit-profile">Edit Profile</button>
-        </div>
-        <ul class="quick-links">
-            <li><a href="#">🔥 Trending Now</a></li>
-            <li><a href="#">📁 Saved Posts</a></li>
-            <li><a href="#">🚀 Explore</a></li>
-            <li><a href="#">💎 VIP Members</a></li>
-        </ul>
-    </aside>
+    <!-- Main Content -->
+    <main>
+        <div class="container">
+            <!-- Sidebar -->
+            <aside class="left">
+                <div class="profile">
+                    <div class="profile-photo">
+                        <img src="./images/profile.jpg" alt="User">
+                    </div>
+                    <h3>John Doe</h3>
+                    <p>@johndoe</p>
+                </div>
+                <div class="menu">
+                    <a href="#" class="menu-item active"><i class="uil uil-home"></i>Home</a>
+                    <a href="pool.html" class="menu-item"><i class="uil uil-users-alt"></i>Join Pools</a>
+                    <a href="#" class="menu-item"><i class="uil uil-cog"></i>Settings</a>
+                </div>
+            </aside>
 
-    <!-- 🔹 Main Content (Posts, Feed) -->
-    <main class="feed">
-        <!-- Post Creation Box -->
-        <div class="post-box">
-            <textarea id="postInput" placeholder="What's up, WestWave?"></textarea>
-            <div class="post-actions">
-                <input type="file" id="imageUpload" accept="image/*">
-                <label for="imageUpload"><i class="fas fa-image"></i> Add Image</label>
-                <button onclick="submitPost()">Post</button>
-            </div>
-        </div>
+            <!-- Middle Section -->
+            <section class="middle">
+                <div class="create-post">
+                    <div class="profile-photo">
+                        <img src="./images/profile.jpg" alt="User">
+                    </div>
+                    <input type="text" id="post-content" placeholder="What's on your mind, John?" />
+                    <button id="post-button" class="btn btn-primary">Post</button>
+                </div>
 
-        <!-- Posts Container -->
-        <div id="posts-container">
-            <!-- Posts will be dynamically loaded here -->
+                <div class="feeds" id="feed-container">
+                    <!-- Posts will be dynamically added here -->
+                </div>
+            </section>
+
+            <!-- Right Sidebar -->
+            <aside class="right">
+                <div class="suggestions">
+                    <h4>Suggested Pools</h4>
+                    <ul>
+                        <li><a href="#">Terra</a></li>
+                        <li><a href="#">Tor</a></li>
+                        <li><a href="#">Triton</a></li>
+                        <li><a href="#">Executive</a></li>
+                        <li><a href="#">Grades</a></li>
+                    </ul>
+                </div>
+            </aside>
         </div>
     </main>
 
-    <!-- 🔹 Right Sidebar (Pools & Friends) -->
-    <aside class="right-sidebar">
-        <div class="pools-section">
-            <h3>📢 Active Pools</h3>
-            <ul>
-                <li><a href="#">📖 Book Club</a></li>
-                <li><a href="#">🎮 Gaming Room</a></li>
-                <li><a href="#">🏀 NBA Discussions</a></li>
-                <li><a href="#">📰 News & Trends</a></li>
-                <li><a href="#">💬 Random Talks</a></li>
-            </ul>
-            <button>+ Create Pool</button>
-        </div>
-
-        <div class="friends-section">
-            <h3>👥 Friends Online</h3>
-            <ul>
-                <li><span class="online-dot"></span> @friend1</li>
-                <li><span class="online-dot"></span> @friend2</li>
-                <li><span class="online-dot"></span> @friend3</li>
-                <li><span class="online-dot"></span> @friend4</li>
-            </ul>
-        </div>
-    </aside>
-
+    <!-- JavaScript -->
+    <script src="home.js"></script>
 </body>
 </html>
