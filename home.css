@@ -1,0 +1,57 @@
+/* General Reset and Body Styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    line-height: 1.6;
+    color: #333;
+    background-color: #f4fafd; /* Light turquoise */
+    margin: 0;
+}
+
+/* Header Styles */
+header {
+    background: linear-gradient(to right, #48c6ef, #6f86d6); /* Turquoise gradient */
+    color: white;
+    padding: 20px;
+    text-align: center;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+header h1 {
+    font-size: 2.5rem;
+    margin: 0;
+}
+
+/* Main Container for Home Content */
+main {
+    margin: 20px auto;
+    padding: 20px;
+    width: 90%;
+    max-width: 1200px;
+    text-align: center;
+}
+
+/* Embedded Home Menu (iFrame) */
+iframe {
+    width: 100%;
+    height: 80vh; /* Adjust height to fit the viewport */
+    border: none;
+    box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+/* Footer Styles */
+footer {
+    background: #007a96; /* Dark turquoise */
+    color: white;
+    text-align: center;
+    padding: 10px 0;
+    font-size: 0.9rem;
+    box-shadow: 0px -2px 5px rgba(0, 0, 0, 0.1);
+}
