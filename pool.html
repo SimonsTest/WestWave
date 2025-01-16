@@ -11,19 +11,33 @@
 
     <div class="container">
         <h1>Join a Pool</h1>
-        <p>Use the arrows to flip through pools. Click the card to flip it.</p>
+        <p>Flip through the pools and click a card to see more information.</p>
 
         <div class="flashcard-container">
-            <button class="nav-btn" id="prev-btn">&#10094;</button> 
+            <button class="nav-btn" id="prev-btn">&#10094;</button>
 
             <div class="card" id="pool-card">
                 <div class="content">
-                    <div class="front" id="pool-front">
-                        <p class="pool-name"></p>
+                    <div class="back">
+                        <div class="back-content">
+                            <p id="pool-description">Description of the pool</p>
+                            <button class="join-btn" id="join-pool-btn">Join</button>
+                        </div>
                     </div>
-                    <div class="back" id="pool-back">
-                        <p class="pool-description"></p>
-                        <button class="join-btn" id="join-pool-btn">Join</button>
+                    <div class="front">
+                        <div class="img">
+                            <div class="circle"></div>
+                            <div class="circle" id="right"></div>
+                            <div class="circle" id="bottom"></div>
+                        </div>
+                        <div class="front-content">
+                            <small class="badge">WestWave Pool</small>
+                            <div class="description">
+                                <div class="title">
+                                    <p class="title"><strong id="pool-name">Pool Name</strong></p>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -34,7 +48,7 @@
         <button class="btn-primary" id="go-home">Go to Home</button>
     </div>
 
-    <script src="pool.js"></script>
+    <script src="./pool.js"></script>
 
 </body>
 </html>
