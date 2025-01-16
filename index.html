@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>WestWave</title>
-    <link rel="stylesheet" href="index.css">
     <link rel="stylesheet" href="Loader.css">
 </head>
 <body>
@@ -14,75 +13,13 @@
         <p>Loading WestWave...</p>
     </div>
 
-    <!-- Main Content -->
-    <div id="main-content" style="display: none;">
-        <header class="hero">
-            <nav class="navbar">
-                <div class="logo">WestWave</div>
-                <ul class="nav-links">
-                    <li><a href="Homemenu.html">Home</a></li>
-                    <li><a href="Loader.html">Loader</a></li>
-                    <li><a href="registrationpage.html">Sign Up</a></li>
-                </ul>
-            </nav>
-            <div class="hero-content">
-                <h1>Welcome to WestWave</h1>
-                <p>Your ultimate social experience combining community, fun, and creativity.</p>
-                <a href="registrationpage.html" class="cta-button">Join Now</a>
-            </div>
-        </header>
-        <section id="features" class="features">
-            <h2>Features</h2>
-            <div class="features-container">
-                <div class="feature">
-                    <h3>Pools</h3>
-                    <p>Join communities based on your interests and passions.</p>
-                </div>
-                <div class="feature">
-                    <h3>Social Sharing</h3>
-                    <p>Share moments and connect in real-time with friends.</p>
-                </div>
-                <div class="feature">
-                    <h3>Interactive Chat</h3>
-                    <p>Engage in meaningful conversations with advanced chat options.</p>
-                </div>
-            </div>
-        </section>
-
-        <!-- Bottom Navigation Bar -->
-        <div class="bottom-nav">
-            <a href="Homemenu.html" class="nav-item active">
-                <i class="icon-home"></i>
-                <span>Home</span>
-            </a>
-            <a href="Loader.html" class="nav-item">
-                <i class="icon-search"></i>
-                <span>Search</span>
-            </a>
-            <a href="registrationpage.html" class="nav-item">
-                <i class="icon-bookmark"></i>
-                <span>Bookmarks</span>
-            </a>
-            <a href="settings.html" class="nav-item">
-                <i class="icon-profile"></i>
-                <span>Profile</span>
-            </a>
-        </div>
-    </div>
-
-    <footer>
-        <p>&copy; 2025 WestWave. All rights reserved.</p>
-    </footer>
-
+    <!-- Redirect Script -->
     <script>
-        // Loader functionality
-        window.onload = function() {
-            const loader = document.getElementById('loader');
-            const mainContent = document.getElementById('main-content');
+        // Show the loader for 3 seconds, then redirect to the registration page
+        window.onload = function () {
             setTimeout(() => {
-                loader.style.display = 'none';
-                mainContent.style.display = 'block';
-            }, 3000); // Adjust delay as needed
+                window.location.href = "registrationpage.html"; // Redirect to your registration page
+            }, 3000); // 3-second delay (adjustable)
         };
     </script>
 </body>
