@@ -1,197 +1,193 @@
+// ==========================
+// Home.js - Final Version
+// Features: Posts, Pools, UI interactions, LocalStorage
+// ==========================
+
+// =============== SIDEBAR FUNCTIONALITY ===============
+const menuItems = document.querySelectorAll('.sidebar-menu li');
+
+// Remove active class from all menu items
+const changeActiveItem = () => {
+    menuItems.forEach(item => {
+        item.classList.remove('active');
+    });
+};
+
+menuItems.forEach(item => {
+    item.addEventListener('click', () => {
+        changeActiveItem();
+        item.classList.add('active');
+    });
+});
+
+// =============== POST FUNCTIONALITY ===============
+const postInput = document.getElementById("post-input");
+const postButton = document.getElementById("create-post-btn");
+const feedContainer = document.querySelector(".feed-container");
+
+// Load posts from LocalStorage
 document.addEventListener("DOMContentLoaded", () => {
-    // ===================== Global Variables =====================
-    const postInput = document.getElementById("post-input");
-    const postBtn = document.getElementById("post-btn");
-    const feedContent = document.getElementById("feed-content");
-    const sidebarItems = document.querySelectorAll(".sidebar-menu li");
-    const bottomNavItems = document.querySelectorAll(".bottom-nav ul li");
-    const themeToggle = document.getElementById("theme-toggle");
-    const notificationIcon = document.getElementById("notification-icon");
-    const notificationPanel = document.getElementById("notification-panel");
-    const searchBar = document.getElementById("search-bar");
-    const joinedPoolsContainer = document.getElementById("joined-pools-list");
-
-    // ===================== Load Previous Data =====================
     loadPosts();
-    loadTheme();
-    loadJoinedPools(); // Load joined pools
-    updateSidebarState();
+});
 
-    // ===================== Event Listeners =====================
-    
-    // Posting functionality
-    postBtn.addEventListener("click", () => {
-        const postText = postInput.value.trim();
-        if (postText === "") return;
+// Add new post
+postButton.addEventListener("click", () => {
+    let postText = postInput.value.trim();
+    if (postText === "") return;
 
-        const joinedPools = JSON.parse(localStorage.getItem("joinedPools")) || [];
-        if (joinedPools.length === 0) {
-            alert("Join at least one pool before posting!");
-            return;
-        }
-
-        const newPost = {
-            id: Date.now(),
-            username: "User",
-            content: postText,
-            timestamp: new Date().toLocaleString(),
-            pool: joinedPools[0] // Assign to the first joined pool by default
-        };
-
-        savePost(newPost);
-        addPostToFeed(newPost);
-        postInput.value = ""; // Clear input field
-    });
-
-    // Sidebar navigation active state
-    sidebarItems.forEach(item => {
-        item.addEventListener("click", () => {
-            sidebarItems.forEach(i => i.classList.remove("active"));
-            item.classList.add("active");
-            saveSidebarState(item.dataset.section);
-        });
-    });
-
-    // Bottom navigation active state
-    bottomNavItems.forEach(item => {
-        item.addEventListener("click", () => {
-            bottomNavItems.forEach(i => i.classList.remove("active"));
-            item.classList.add("active");
-        });
-    });
-
-    // Theme toggle functionality
-    themeToggle.addEventListener("click", toggleTheme);
-
-    // Notifications toggle
-    notificationIcon.addEventListener("click", () => {
-        notificationPanel.classList.toggle("visible");
-    });
-
-    // Search bar functionality (filtering posts)
-    searchBar.addEventListener("input", () => {
-        const query = searchBar.value.toLowerCase();
-        filterPosts(query);
-    });
-
-    // ===================== Functions =====================
-
-    // Save posts to local storage
-    function savePost(post) {
-        let posts = JSON.parse(localStorage.getItem("posts")) || [];
-        posts.unshift(post); // Add at the beginning
-        localStorage.setItem("posts", JSON.stringify(posts));
-    }
-
-    // Load posts from local storage
-    function loadPosts() {
-        const posts = JSON.parse(localStorage.getItem("posts")) || [];
-        posts.forEach(post => addPostToFeed(post));
-    }
-
-    // Add post to the feed
-    function addPostToFeed(post) {
-        const postElement = document.createElement("div");
-        postElement.classList.add("post");
-        postElement.innerHTML = `
-            <div class="post-header">
-                <h3>${post.username} <span class="pool-name">(${post.pool})</span></h3>
-                <small>${post.timestamp}</small>
-            </div>
-            <p>${post.content}</p>
-            <div class="post-actions">
-                <button class="like-btn" onclick="likePost(${post.id})">❤️ Like</button>
-                <button class="delete-btn" onclick="deletePost(${post.id})">🗑️ Delete</button>
-            </div>
-        `;
-        feedContent.appendChild(postElement);
-    }
-
-    // Like post function
-    window.likePost = (postId) => {
-        alert(`You liked post ID: ${postId}`);
+    let posts = JSON.parse(localStorage.getItem("posts")) || [];
+    const newPost = {
+        id: Date.now(),
+        username: localStorage.getItem("username") || "Guest",
+        content: postText,
+        time: new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })
     };
 
-    // Delete post function
-    window.deletePost = (postId) => {
-        let posts = JSON.parse(localStorage.getItem("posts")) || [];
-        posts = posts.filter(post => post.id !== postId);
-        localStorage.setItem("posts", JSON.stringify(posts));
-        reloadFeed();
-    };
+    posts.unshift(newPost);
+    localStorage.setItem("posts", JSON.stringify(posts));
+    postInput.value = "";
+    renderPost(newPost);
+});
 
-    // Reload feed after deletion
-    function reloadFeed() {
-        feedContent.innerHTML = "";
-        loadPosts();
-    }
+// Function to render a post
+const renderPost = (post) => {
+    const postElement = document.createElement("div");
+    postElement.classList.add("feed-post");
+    postElement.innerHTML = `
+        <div class="post-header">
+            <strong>${post.username}</strong> <span>${post.time}</span>
+        </div>
+        <p>${post.content}</p>
+    `;
+    feedContainer.appendChild(postElement);
+};
 
-    // Save sidebar state
-    function saveSidebarState(section) {
-        localStorage.setItem("activeSidebar", section);
-    }
+// Function to load posts from LocalStorage
+const loadPosts = () => {
+    let posts = JSON.parse(localStorage.getItem("posts")) || [];
+    feedContainer.innerHTML = ""; // Clear feed before rendering
+    posts.forEach(post => renderPost(post));
+};
 
-    // Load sidebar state
-    function updateSidebarState() {
-        const activeSection = localStorage.getItem("activeSidebar");
-        if (activeSection) {
-            sidebarItems.forEach(item => {
-                item.classList.remove("active");
-                if (item.dataset.section === activeSection) {
-                    item.classList.add("active");
-                }
-            });
-        }
-    }
+// =============== JOINED POOLS FUNCTIONALITY ===============
+const joinedPoolsContainer = document.querySelector(".joined-pool-list");
 
-    // Save and load theme preference
-    function toggleTheme() {
-        document.body.classList.toggle("dark-theme");
-        const isDark = document.body.classList.contains("dark-theme");
-        localStorage.setItem("darkTheme", isDark ? "enabled" : "disabled");
-    }
+// Load joined pools from LocalStorage
+document.addEventListener("DOMContentLoaded", () => {
+    loadJoinedPools();
+});
 
-    function loadTheme() {
-        const savedTheme = localStorage.getItem("darkTheme");
-        if (savedTheme === "enabled") {
-            document.body.classList.add("dark-theme");
-        }
-    }
+// Function to load pools
+const loadJoinedPools = () => {
+    let joinedPools = JSON.parse(localStorage.getItem("joinedPools")) || [];
+    joinedPoolsContainer.innerHTML = ""; // Clear before rendering
 
-    // Search filter for posts
-    function filterPosts(query) {
-        const posts = document.querySelectorAll(".post");
-        posts.forEach(post => {
-            const content = post.textContent.toLowerCase();
-            post.style.display = content.includes(query) ? "block" : "none";
-        });
-    }
+    joinedPools.forEach(pool => {
+        const poolItem = document.createElement("div");
+        poolItem.classList.add("pool-item");
+        poolItem.textContent = pool;
+        joinedPoolsContainer.appendChild(poolItem);
+    });
+};
 
-    // Load joined pools from localStorage and display them
-    function loadJoinedPools() {
-        const joinedPools = JSON.parse(localStorage.getItem("joinedPools")) || [];
-        joinedPoolsContainer.innerHTML = "";
+// =============== MESSAGE SEARCH FUNCTIONALITY ===============
+const messageSearch = document.querySelector("#message-search");
+const messages = document.querySelector(".messages");
+const messageItems = messages.querySelectorAll(".message");
 
-        if (joinedPools.length === 0) {
-            joinedPoolsContainer.innerHTML = "<p>No pools joined yet.</p>";
+messageSearch.addEventListener("keyup", () => {
+    const searchValue = messageSearch.value.toLowerCase();
+    messageItems.forEach(user => {
+        let name = user.querySelector("h5").textContent.toLowerCase();
+        if (name.includes(searchValue)) {
+            user.style.display = "flex";
         } else {
-            joinedPools.forEach(pool => {
-                const poolItem = document.createElement("div");
-                poolItem.classList.add("joined-pool");
-                poolItem.innerHTML = `
-                    <span>${pool}</span>
-                    <button class="leave-pool-btn" onclick="leavePool('${pool}')">❌ Leave</button>
-                `;
-                joinedPoolsContainer.appendChild(poolItem);
-            });
+            user.style.display = "none";
         }
-    }
+    });
+});
 
-    // Leave pool functionality
-    window.leavePool = (poolName) => {
-        let joinedPools = JSON.parse(localStorage.getItem("joinedPools")) || [];
-        joinedPools = joinedPools.filter(pool => pool !== poolName);
-        localStorage.setItem("joinedPools", JSON.stringify(joinedPools));
-        loadJoinedPools();
-    };
+// =============== THEME / DISPLAY CUSTOMIZATION ===============
+const theme = document.querySelector("#theme");
+const themeModal = document.querySelector(".customize-theme");
+
+// Open Theme Modal
+theme.addEventListener("click", () => {
+    themeModal.style.display = "grid";
+});
+
+// Close Theme Modal
+themeModal.addEventListener("click", (e) => {
+    if (e.target.classList.contains("customize-theme")) {
+        themeModal.style.display = "none";
+    }
+});
+
+// =============== FONT SIZE CUSTOMIZATION ===============
+const fontSizeOptions = document.querySelectorAll(".choose-size span");
+const root = document.querySelector(":root");
+
+fontSizeOptions.forEach(size => {
+    size.addEventListener("click", () => {
+        let fontSize;
+        fontSizeOptions.forEach(s => s.classList.remove("active"));
+        size.classList.add("active");
+
+        if (size.classList.contains("font-size-1")) fontSize = "10px";
+        else if (size.classList.contains("font-size-2")) fontSize = "13px";
+        else if (size.classList.contains("font-size-3")) fontSize = "16px";
+        else if (size.classList.contains("font-size-4")) fontSize = "19px";
+        else if (size.classList.contains("font-size-5")) fontSize = "22px";
+
+        document.documentElement.style.fontSize = fontSize;
+    });
+});
+
+// =============== COLOR THEME CUSTOMIZATION ===============
+const colorOptions = document.querySelectorAll(".choose-color span");
+
+colorOptions.forEach(color => {
+    color.addEventListener("click", () => {
+        let primaryHue;
+        colorOptions.forEach(c => c.classList.remove("active"));
+        color.classList.add("active");
+
+        if (color.classList.contains("color-1")) primaryHue = 252;
+        else if (color.classList.contains("color-2")) primaryHue = 52;
+        else if (color.classList.contains("color-3")) primaryHue = 352;
+        else if (color.classList.contains("color-4")) primaryHue = 152;
+        else if (color.classList.contains("color-5")) primaryHue = 202;
+
+        root.style.setProperty("--primary-color-hue", primaryHue);
+    });
+});
+
+// =============== BACKGROUND CUSTOMIZATION ===============
+const Bg1 = document.querySelector(".bg-1");
+const Bg2 = document.querySelector(".bg-2");
+const Bg3 = document.querySelector(".bg-3");
+
+Bg1.addEventListener("click", () => {
+    document.body.classList.remove("bg-2", "bg-3");
+    document.body.classList.add("bg-1");
+});
+
+Bg2.addEventListener("click", () => {
+    document.body.classList.remove("bg-1", "bg-3");
+    document.body.classList.add("bg-2");
+});
+
+Bg3.addEventListener("click", () => {
+    document.body.classList.remove("bg-1", "bg-2");
+    document.body.classList.add("bg-3");
+});
+
+// =============== MOBILE NAVIGATION FUNCTIONALITY ===============
+const bottomNavItems = document.querySelectorAll(".bottom-nav ul li");
+
+bottomNavItems.forEach(item => {
+    item.addEventListener("click", () => {
+        bottomNavItems.forEach(i => i.classList.remove("active"));
+        item.classList.add("active");
+    });
 });
