@@ -1,4 +1,4 @@
-// Pool names and descriptions
+// List of pools with descriptions
 const pools = [
     { name: "Terra", desc: "Environmental and sustainability discussions." },
     { name: "Tor", desc: "A place for tech enthusiasts and security experts." },
@@ -31,68 +31,85 @@ const pools = [
 // Load previously joined pools
 const joinedPools = JSON.parse(localStorage.getItem('joinedPools')) || [];
 
-// Populate the pool list
-const poolList = document.getElementById('pool-list');
+// DOM Elements
+const poolCard = document.getElementById("pool-card");
+const poolFront = document.getElementById("pool-front");
+const poolBack = document.getElementById("pool-back");
+const poolName = document.querySelector(".pool-name");
+const poolDescription = document.querySelector(".pool-description");
+const joinPoolBtn = document.getElementById("join-pool-btn");
+const prevBtn = document.getElementById("prev-btn");
+const nextBtn = document.getElementById("next-btn");
 
-pools.forEach(pool => {
-    // Create card elements
-    const card = document.createElement('div');
-    card.classList.add('card');
+// Current Pool Index
+let currentPoolIndex = 0;
 
-    const content = document.createElement('div');
-    content.classList.add('content');
+// Function to Load Pool Data into Card
+const loadPool = () => {
+    let pool = pools[currentPoolIndex];
+    poolName.textContent = pool.name;
+    poolDescription.textContent = pool.desc;
 
-    const front = document.createElement('div');
-    front.classList.add('front');
-    front.textContent = pool.name;
+    // Update join button state
+    if (joinedPools.includes(pool.name)) {
+        joinPoolBtn.textContent = "Joined";
+        joinPoolBtn.classList.add("joined");
+    } else {
+        joinPoolBtn.textContent = "Join";
+        joinPoolBtn.classList.remove("joined");
+    }
+};
 
-    const back = document.createElement('div');
-    back.classList.add('back');
-
-    const description = document.createElement('p');
-    description.textContent = pool.desc;
-
-    const joinBtn = document.createElement('button');
-    joinBtn.classList.add('join-btn');
-    joinBtn.textContent = joinedPools.includes(pool.name) ? "Joined" : "Join";
-    if (joinedPools.includes(pool.name)) joinBtn.classList.add("joined");
-
-    // Flip card on click
-    card.addEventListener('click', () => {
-        card.classList.toggle('flipped');
-    });
-
-    // Handle join/unjoin functionality
-    joinBtn.addEventListener('click', (e) => {
-        e.stopPropagation(); // Prevent flipping when clicking the button
-
-        if (joinedPools.includes(pool.name)) {
-            // Remove from joined pools
-            const index = joinedPools.indexOf(pool.name);
-            joinedPools.splice(index, 1);
-            joinBtn.textContent = "Join";
-            joinBtn.classList.remove("joined");
-        } else {
-            // Add to joined pools
-            joinedPools.push(pool.name);
-            joinBtn.textContent = "Joined";
-            joinBtn.classList.add("joined");
-        }
-
-        // Save to localStorage
-        localStorage.setItem('joinedPools', JSON.stringify(joinedPools));
-    });
-
-    // Append elements
-    back.appendChild(description);
-    back.appendChild(joinBtn);
-    content.appendChild(front);
-    content.appendChild(back);
-    card.appendChild(content);
-    poolList.appendChild(card);
+// Function to Flip Card
+poolCard.addEventListener("click", () => {
+    poolCard.classList.toggle("flipped");
 });
 
-// Go to Home Button
-document.getElementById('go-home').addEventListener('click', () => {
-    window.location.href = "home.html"; // Redirects to Home
+// Function to Navigate Left
+prevBtn.addEventListener("click", () => {
+    if (currentPoolIndex > 0) {
+        currentPoolIndex--;
+        poolCard.classList.remove("flipped");
+        loadPool();
+    }
 });
+
+// Function to Navigate Right
+nextBtn.addEventListener("click", () => {
+    if (currentPoolIndex < pools.length - 1) {
+        currentPoolIndex++;
+        poolCard.classList.remove("flipped");
+        loadPool();
+    }
+});
+
+// Function to Join/Unjoin Pool
+joinPoolBtn.addEventListener("click", (e) => {
+    e.stopPropagation(); // Prevent flipping when clicking the button
+
+    let pool = pools[currentPoolIndex].name;
+
+    if (joinedPools.includes(pool)) {
+        // Remove from joined pools
+        const index = joinedPools.indexOf(pool);
+        joinedPools.splice(index, 1);
+        joinPoolBtn.textContent = "Join";
+        joinPoolBtn.classList.remove("joined");
+    } else {
+        // Add to joined pools
+        joinedPools.push(pool);
+        joinPoolBtn.textContent = "Joined";
+        joinPoolBtn.classList.add("joined");
+    }
+
+    // Save to Local Storage
+    localStorage.setItem('joinedPools', JSON.stringify(joinedPools));
+});
+
+// Function to Redirect to Home
+document.getElementById("go-home").addEventListener("click", () => {
+    window.location.href = "home.html";
+});
+
+// Initial Load
+loadPool();
