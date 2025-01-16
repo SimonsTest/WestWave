@@ -1,121 +1,195 @@
-document.addEventListener("DOMContentLoaded", () => {
-    loadPosts();
-    loadPools();
+// Sidebar Navigation
+const menuItems = document.querySelectorAll('.menu-item');
+
+// Messages
+const messageNotification = document.querySelector('#messages');
+const messages = document.querySelector('.messages');
+const message = messages.querySelectorAll('.message');
+const messageSearch = document.querySelector('#message-search');
+
+// Theme Customization
+const theme = document.querySelector('#theme');
+const themeModal = document.querySelector('.customize-theme');
+const fontSize = document.querySelectorAll('.choose-size span');
+var root = document.querySelector(':root');
+const colorPalette = document.querySelectorAll('.choose-color span');
+const Bg1 = document.querySelector('.bg-1');
+const Bg2 = document.querySelector('.bg-2');
+const Bg3 = document.querySelector('.bg-3');
+
+
+// ============== SIDEBAR NAVIGATION ============== 
+
+// Remove active class from all menu items
+const changeActiveItem = () => {
+    menuItems.forEach(item => {
+        item.classList.remove('active');
+    });
+};
+
+menuItems.forEach(item => {
+    item.addEventListener('click', () => {
+        changeActiveItem();
+        item.classList.add('active');
+        if (item.id !== 'notifications') {
+            document.querySelector('.notifications-popup').style.display = 'none';
+        } else {
+            document.querySelector('.notifications-popup').style.display = 'block';
+            document.querySelector('#notifications .notification-count').style.display = 'none';
+        }
+    });
 });
 
-// Load Posts from Local Storage
-function loadPosts() {
-    const feedContainer = document.getElementById("feed-container");
-    feedContainer.innerHTML = ""; // Clear before reloading
+// ============== MESSAGE SEARCH ============== 
 
-    let posts = JSON.parse(localStorage.getItem("posts")) || [];
-
-    posts.forEach((post, index) => {
-        const postElement = document.createElement("div");
-        postElement.classList.add("post");
-
-        postElement.innerHTML = `
-            <div class="post-header">
-                <div class="user-info">
-                    <img src="user_avatar.png" alt="User">
-                    <h3>WestWave User</h3>
-                </div>
-                <span class="dot">⋮</span>
-            </div>
-            <p>${post.text}</p>
-            ${post.image ? `<img src="${post.image}" alt="Post Image">` : ""}
-            <div class="post-actions">
-                <button onclick="toggleComments(${index})">💬 Comments</button>
-                <button onclick="likePost(${index})">❤️ Like (<span id="like-count-${index}">${post.likes}</span>)</button>
-            </div>
-            <div class="comments hidden" id="comments-${index}">
-                <input type="text" id="commentInput-${index}" placeholder="Write a comment">
-                <button onclick="addComment(${index})">Post</button>
-                <ul id="commentList-${index}">
-                    ${post.comments.map(comment => `<li>${comment}</li>`).join('')}
-                </ul>
-            </div>
-        `;
-
-        feedContainer.appendChild(postElement);
+const searchMessage = () => {
+    const val = messageSearch.value.toLowerCase();
+    message.forEach(user => {
+        let name = user.querySelector('h5').textContent.toLowerCase();
+        if (name.indexOf(val) !== -1) {
+            user.style.display = 'flex';
+        } else {
+            user.style.display = 'none';
+        }
     });
-}
+};
 
-// Add a New Post
-function addPost() {
-    let postText = document.getElementById("postText").value.trim();
-    let postImage = document.getElementById("postImageURL").value.trim();
+// Search for messages
+messageSearch.addEventListener('keyup', searchMessage);
 
-    if (!postText) return; // Prevent empty posts
+// Highlight messages card when messages menu item is clicked
+messageNotification.addEventListener('click', () => {
+    messages.style.boxShadow = '0 0 1rem var(--color-primary)';
+    messageNotification.querySelector('.notification-count').style.display = 'none';
+    setTimeout(() => {
+        messages.style.boxShadow = 'none';
+    }, 2000);
+});
 
-    let posts = JSON.parse(localStorage.getItem("posts")) || [];
-    posts.unshift({ text: postText, image: postImage, comments: [], likes: 0 });
+// ============== THEME / DISPLAY CUSTOMIZATION ============== 
 
-    localStorage.setItem("posts", JSON.stringify(posts));
-    document.getElementById("postText").value = "";
-    document.getElementById("postImageURL").value = "";
+const openThemeModal = () => {
+    themeModal.style.display = 'grid';
+};
 
-    loadPosts();
-}
+// Close Theme Modal
+const closeThemeModal = (e) => {
+    if (e.target.classList.contains('customize-theme')) {
+        themeModal.style.display = 'none';
+    }
+};
 
-// Add a Comment to a Post
-function addComment(index) {
-    let commentInput = document.getElementById(`commentInput-${index}`);
-    let commentText = commentInput.value.trim();
+themeModal.addEventListener('click', closeThemeModal);
+theme.addEventListener('click', openThemeModal);
 
-    if (!commentText) return; // Prevent empty comments
+// ============== FONT SIZE ============== 
 
-    let posts = JSON.parse(localStorage.getItem("posts")) || [];
-    posts[index].comments.push(commentText);
-
-    localStorage.setItem("posts", JSON.stringify(posts));
-    commentInput.value = "";
-
-    loadPosts();
-}
-
-// Like a Post
-function likePost(index) {
-    let posts = JSON.parse(localStorage.getItem("posts")) || [];
-    posts[index].likes += 1;
-
-    localStorage.setItem("posts", JSON.stringify(posts));
-    document.getElementById(`like-count-${index}`).innerText = posts[index].likes;
-}
-
-// Toggle Comment Section
-function toggleComments(index) {
-    let commentSection = document.getElementById(`comments-${index}`);
-    commentSection.classList.toggle("hidden");
-}
-
-// Load Pools (Replace Stories with Interactive Groups)
-function loadPools() {
-    const poolsContainer = document.querySelector(".pools");
-    let pools = JSON.parse(localStorage.getItem("pools")) || [
-        { name: "Basketball Fans", image: "pool1.png" },
-        { name: "School Events", image: "pool2.png" },
-        { name: "Music Club", image: "pool3.png" },
-        { name: "Gaming Zone", image: "pool4.png" }
-    ];
-
-    poolsContainer.innerHTML = "";
-    pools.forEach((pool, index) => {
-        const poolElement = document.createElement("div");
-        poolElement.classList.add("pool");
-        poolElement.innerHTML = `
-            <div class="image">
-                <img src="${pool.image}" alt="${pool.name}">
-            </div>
-            <p>${pool.name}</p>
-        `;
-        poolsContainer.appendChild(poolElement);
+const removeSizeSelectors = () => {
+    fontSize.forEach(size => {
+        size.classList.remove('active');
     });
+};
 
-    localStorage.setItem("pools", JSON.stringify(pools));
-}
+fontSize.forEach(size => {
+    size.addEventListener('click', () => {
+        removeSizeSelectors();
+        let fontSize;
+        size.classList.toggle('active');
 
-// Add Event Listeners for Post Form Toggle
-document.getElementById("addPostBtn").addEventListener("click", () => {
-    document.getElementById("postFormContainer").classList.toggle("hidden");
+        if (size.classList.contains('font-size-1')) {
+            fontSize = '10px';
+            root.style.setProperty('--sticky-top-left', '5.4rem');
+            root.style.setProperty('--sticky-top-right', '5.4rem');
+        } else if (size.classList.contains('font-size-2')) {
+            fontSize = '13px';
+            root.style.setProperty('--sticky-top-left', '5.4rem');
+            root.style.setProperty('--sticky-top-right', '-7rem');
+        } else if (size.classList.contains('font-size-3')) {
+            fontSize = '16px';
+            root.style.setProperty('--sticky-top-left', '-2rem');
+            root.style.setProperty('--sticky-top-right', '-17rem');
+        } else if (size.classList.contains('font-size-4')) {
+            fontSize = '19px';
+            root.style.setProperty('--sticky-top-left', '-5rem');
+            root.style.setProperty('--sticky-top-right', '-25rem');
+        } else if (size.classList.contains('font-size-5')) {
+            fontSize = '22px';
+            root.style.setProperty('--sticky-top-left', '-12rem');
+            root.style.setProperty('--sticky-top-right', '-35rem');
+        }
+
+        // Change font size of the root html element
+        document.querySelector('html').style.fontSize = fontSize;
+    });
+});
+
+// ============== PRIMARY COLOR CUSTOMIZATION ============== 
+
+const changeActiveColorClass = () => {
+    colorPalette.forEach(colorPicker => {
+        colorPicker.classList.remove('active');
+    });
+};
+
+colorPalette.forEach(color => {
+    color.addEventListener('click', () => {
+        let primaryHue;
+        changeActiveColorClass();
+
+        if (color.classList.contains('color-1')) {
+            primaryHue = 252;
+        } else if (color.classList.contains('color-2')) {
+            primaryHue = 52;
+        } else if (color.classList.contains('color-3')) {
+            primaryHue = 352;
+        } else if (color.classList.contains('color-4')) {
+            primaryHue = 152;
+        } else if (color.classList.contains('color-5')) {
+            primaryHue = 202;
+        }
+
+        color.classList.add('active');
+        root.style.setProperty('--primary-color-hue', primaryHue);
+    });
+});
+
+// ============== BACKGROUND CUSTOMIZATION ============== 
+
+let lightColorLightness;
+let whiteColorLightness;
+let darkColorLightness;
+
+const changeBG = () => {
+    root.style.setProperty('--light-color-lightness', lightColorLightness);
+    root.style.setProperty('--white-color-lightness', whiteColorLightness);
+    root.style.setProperty('--dark-color-lightness', darkColorLightness);
+};
+
+Bg1.addEventListener('click', () => {
+    Bg1.classList.add('active');
+    Bg2.classList.remove('active');
+    Bg3.classList.remove('active');
+    window.location.reload();
+});
+
+Bg2.addEventListener('click', () => {
+    darkColorLightness = '95%';
+    whiteColorLightness = '20%';
+    lightColorLightness = '15%';
+
+    Bg2.classList.add('active');
+    Bg1.classList.remove('active');
+    Bg3.classList.remove('active');
+    changeBG();
+});
+
+Bg3.addEventListener('click', () => {
+    darkColorLightness = '95%';
+    whiteColorLightness = '10%';
+    lightColorLightness = '0%';
+
+    Bg3.classList.add('active');
+    Bg1.classList.remove('active');
+    Bg2.classList.remove('active');
+    changeBG();
 });
