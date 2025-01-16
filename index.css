@@ -1,11 +1,44 @@
+/* General Styles */
 body {
     font-family: Arial, sans-serif;
     margin: 0;
     padding: 0;
     box-sizing: border-box;
     color: #333;
+    background-color: #f9f9f9;
 }
 
+/* Loader Section */
+#loader {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: #6a11cb;
+    color: white;
+    flex-direction: column;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 1000;
+}
+
+.spinner {
+    border: 8px solid #f3f3f3;
+    border-top: 8px solid #fff;
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+/* Header / Hero Section */
 header.hero {
     background: linear-gradient(to right, #6a11cb, #2575fc);
     color: #fff;
@@ -35,11 +68,17 @@ header.hero {
     color: #fff;
     text-decoration: none;
     font-size: 1rem;
+    transition: color 0.3s ease;
+}
+
+.nav-links a:hover {
+    color: #ff9800;
 }
 
 .hero-content {
     max-width: 600px;
     margin: 0 auto;
+    padding: 20px;
 }
 
 .cta-button {
@@ -50,11 +89,24 @@ header.hero {
     border-radius: 5px;
     margin-top: 20px;
     display: inline-block;
+    transition: background-color 0.3s ease, transform 0.2s ease;
 }
 
-.features, .about, .join {
+.cta-button:hover {
+    background-color: #ff5722;
+    transform: scale(1.05);
+}
+
+/* Features Section */
+.features {
     padding: 50px 20px;
     text-align: center;
+    background-color: #f4f4f4;
+}
+
+.features h2 {
+    margin-bottom: 30px;
+    color: #333;
 }
 
 .features-container {
@@ -65,16 +117,107 @@ header.hero {
 }
 
 .feature {
-    background: #f4f4f4;
+    background: #fff;
     border-radius: 8px;
     padding: 20px;
     width: 300px;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s ease, box-shadow 0.3s ease;
 }
 
+.feature:hover {
+    transform: scale(1.05);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+}
+
+.feature h3 {
+    color: #6a11cb;
+    margin-bottom: 10px;
+}
+
+.feature p {
+    color: #555;
+}
+
+/* Footer */
 footer {
     background: #333;
     color: #fff;
     text-align: center;
     padding: 10px;
+    font-size: 0.9rem;
+}
+
+/* Bottom Navigation Bar */
+.bottom-nav {
+    position: fixed;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: #fff;
+    width: 80%;
+    max-width: 500px;
+    padding: 10px 20px;
+    border-radius: 30px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+    z-index: 1000;
+}
+
+.nav-item {
+    text-align: center;
+    flex: 1;
+    color: #555;
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+.nav-item i {
+    display: block;
+    font-size: 24px;
+    margin-bottom: 5px;
+}
+
+.nav-item span {
+    font-size: 12px;
+    color: #555;
+}
+
+.nav-item.active i {
+    color: #ff4081; /* Active state color */
+}
+
+.nav-item:hover {
+    color: #ff4081;
+}
+
+/* Icons */
+.icon-home::before {
+    content: "🏠"; /* Placeholder, replace with Font Awesome or SVG */
+}
+
+.icon-search::before {
+    content: "🔍";
+}
+
+.icon-bookmark::before {
+    content: "📑";
+}
+
+.icon-profile::before {
+    content: "⚙️";
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .features-container {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .feature {
+        width: 90%;
+    }
 }
