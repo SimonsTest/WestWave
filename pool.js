@@ -28,29 +28,27 @@ const pools = [
     { name: "MS Track", desc: "Middle school track and field group." }
 ];
 
-// Load previously joined pools
+// Load previously joined pools from Local Storage
 const joinedPools = JSON.parse(localStorage.getItem('joinedPools')) || [];
 
-// DOM Elements
+// Get DOM elements
 const poolCard = document.getElementById("pool-card");
-const poolFront = document.getElementById("pool-front");
-const poolBack = document.getElementById("pool-back");
-const poolName = document.querySelector(".pool-name");
-const poolDescription = document.querySelector(".pool-description");
+const poolName = document.getElementById("pool-name");
+const poolDescription = document.getElementById("pool-description");
 const joinPoolBtn = document.getElementById("join-pool-btn");
 const prevBtn = document.getElementById("prev-btn");
 const nextBtn = document.getElementById("next-btn");
 
-// Current Pool Index
+// Current pool index
 let currentPoolIndex = 0;
 
-// Function to Load Pool Data into Card
+// Function to Load Current Pool
 const loadPool = () => {
-    let pool = pools[currentPoolIndex];
+    const pool = pools[currentPoolIndex];
     poolName.textContent = pool.name;
     poolDescription.textContent = pool.desc;
 
-    // Update join button state
+    // Update button text based on join status
     if (joinedPools.includes(pool.name)) {
         joinPoolBtn.textContent = "Joined";
         joinPoolBtn.classList.add("joined");
@@ -65,29 +63,29 @@ poolCard.addEventListener("click", () => {
     poolCard.classList.toggle("flipped");
 });
 
-// Function to Navigate Left
+// Function to Navigate to the Previous Pool
 prevBtn.addEventListener("click", () => {
     if (currentPoolIndex > 0) {
         currentPoolIndex--;
-        poolCard.classList.remove("flipped");
+        poolCard.classList.remove("flipped"); // Reset flip
         loadPool();
     }
 });
 
-// Function to Navigate Right
+// Function to Navigate to the Next Pool
 nextBtn.addEventListener("click", () => {
     if (currentPoolIndex < pools.length - 1) {
         currentPoolIndex++;
-        poolCard.classList.remove("flipped");
+        poolCard.classList.remove("flipped"); // Reset flip
         loadPool();
     }
 });
 
-// Function to Join/Unjoin Pool
+// Function to Join/Unjoin a Pool
 joinPoolBtn.addEventListener("click", (e) => {
     e.stopPropagation(); // Prevent flipping when clicking the button
 
-    let pool = pools[currentPoolIndex].name;
+    const pool = pools[currentPoolIndex].name;
 
     if (joinedPools.includes(pool)) {
         // Remove from joined pools
@@ -102,11 +100,11 @@ joinPoolBtn.addEventListener("click", (e) => {
         joinPoolBtn.classList.add("joined");
     }
 
-    // Save to Local Storage
+    // Save the updated joined pools list in Local Storage
     localStorage.setItem('joinedPools', JSON.stringify(joinedPools));
 });
 
-// Function to Redirect to Home
+// Function to Redirect to Home Page
 document.getElementById("go-home").addEventListener("click", () => {
     window.location.href = "home.html";
 });
