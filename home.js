@@ -1,62 +1,43 @@
 // Add interactivity for the like button
-document.querySelectorAll('.post-actions img[alt="Like"]').forEach((likeButton) => {
-    likeButton.addEventListener('click', () => {
-        if (likeButton.classList.contains('liked')) {
-            likeButton.src = 'icons/like.svg'; // Regular like icon
-            likeButton.classList.remove('liked');
-        } else {
-            likeButton.src = 'icons/liked.svg'; // Liked icon
-            likeButton.classList.add('liked');
+document.querySelectorAll('.post-actions .action-btn').forEach((actionButton) => {
+    actionButton.addEventListener('click', (e) => {
+        // Toggle between Like, Comment, Share button actions (can be customized further)
+        if (e.target.innerText === "Like") {
+            e.target.classList.toggle('liked');
+            if (e.target.classList.contains('liked')) {
+                e.target.style.backgroundColor = '#3e8e41'; // Green when liked
+                e.target.innerText = 'Liked';
+            } else {
+                e.target.style.backgroundColor = ''; // Default color
+                e.target.innerText = 'Like';
+            }
+        }
+
+        // Handle other actions like Comment, Share similarly
+        if (e.target.innerText === "Comment") {
+            // Open a comment box or display a dummy comment for now
+            const postDetails = e.target.closest('.post').querySelector('.post-details');
+            const newComment = document.createElement('p');
+            newComment.innerHTML = '<strong>You:</strong> This is a new comment!';
+            postDetails.appendChild(newComment);
+        }
+
+        if (e.target.innerText === "Share") {
+            alert('Post shared! (simulated)');
         }
     });
 });
 
-// Add new comment dynamically
-document.querySelectorAll('.post').forEach((post) => {
-    const commentLink = post.querySelector('.post-details a');
-    const postDetails = post.querySelector('.post-details');
-
-    commentLink.addEventListener('click', (e) => {
-        e.preventDefault();
-
-        // Simulate a new comment (for demo purposes)
-        const newComment = document.createElement('p');
-        newComment.innerHTML = '<strong>You:</strong> This is a new comment!';
-        postDetails.appendChild(newComment);
-    });
-});
-
-// Story scroll interaction
-const storyContainer = document.querySelector('.story-container');
-let isDown = false;
-let startX;
-let scrollLeft;
-
-storyContainer.addEventListener('mousedown', (e) => {
-    isDown = true;
-    startX = e.pageX - storyContainer.offsetLeft;
-    scrollLeft = storyContainer.scrollLeft;
-});
-
-storyContainer.addEventListener('mouseleave', () => {
-    isDown = false;
-});
-
-storyContainer.addEventListener('mouseup', () => {
-    isDown = false;
-});
-
-storyContainer.addEventListener('mousemove', (e) => {
-    if (!isDown) return;
-    e.preventDefault();
-    const x = e.pageX - storyContainer.offsetLeft;
-    const walk = (x - startX) * 2; // Adjust scroll speed
-    storyContainer.scrollLeft = scrollLeft - walk;
-});
-
-// Add interactivity for story elements (example)
+// Add interactivity for stories (e.g., open full screen or show an alert)
 document.querySelectorAll('.story').forEach((story) => {
     story.addEventListener('click', () => {
         alert(`You clicked on ${story.querySelector('p').innerText}'s story!`);
+    });
+});
+
+// For the bottom navigation (optional: enable some basic transitions)
+document.querySelectorAll('.bottom-nav img').forEach((navIcon) => {
+    navIcon.addEventListener('click', () => {
+        alert(`Navigating to ${navIcon.alt}...`);
     });
 });
