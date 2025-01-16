@@ -2,53 +2,42 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Join Pools - WestWave</title>
-    <link rel="stylesheet" href="./pool.css">
+    <title>Join a Pool</title>
+    <link rel="stylesheet" href="pool.css">
+    <script defer src="pool.js"></script>
 </head>
 <body>
 
-    <div class="container">
-        <h1>Join a Pool</h1>
-        <p>Flip through the pools and click a card to see more information.</p>
-
-        <div class="flashcard-container">
-            <button class="nav-btn" id="prev-btn">&#10094;</button>
-
-            <div class="card" id="pool-card">
-                <div class="content">
-                    <div class="back">
-                        <div class="back-content">
-                            <p id="pool-description">Description of the pool</p>
-                            <button class="join-btn" id="join-pool-btn">Join</button>
-                        </div>
-                    </div>
-                    <div class="front">
-                        <div class="img">
-                            <div class="circle"></div>
-                            <div class="circle" id="right"></div>
-                            <div class="circle" id="bottom"></div>
-                        </div>
-                        <div class="front-content">
-                            <small class="badge">WestWave Pool</small>
-                            <div class="description">
-                                <div class="title">
-                                    <p class="title"><strong id="pool-name">Pool Name</strong></p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+    <!-- Navbar -->
+    <nav>
+        <div class="container">
+            <div class="logo">
+                <img src="logo.png" alt="WestWave Logo">
             </div>
+            <h2>Join a Pool</h2>
+            <a href="home.html" class="btn">Go Back</a>
+        </div>
+    </nav>
 
-            <button class="nav-btn" id="next-btn">&#10095;</button>
+    <!-- Pool Carousel -->
+    <div class="pool-carousel">
+        <button class="nav-btn left">&lt;</button>
+
+        <div class="card-container">
+            <!-- Pool Cards Will Be Inserted Dynamically Here -->
         </div>
 
-        <button class="btn-primary" id="go-home">Go to Home</button>
+        <button class="nav-btn right">&gt;</button>
     </div>
 
-    <script src="./pool.js"></script>
+    <!-- Joined Pools Section -->
+    <section class="joined-pools">
+        <h2>Your Joined Pools</h2>
+        <div class="joined-list">
+            <!-- Joined pools will be shown here dynamically -->
+        </div>
+    </section>
 
 </body>
 </html>
