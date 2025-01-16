@@ -117,9 +117,29 @@ main {
     gap: 15px;
 }
 
-.post-actions img {
-    width: 24px;
+.action-btn {
+    font-family: Arial, sans-serif;
+    font-size: 14px;
+    color: #fff;
+    background: linear-gradient(135deg, #764ba2, #667eea);
+    border: none;
+    border-radius: 20px;
+    padding: 10px 20px;
     cursor: pointer;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease-in-out;
+    outline: none;
+}
+
+.action-btn:hover {
+    background: linear-gradient(135deg, #667eea, #764ba2);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15);
+}
+
+.action-btn:active {
+    transform: translateY(0);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
 .post-details {
