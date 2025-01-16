@@ -1,105 +1,142 @@
-// 🌊 Load Posts on Page Load
+// Wait for DOM to load before executing
 document.addEventListener("DOMContentLoaded", () => {
-    loadPosts();
-    updateOnlineFriends();
+    loadPosts(); // Load existing posts from local storage
 });
 
-// 📌 Load Posts from Local Storage
-function loadPosts() {
-    const postsContainer = document.getElementById("posts-container");
-    let posts = JSON.parse(localStorage.getItem("posts")) || [];
+/* =============== SIDEBAR MENU INTERACTIONS ============== */
+const menuItems = document.querySelectorAll(".menu-item");
 
-    postsContainer.innerHTML = ""; // Clear container before reloading posts
-
-    posts.forEach((post, index) => {
-        const postElement = document.createElement("div");
-        postElement.classList.add("post");
-
-        postElement.innerHTML = `
-            <p>${post.text}</p>
-            ${post.image ? `<img src="${post.image}" class="post-image">` : ""}
-            <small>Posted at ${post.time}</small>
-            <div class="post-actions">
-                <button onclick="likePost(${index})">❤️ ${post.likes} Likes</button>
-                <button onclick="commentPost(${index})">💬 ${post.comments.length} Comments</button>
-                <button onclick="sharePost(${index})">🔗 Share</button>
-            </div>
-            <div class="comments-section" id="comments-${index}">
-                ${post.comments.map(comment => `<p><strong>@user:</strong> ${comment}</p>`).join("")}
-            </div>
-        `;
-
-        postsContainer.appendChild(postElement);
+menuItems.forEach(item => {
+    item.addEventListener("click", () => {
+        menuItems.forEach(menu => menu.classList.remove("active"));
+        item.classList.add("active");
     });
-}
+});
 
-// 📌 Submit New Post
-function submitPost() {
-    const postInput = document.getElementById("postInput");
-    const imageInput = document.getElementById("imageUpload");
+/* =============== POST CREATION (WITH LOCAL STORAGE) ============== */
+const postForm = document.querySelector("#create-post-form");
+const postInput = document.querySelector("#create-post-input");
+const feedContainer = document.querySelector(".feeds");
 
-    let postText = postInput.value.trim();
+postForm.addEventListener("submit", (event) => {
+    event.preventDefault();
+    const postText = postInput.value.trim();
     if (postText === "") return;
 
-    let imageFile = imageInput.files[0];
-    let imageURL = imageFile ? URL.createObjectURL(imageFile) : null;
+    addPostToFeed(postText);
+    savePostToLocal(postText);
+    postInput.value = ""; // Clear input
+});
 
-    let newPost = {
-        text: postText,
-        image: imageURL,
-        time: new Date().toLocaleTimeString(),
-        likes: 0,
-        comments: []
-    };
+// Function to add post to feed
+function addPostToFeed(text) {
+    const postElement = document.createElement("div");
+    postElement.classList.add("feed");
+    postElement.innerHTML = `
+        <div class="head">
+            <div class="user">
+                <div class="profile-photo">
+                    <img src="./images/profile.png" alt="User">
+                </div>
+                <div class="info">
+                    <h3>Username</h3>
+                    <small>Just Now</small>
+                </div>
+            </div>
+            <span class="edit"><i class="uil uil-ellipsis-h"></i></span>
+        </div>
+        <div class="post-content">
+            <p>${text}</p>
+        </div>
+        <div class="action-buttons">
+            <span class="like"><i class="uil uil-heart"></i></span>
+            <span class="comment"><i class="uil uil-comment-dots"></i></span>
+            <span class="share"><i class="uil uil-share-alt"></i></span>
+        </div>
+    `;
+    feedContainer.prepend(postElement);
+}
 
+// Function to save post in local storage
+function savePostToLocal(text) {
     let posts = JSON.parse(localStorage.getItem("posts")) || [];
-    posts.unshift(newPost);
+    posts.unshift(text);
     localStorage.setItem("posts", JSON.stringify(posts));
-
-    postInput.value = "";
-    imageInput.value = "";
-    loadPosts();
 }
 
-// 📌 Like a Post
-function likePost(index) {
-    let posts = JSON.parse(localStorage.getItem("posts"));
-    posts[index].likes += 1;
-    localStorage.setItem("posts", JSON.stringify(posts));
-    loadPosts();
+// Function to load posts from local storage
+function loadPosts() {
+    let posts = JSON.parse(localStorage.getItem("posts")) || [];
+    posts.forEach(post => addPostToFeed(post));
 }
 
-// 📌 Comment on a Post
-function commentPost(index) {
-    let commentText = prompt("Enter your comment:");
-    if (!commentText) return;
+/* =============== THEME SWITCHER ============== */
+const themeButton = document.querySelector("#theme-toggle");
+const body = document.body;
 
-    let posts = JSON.parse(localStorage.getItem("posts"));
-    posts[index].comments.push(commentText);
-    localStorage.setItem("posts", JSON.stringify(posts));
-    loadPosts();
+// Check local storage for theme preference
+if (localStorage.getItem("darkMode") === "enabled") {
+    body.classList.add("dark-mode");
 }
 
-// 📌 Share a Post
-function sharePost(index) {
-    alert("Post link copied to clipboard!");
-}
+themeButton.addEventListener("click", () => {
+    body.classList.toggle("dark-mode");
 
-// 📌 Update Online Friends
-function updateOnlineFriends() {
-    let friendsList = document.querySelector(".friends-section ul");
-    let friends = ["@friend1", "@friend2", "@friend3", "@friend4"];
+    if (body.classList.contains("dark-mode")) {
+        localStorage.setItem("darkMode", "enabled");
+    } else {
+        localStorage.removeItem("darkMode");
+    }
+});
 
-    friendsList.innerHTML = "";
-    friends.forEach(friend => {
-        let listItem = document.createElement("li");
-        listItem.innerHTML = `<span class="online-dot"></span> ${friend}`;
-        friendsList.appendChild(listItem);
+/* =============== SEARCH FUNCTION ============== */
+const searchInput = document.querySelector("#search-bar");
+
+searchInput.addEventListener("keyup", function () {
+    let searchValue = searchInput.value.toLowerCase();
+    let posts = document.querySelectorAll(".feed .post-content p");
+
+    posts.forEach(post => {
+        if (post.textContent.toLowerCase().includes(searchValue)) {
+            post.closest(".feed").style.display = "block";
+        } else {
+            post.closest(".feed").style.display = "none";
+        }
+    });
+});
+
+/* =============== NOTIFICATIONS ============== */
+const notificationBell = document.querySelector("#notifications");
+const notificationPopup = document.querySelector(".notifications-popup");
+
+notificationBell.addEventListener("click", () => {
+    notificationPopup.classList.toggle("active");
+    notificationBell.querySelector(".notification-count").style.display = "none";
+});
+
+/* =============== MESSAGES INTERACTION ============== */
+const messageNotification = document.querySelector("#messages-notifications");
+const messages = document.querySelector(".messages");
+
+messageNotification.addEventListener("click", () => {
+    messages.classList.toggle("highlight");
+    messageNotification.querySelector(".notification-count").style.display = "none";
+});
+
+/* =============== SMOOTH SCROLL ============== */
+document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+    anchor.addEventListener("click", function (e) {
+        e.preventDefault();
+        document.querySelector(this.getAttribute("href")).scrollIntoView({
+            behavior: "smooth"
+        });
+    });
+});
+
+/* =============== JOIN POOLS PAGE REDIRECT ============== */
+const joinPoolButton = document.querySelector("#join-pool");
+if (joinPoolButton) {
+    joinPoolButton.addEventListener("click", () => {
+        window.location.href = "pool.html";
     });
 }
-
-// 📌 Auto-Update Every 30 Seconds
-setInterval(() => {
-    updateOnlineFriends();
-    loadPosts();
-}, 30000);
