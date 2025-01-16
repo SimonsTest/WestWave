@@ -1,142 +1,160 @@
-// Wait for DOM to load before executing
 document.addEventListener("DOMContentLoaded", () => {
-    loadPosts(); // Load existing posts from local storage
-});
+    // ===================== Global Variables =====================
+    const postInput = document.getElementById("post-input");
+    const postBtn = document.getElementById("post-btn");
+    const feedContent = document.getElementById("feed-content");
+    const sidebarItems = document.querySelectorAll(".sidebar-menu li");
+    const bottomNavItems = document.querySelectorAll(".bottom-nav ul li");
+    const themeToggle = document.getElementById("theme-toggle");
+    const notificationIcon = document.getElementById("notification-icon");
+    const notificationPanel = document.getElementById("notification-panel");
+    const searchBar = document.getElementById("search-bar");
 
-/* =============== SIDEBAR MENU INTERACTIONS ============== */
-const menuItems = document.querySelectorAll(".menu-item");
+    // ===================== Load Previous Data =====================
+    loadPosts();
+    loadTheme();
+    updateSidebarState();
 
-menuItems.forEach(item => {
-    item.addEventListener("click", () => {
-        menuItems.forEach(menu => menu.classList.remove("active"));
-        item.classList.add("active");
+    // ===================== Event Listeners =====================
+    
+    // Posting functionality
+    postBtn.addEventListener("click", () => {
+        const postText = postInput.value.trim();
+        if (postText === "") return;
+
+        const newPost = {
+            id: Date.now(),
+            username: "User",
+            content: postText,
+            timestamp: new Date().toLocaleString(),
+        };
+
+        savePost(newPost);
+        addPostToFeed(newPost);
+        postInput.value = ""; // Clear input field
     });
-});
 
-/* =============== POST CREATION (WITH LOCAL STORAGE) ============== */
-const postForm = document.querySelector("#create-post-form");
-const postInput = document.querySelector("#create-post-input");
-const feedContainer = document.querySelector(".feeds");
-
-postForm.addEventListener("submit", (event) => {
-    event.preventDefault();
-    const postText = postInput.value.trim();
-    if (postText === "") return;
-
-    addPostToFeed(postText);
-    savePostToLocal(postText);
-    postInput.value = ""; // Clear input
-});
-
-// Function to add post to feed
-function addPostToFeed(text) {
-    const postElement = document.createElement("div");
-    postElement.classList.add("feed");
-    postElement.innerHTML = `
-        <div class="head">
-            <div class="user">
-                <div class="profile-photo">
-                    <img src="./images/profile.png" alt="User">
-                </div>
-                <div class="info">
-                    <h3>Username</h3>
-                    <small>Just Now</small>
-                </div>
-            </div>
-            <span class="edit"><i class="uil uil-ellipsis-h"></i></span>
-        </div>
-        <div class="post-content">
-            <p>${text}</p>
-        </div>
-        <div class="action-buttons">
-            <span class="like"><i class="uil uil-heart"></i></span>
-            <span class="comment"><i class="uil uil-comment-dots"></i></span>
-            <span class="share"><i class="uil uil-share-alt"></i></span>
-        </div>
-    `;
-    feedContainer.prepend(postElement);
-}
-
-// Function to save post in local storage
-function savePostToLocal(text) {
-    let posts = JSON.parse(localStorage.getItem("posts")) || [];
-    posts.unshift(text);
-    localStorage.setItem("posts", JSON.stringify(posts));
-}
-
-// Function to load posts from local storage
-function loadPosts() {
-    let posts = JSON.parse(localStorage.getItem("posts")) || [];
-    posts.forEach(post => addPostToFeed(post));
-}
-
-/* =============== THEME SWITCHER ============== */
-const themeButton = document.querySelector("#theme-toggle");
-const body = document.body;
-
-// Check local storage for theme preference
-if (localStorage.getItem("darkMode") === "enabled") {
-    body.classList.add("dark-mode");
-}
-
-themeButton.addEventListener("click", () => {
-    body.classList.toggle("dark-mode");
-
-    if (body.classList.contains("dark-mode")) {
-        localStorage.setItem("darkMode", "enabled");
-    } else {
-        localStorage.removeItem("darkMode");
-    }
-});
-
-/* =============== SEARCH FUNCTION ============== */
-const searchInput = document.querySelector("#search-bar");
-
-searchInput.addEventListener("keyup", function () {
-    let searchValue = searchInput.value.toLowerCase();
-    let posts = document.querySelectorAll(".feed .post-content p");
-
-    posts.forEach(post => {
-        if (post.textContent.toLowerCase().includes(searchValue)) {
-            post.closest(".feed").style.display = "block";
-        } else {
-            post.closest(".feed").style.display = "none";
-        }
-    });
-});
-
-/* =============== NOTIFICATIONS ============== */
-const notificationBell = document.querySelector("#notifications");
-const notificationPopup = document.querySelector(".notifications-popup");
-
-notificationBell.addEventListener("click", () => {
-    notificationPopup.classList.toggle("active");
-    notificationBell.querySelector(".notification-count").style.display = "none";
-});
-
-/* =============== MESSAGES INTERACTION ============== */
-const messageNotification = document.querySelector("#messages-notifications");
-const messages = document.querySelector(".messages");
-
-messageNotification.addEventListener("click", () => {
-    messages.classList.toggle("highlight");
-    messageNotification.querySelector(".notification-count").style.display = "none";
-});
-
-/* =============== SMOOTH SCROLL ============== */
-document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-    anchor.addEventListener("click", function (e) {
-        e.preventDefault();
-        document.querySelector(this.getAttribute("href")).scrollIntoView({
-            behavior: "smooth"
+    // Sidebar navigation active state
+    sidebarItems.forEach(item => {
+        item.addEventListener("click", () => {
+            sidebarItems.forEach(i => i.classList.remove("active"));
+            item.classList.add("active");
+            saveSidebarState(item.dataset.section);
         });
     });
-});
 
-/* =============== JOIN POOLS PAGE REDIRECT ============== */
-const joinPoolButton = document.querySelector("#join-pool");
-if (joinPoolButton) {
-    joinPoolButton.addEventListener("click", () => {
-        window.location.href = "pool.html";
+    // Bottom navigation active state
+    bottomNavItems.forEach(item => {
+        item.addEventListener("click", () => {
+            bottomNavItems.forEach(i => i.classList.remove("active"));
+            item.classList.add("active");
+        });
     });
-}
+
+    // Theme toggle functionality
+    themeToggle.addEventListener("click", toggleTheme);
+
+    // Notifications toggle
+    notificationIcon.addEventListener("click", () => {
+        notificationPanel.classList.toggle("visible");
+    });
+
+    // Search bar functionality (filtering posts)
+    searchBar.addEventListener("input", () => {
+        const query = searchBar.value.toLowerCase();
+        filterPosts(query);
+    });
+
+    // ===================== Functions =====================
+
+    // Save posts to local storage
+    function savePost(post) {
+        let posts = JSON.parse(localStorage.getItem("posts")) || [];
+        posts.unshift(post); // Add at the beginning
+        localStorage.setItem("posts", JSON.stringify(posts));
+    }
+
+    // Load posts from local storage
+    function loadPosts() {
+        const posts = JSON.parse(localStorage.getItem("posts")) || [];
+        posts.forEach(post => addPostToFeed(post));
+    }
+
+    // Add post to the feed
+    function addPostToFeed(post) {
+        const postElement = document.createElement("div");
+        postElement.classList.add("post");
+        postElement.innerHTML = `
+            <div class="post-header">
+                <h3>${post.username}</h3>
+                <small>${post.timestamp}</small>
+            </div>
+            <p>${post.content}</p>
+            <div class="post-actions">
+                <button class="like-btn" onclick="likePost(${post.id})">❤️ Like</button>
+                <button class="delete-btn" onclick="deletePost(${post.id})">🗑️ Delete</button>
+            </div>
+        `;
+        feedContent.appendChild(postElement);
+    }
+
+    // Like post function
+    window.likePost = (postId) => {
+        alert(`You liked post ID: ${postId}`);
+    };
+
+    // Delete post function
+    window.deletePost = (postId) => {
+        let posts = JSON.parse(localStorage.getItem("posts")) || [];
+        posts = posts.filter(post => post.id !== postId);
+        localStorage.setItem("posts", JSON.stringify(posts));
+        reloadFeed();
+    };
+
+    // Reload feed after deletion
+    function reloadFeed() {
+        feedContent.innerHTML = "";
+        loadPosts();
+    }
+
+    // Save sidebar state
+    function saveSidebarState(section) {
+        localStorage.setItem("activeSidebar", section);
+    }
+
+    // Load sidebar state
+    function updateSidebarState() {
+        const activeSection = localStorage.getItem("activeSidebar");
+        if (activeSection) {
+            sidebarItems.forEach(item => {
+                item.classList.remove("active");
+                if (item.dataset.section === activeSection) {
+                    item.classList.add("active");
+                }
+            });
+        }
+    }
+
+    // Save and load theme preference
+    function toggleTheme() {
+        document.body.classList.toggle("dark-theme");
+        const isDark = document.body.classList.contains("dark-theme");
+        localStorage.setItem("darkTheme", isDark ? "enabled" : "disabled");
+    }
+
+    function loadTheme() {
+        const savedTheme = localStorage.getItem("darkTheme");
+        if (savedTheme === "enabled") {
+            document.body.classList.add("dark-theme");
+        }
+    }
+
+    // Search filter for posts
+    function filterPosts(query) {
+        const posts = document.querySelectorAll(".post");
+        posts.forEach(post => {
+            const content = post.textContent.toLowerCase();
+            post.style.display = content.includes(query) ? "block" : "none";
+        });
+    }
+});
