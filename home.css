@@ -8,7 +8,7 @@
 /* Body Styling */
 body {
     font-family: Arial, sans-serif;
-    background: linear-gradient(135deg, #764ba2, #667eea); /* Gradient background */
+    background: #f8f9fa; /* Light background */
     color: #333;
     margin: 0;
     display: flex;
@@ -16,168 +16,82 @@ body {
     min-height: 100vh;
 }
 
-/* Container */
-.container {
-    display: flex;
-    width: 100%;
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 20px;
-    gap: 20px;
-}
-
 /* Header */
 header {
-    width: 100%;
     background: white;
-    padding: 10px 20px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
     border-bottom: 1px solid #ccc;
-    position: fixed; /* Fixed header like Instagram */
+    padding: 10px 20px;
+    position: fixed;
     top: 0;
-    left: 0;
+    width: 100%;
     z-index: 10;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 }
 
-/* Logo Styling */
 .logo img {
-    width: 40px; /* Small size like Instagram */
+    width: 100px;
     height: auto;
-    display: block;
-    cursor: pointer;
-}
-
-/* Search Bar */
-.search-bar input {
-    width: 300px;
-    padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 20px;
-    font-size: 14px;
-    outline: none;
-}
-
-/* Navigation Icons */
-.nav-icons a {
-    margin: 0 10px;
 }
 
 .nav-icons img {
     width: 24px;
-    height: 24px;
+    margin-left: 15px;
     cursor: pointer;
 }
 
-/* Sidebar (Left) */
-.sidebar-left {
-    width: 20%;
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
-    background: white;
-    padding: 15px;
-    border-radius: 10px;
-    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
-    margin-top: 80px; /* Spacing below fixed header */
-}
-
-.user-profile {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-}
-
-.user-profile img {
-    width: 50px;
-    height: 50px;
-    border-radius: 50%;
-    border: 2px solid #667eea;
-}
-
-nav ul {
-    list-style: none;
-}
-
-nav ul li {
-    margin: 10px 0;
-    font-size: 16px;
-    cursor: pointer;
-}
-
-nav ul li a {
-    text-decoration: none;
-    color: #333;
-    transition: color 0.3s;
-}
-
-nav ul li a:hover {
-    color: #764ba2;
-}
-
-/* Feed Section */
-.feed {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
-    margin-top: 80px; /* Spacing below fixed header */
-}
-
-/* Stories */
+/* Stories Section */
 .stories {
+    margin-top: 70px;
+    padding: 10px 0;
+    border-bottom: 1px solid #ccc;
     background: white;
-    border-radius: 10px;
-    padding: 15px;
-    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
-}
-
-.stories h2 {
-    font-size: 1.5rem;
-    margin-bottom: 10px;
 }
 
 .story-container {
     display: flex;
-    gap: 15px;
     overflow-x: auto;
-    padding-bottom: 10px;
+    padding: 0 10px;
+    gap: 15px;
 }
 
 .story {
-    width: 80px;
-    height: 80px;
+    text-align: center;
+}
+
+.story img {
+    width: 60px;
+    height: 60px;
     border-radius: 50%;
-    background: #f3f3f3;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 0.9rem;
-    font-weight: bold;
-    cursor: pointer;
-    transition: transform 0.3s;
+    border: 2px solid #ff4081;
+    margin-bottom: 5px;
 }
 
-.story:hover {
-    transform: scale(1.1);
-    background: #667eea;
-    color: white;
+.story p {
+    font-size: 12px;
+    margin-top: 5px;
 }
 
-/* Posts */
+/* Feed Section */
+main {
+    margin-top: 20px;
+    padding: 0 10px;
+}
+
 .post {
     background: white;
-    border-radius: 10px;
-    padding: 15px;
-    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    margin-bottom: 20px;
+    overflow: hidden;
 }
 
-.post header {
+.post-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 10px;
+    padding: 10px;
 }
 
 .post-user {
@@ -190,86 +104,60 @@ nav ul li a:hover {
     width: 40px;
     height: 40px;
     border-radius: 50%;
-    border: 2px solid #667eea;
 }
 
 .post-image img {
     width: 100%;
-    border-radius: 10px;
-    margin: 10px 0;
+    display: block;
+}
+
+.post-actions {
+    display: flex;
+    padding: 10px;
+    gap: 15px;
 }
 
 .post-actions img {
     width: 24px;
-    height: 24px;
-    margin-right: 10px;
     cursor: pointer;
-    transition: transform 0.3s;
 }
 
-.post-actions img:hover {
-    transform: scale(1.1);
-}
-
-.post-caption {
-    font-size: 14px;
-    margin: 10px 0;
-}
-
-.post-comments a {
-    text-decoration: none;
-    color: #667eea;
-    font-size: 14px;
-}
-
-/* Sidebar (Right) */
-.sidebar-right {
-    width: 20%;
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
-    background: white;
-    padding: 15px;
-    border-radius: 10px;
-    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
-    margin-top: 80px; /* Spacing below fixed header */
-}
-
-.suggestion {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 10px;
-}
-
-.suggestion img {
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-    border: 2px solid #667eea;
-}
-
-.suggestion button {
-    padding: 5px 10px;
-    background: #667eea;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    font-size: 14px;
-    transition: background 0.3s;
-}
-
-.suggestion button:hover {
-    background: #764ba2;
-}
-
-/* Footer */
-footer {
-    text-align: center;
+.post-details {
     padding: 10px;
+}
+
+.post-details p {
+    font-size: 14px;
+    margin-bottom: 5px;
+}
+
+.post-details a {
+    font-size: 14px;
+    color: #667eea;
+    text-decoration: none;
+}
+
+.post-details a:hover {
+    text-decoration: underline;
+}
+
+/* Bottom Navigation */
+footer {
     background: white;
     border-top: 1px solid #ccc;
-    font-size: 0.9rem;
-    color: #333;
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    z-index: 10;
+}
+
+.bottom-nav {
+    display: flex;
+    justify-content: space-evenly;
+    padding: 10px 0;
+}
+
+.bottom-nav img {
+    width: 24px;
+    cursor: pointer;
 }
