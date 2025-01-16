@@ -5,7 +5,7 @@ body {
     padding: 0;
     box-sizing: border-box;
     color: #333;
-    background-color: #f9f9f9;
+    background-color: #f4fafd; /* Light turquoise background */
 }
 
 /* Loader Section */
@@ -14,7 +14,7 @@ body {
     justify-content: center;
     align-items: center;
     height: 100vh;
-    background-color: #6a11cb;
+    background-color: #48c6ef; /* Turquoise gradient */
     color: white;
     flex-direction: column;
     position: fixed;
@@ -25,12 +25,18 @@ body {
 }
 
 .spinner {
-    border: 8px solid #f3f3f3;
-    border-top: 8px solid #fff;
+    border: 8px solid #e0f7fa; /* Light turquoise */
+    border-top: 8px solid #007a96; /* Dark turquoise */
     border-radius: 50%;
     width: 50px;
     height: 50px;
     animation: spin 1s linear infinite;
+}
+
+#loader p {
+    margin-top: 15px;
+    font-size: 1.2rem;
+    color: white;
 }
 
 @keyframes spin {
@@ -40,7 +46,7 @@ body {
 
 /* Header / Hero Section */
 header.hero {
-    background: linear-gradient(to right, #6a11cb, #2575fc);
+    background: linear-gradient(to right, #48c6ef, #6f86d6); /* Turquoise gradient */
     color: #fff;
     text-align: center;
     padding: 50px 20px;
@@ -56,6 +62,7 @@ header.hero {
 .logo {
     font-size: 1.5rem;
     font-weight: bold;
+    color: #fff;
 }
 
 .nav-links {
@@ -65,14 +72,14 @@ header.hero {
 }
 
 .nav-links a {
-    color: #fff;
+    color: #e0f7fa; /* Light turquoise */
     text-decoration: none;
     font-size: 1rem;
     transition: color 0.3s ease;
 }
 
 .nav-links a:hover {
-    color: #ff9800;
+    color: #007a96; /* Dark turquoise */
 }
 
 .hero-content {
@@ -82,7 +89,7 @@ header.hero {
 }
 
 .cta-button {
-    background-color: #ff9800;
+    background-color: #007a96; /* Dark turquoise */
     color: #fff;
     padding: 10px 20px;
     text-decoration: none;
@@ -93,7 +100,7 @@ header.hero {
 }
 
 .cta-button:hover {
-    background-color: #ff5722;
+    background-color: #005f73; /* Slightly darker turquoise */
     transform: scale(1.05);
 }
 
@@ -101,12 +108,12 @@ header.hero {
 .features {
     padding: 50px 20px;
     text-align: center;
-    background-color: #f4f4f4;
+    background-color: #f0fcfc; /* Very light turquoise */
 }
 
 .features h2 {
     margin-bottom: 30px;
-    color: #333;
+    color: #007a96; /* Dark turquoise */
 }
 
 .features-container {
@@ -131,7 +138,7 @@ header.hero {
 }
 
 .feature h3 {
-    color: #6a11cb;
+    color: #48c6ef; /* Turquoise */
     margin-bottom: 10px;
 }
 
@@ -141,7 +148,7 @@ header.hero {
 
 /* Footer */
 footer {
-    background: #333;
+    background: #007a96; /* Dark turquoise */
     color: #fff;
     text-align: center;
     padding: 10px;
@@ -157,7 +164,7 @@ footer {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    background: #fff;
+    background: #ffffff;
     width: 80%;
     max-width: 500px;
     padding: 10px 20px;
@@ -178,6 +185,7 @@ footer {
     display: block;
     font-size: 24px;
     margin-bottom: 5px;
+    color: #48c6ef; /* Turquoise */
 }
 
 .nav-item span {
@@ -186,28 +194,11 @@ footer {
 }
 
 .nav-item.active i {
-    color: #ff4081; /* Active state color */
+    color: #007a96; /* Dark turquoise for active */
 }
 
-.nav-item:hover {
-    color: #ff4081;
-}
-
-/* Icons */
-.icon-home::before {
-    content: "🏠"; /* Placeholder, replace with Font Awesome or SVG */
-}
-
-.icon-search::before {
-    content: "🔍";
-}
-
-.icon-bookmark::before {
-    content: "📑";
-}
-
-.icon-profile::before {
-    content: "⚙️";
+.nav-item:hover i {
+    color: #005f73; /* Darker turquoise */
 }
 
 /* Responsive Design */
