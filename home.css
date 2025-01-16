@@ -31,32 +31,62 @@
     border: none;
 }
 
-/* Background Styling */
+/* ====== Background Styling (Newly Added) ====== */
 body {
     font-family: 'Poppins', sans-serif;
     color: var(--dark-text);
     background-color: #ffffff;
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100%25'%3E%3Cdefs%3E%3ClinearGradient id='a' gradientUnits='userSpaceOnUse' x1='0' x2='0' y1='0' y2='100%25' gradientTransform='rotate(239,720,389)'%3E%3Cstop offset='0' stop-color='%23ffffff'/%3E%3Cstop offset='1' stop-color='%234FE'/%3E%3C/linearGradient%3E%3Cpattern patternUnits='userSpaceOnUse' id='b' width='467' height='389.2' x='0' y='0' viewBox='0 0 1080 900'%3E%3Cg fill-opacity='0.05'%3E%3Cpolygon fill='%23444' points='90 150 0 300 180 300'/%3E%3Cpolygon points='90 150 180 0 0 0'/%3E%3Cpolygon fill='%23AAA' points='270 150 360 0 180 0'/%3E%3Cpolygon fill='%23DDD' points='450 150 360 300 540 300'/%3E%3Cpolygon fill='%23999' points='450 150 540 0 360 0'/%3E%3Cpolygon points='630 150 540 300 720 300'/%3E%3Cpolygon fill='%23DDD' points='630 150 720 0 540 0'/%3E%3Cpolygon fill='%23444' points='810 150 720 300 900 300'/%3E%3Cpolygon fill='%23FFF' points='810 150 900 0 720 0'/%3E%3Cpolygon fill='%23DDD' points='990 150 900 300 1080 300'/%3E%3Cpolygon fill='%23444' points='990 150 1080 0 900 0'/%3E%3C/g%3E%3C/pattern%3E%3C/defs%3E%3Crect x='0' y='0' fill='url(%23a)' width='100%25' height='100%25'/%3E%3Crect x='0' y='0' fill='url(%23b)' width='100%25' height='100%25'/%3E%3C/svg%3E");
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100%25'%3E%3Cdefs%3E%3ClinearGradient id='a' gradientUnits='userSpaceOnUse' x1='0' x2='0' y1='0' y2='100%25' gradientTransform='rotate(239,720,389)'%3E%3Cstop offset='0' stop-color='%23ffffff'/%3E%3Cstop offset='1' stop-color='%234FE'/%3E%3C/linearGradient%3E%3Cpattern patternUnits='userSpaceOnUse' id='b' width='467' height='389.2' x='0' y='0' viewBox='0 0 1080 900'%3E%3Cg fill-opacity='0.05'%3E%3Cpolygon fill='%23444' points='90 150 0 300 180 300'/%3E%3Cpolygon points='90 150 180 0 0 0'/%3E%3Cpolygon fill='%23AAA' points='270 150 360 0 180 0'/%3E%3Cpolygon fill='%23DDD' points='450 150 360 300 540 300'/%3E%3Cpolygon fill='%23999' points='450 150 540 0 360 0'/%3E%3C/g%3E%3C/pattern%3E%3C/defs%3E%3Crect x='0' y='0' fill='url(%23a)' width='100%25' height='100%25'/%3E%3Crect x='0' y='0' fill='url(%23b)' width='100%25' height='100%25'/%3E%3C/svg%3E");
     background-attachment: fixed;
     background-size: cover;
     overflow-x: hidden;
 }
 
-/* =============== General Styles ============== */
+/* ====== General Styles ====== */
 .container {
     width: 80%;
     margin: 0 auto;
-    display: flex;
 }
 
-/* Navbar */
+.profile-photo {
+    width: 2.7rem;
+    aspect-ratio: 1/1;
+    border-radius: 50%;
+    overflow: hidden;
+}
+
+img {
+    display: block;
+    width: 100%;
+}
+
+.btn {
+    display: inline-block;
+    padding: var(--btn-padding);
+    font-weight: 500;
+    border-radius: var(--border-radius);
+    cursor: pointer;
+    transition: all 300ms ease;
+    font-size: 0.9rem;
+}
+
+.btn:hover {
+    opacity: 0.8;
+}
+
+.btn-primary {
+    background: var(--primary-color);
+    color: white;
+}
+
+/* ====== Navbar ====== */
 nav {
     width: 100%;
     background: var(--dark-card);
     padding: 0.7rem 0;
     position: fixed;
     top: 0;
-    z-index: 1000;
+    z-index: 10;
     box-shadow: 0 2px 10px var(--dark-border);
 }
 
@@ -98,49 +128,38 @@ nav .create {
     gap: 2rem;
 }
 
-/* =============== Sidebar (Left) ============== */
-.sidebar {
-    width: 260px;
-    height: 100vh;
-    background: var(--dark-card);
-    padding: 1rem;
-    border-radius: var(--card-border-radius);
-    position: fixed;
-    top: 5rem;
-    left: 0;
-    overflow-y: auto;
+/* ====== Sidebar (Left Panel) ====== */
+main .container .left {
+    height: max-content;
+    position: sticky;
+    top: var(--sticky-top-left);
 }
 
-.sidebar .menu-item {
+.left .sidebar {
+    margin-top: 1rem;
+    background: var(--dark-card);
+    border-radius: var(--card-border-radius);
+}
+
+.left .sidebar .menu-item {
     display: flex;
     align-items: center;
     height: 4rem;
-    padding: 0.5rem 1rem;
-    transition: all 300ms ease;
     cursor: pointer;
+    transition: all 300ms ease;
+    position: relative;
 }
 
-.sidebar .menu-item:hover {
+.left .sidebar .menu-item:hover {
     background: var(--dark-border);
 }
 
-.sidebar .active {
+.left .sidebar .active {
     background: var(--primary-color);
     color: white;
 }
 
-/* Main Content */
-main {
-    position: relative;
-    top: 5rem;
-    margin-left: 280px;
-    width: calc(100% - 280px);
-    display: flex;
-    flex-direction: column;
-    gap: 1rem;
-}
-
-/* Joined Pools Section */
+/* ====== Joined Pools Section ====== */
 .joined-pools {
     background: var(--dark-card);
     padding: var(--card-padding);
@@ -154,39 +173,91 @@ main {
     margin-bottom: 0.5rem;
 }
 
-/* Posts */
-.post {
+/* ====== Feed Section (Added) ====== */
+.feed-container {
+    width: 100%;
+    margin-top: 1rem;
+}
+
+.feed {
     background: var(--dark-card);
-    padding: 1rem;
+    padding: var(--card-padding);
     border-radius: var(--card-border-radius);
     margin-bottom: 1rem;
 }
 
-/* =============== Media Queries ============== */
+.feed .head {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.feed .user-info {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.feed .user-info img {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+}
+
+.feed .user-info .details {
+    display: flex;
+    flex-direction: column;
+}
+
+.feed .user-info .details h4 {
+    color: var(--dark-text);
+    font-size: 1rem;
+}
+
+.feed .user-info .details small {
+    color: var(--secondary-color);
+}
+
+.feed .post-content {
+    margin-top: 0.5rem;
+    font-size: 0.95rem;
+    color: var(--dark-text);
+}
+
+.feed .post-image {
+    width: 100%;
+    border-radius: var(--card-border-radius);
+    margin-top: 0.5rem;
+}
+
+.feed .actions {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 0.5rem;
+}
+
+.feed .actions button {
+    background: none;
+    color: var(--dark-text);
+    border: none;
+    cursor: pointer;
+    font-size: 1rem;
+    transition: 0.2s;
+}
+
+.feed .actions button:hover {
+    color: var(--primary-color);
+}
+
+/* ====== Media Queries ====== */
 @media screen and (max-width: 1200px) {
     .container {
-        width: 95%;
-    }
-
-    .sidebar {
-        width: 220px;
-    }
-
-    main {
-        margin-left: 240px;
-        width: calc(100% - 240px);
+        width: 96%;
     }
 }
 
 @media screen and (max-width: 992px) {
-    .sidebar {
-        width: 100%;
-        height: auto;
-        position: relative;
-    }
-
-    main {
-        margin-left: 0;
-        width: 100%;
+    nav .search-bar {
+        display: none;
     }
 }
