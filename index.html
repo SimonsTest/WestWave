@@ -4,23 +4,21 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>WestWave</title>
-    <link rel="stylesheet" href="Loader.css">
+    <link rel="stylesheet" href="index.css">
 </head>
 <body>
-    <!-- Loader Section -->
-    <div id="loader">
-        <div class="spinner"></div>
-        <p>Loading WestWave...</p>
-    </div>
-
     <!-- Redirect Script -->
     <script>
-        // Show the loader for 3 seconds, then redirect to the registration page
+        // Automatically redirect to the registration page when the site is first opened
         window.onload = function () {
-            setTimeout(() => {
-                window.location.href = "registrationpage.html"; // Redirect to your registration page
-            }, 3000); // 3-second delay (adjustable)
+            window.location.href = "registrationpage.html"; // Redirect to the registration page
         };
     </script>
+
+    <!-- Home Content (Linked to Home Menu) -->
+    <div id="home" style="display: none;">
+        <!-- Include the Home Menu -->
+        <iframe src="Homemenu.html" style="width: 100%; height: 100vh; border: none;"></iframe>
+    </div>
 </body>
 </html>
