@@ -1,240 +1,102 @@
-// Sidebar Navigation
+// ============== SIDEBAR FUNCTIONALITY ============== 
 const menuItems = document.querySelectorAll('.menu-item');
 
-// Messages
-const messageNotification = document.querySelector('#messages');
-const messages = document.querySelector('.messages');
-const messageSearch = document.querySelector('#message-search');
-
-// Theme Customization
-const theme = document.querySelector('#theme');
-const themeModal = document.querySelector('.customize-theme');
-const fontSize = document.querySelectorAll('.choose-size span');
-var root = document.querySelector(':root');
-const colorPalette = document.querySelectorAll('.choose-color span');
-
-// Notifications
-const notificationPopup = document.querySelector('.notifications-popup');
-const notificationBtn = document.querySelector('#notifications');
-
-// Post Functionality
-const postForm = document.querySelector('.create-post');
-const postInput = document.querySelector('#create-post');
-const postFeed = document.querySelector('.feeds');
-
-// Join Pools Button
-const joinPoolBtn = document.querySelector('#join-pool');
-const joinedPoolsContainer = document.querySelector('.joined-pool-list');
-
-// Local Storage Data
-const posts = JSON.parse(localStorage.getItem('posts')) || [];
-const joinedPools = JSON.parse(localStorage.getItem('joinedPools')) || [];
-
-// ============== SIDEBAR NAVIGATION ============== 
+const changeActiveItem = () => {
+    menuItems.forEach(item => {
+        item.classList.remove('active');
+    });
+};
 
 menuItems.forEach(item => {
     item.addEventListener('click', () => {
-        menuItems.forEach(menu => menu.classList.remove('active'));
+        changeActiveItem();
         item.classList.add('active');
-
-        if (item.id !== 'notifications') {
-            notificationPopup.style.display = 'none';
-        } else {
-            notificationPopup.style.display = 'block';
-            notificationBtn.querySelector('.notification-count').style.display = 'none';
-        }
     });
 });
 
-// ============== JOIN POOLS SYSTEM ============== 
+// ============== CREATE POST FUNCTIONALITY ============== 
+const postInput = document.querySelector('.create-post input');
+const postButton = document.querySelector('.create-post .btn-primary');
+const feedContainer = document.querySelector('.feed-container');
 
-joinPoolBtn.addEventListener('click', () => {
-    window.location.href = 'pool.html'; // Redirect to the pools joining page
+postButton.addEventListener('click', () => {
+    const postText = postInput.value.trim();
+
+    if (postText !== "") {
+        const post = document.createElement('div');
+        post.classList.add('feed');
+        post.innerHTML = `
+            <div class="head">
+                <div class="user-info">
+                    <img src="profile-pic.png" alt="User">
+                    <div class="details">
+                        <h4>Simon Drastil</h4>
+                        <small>Just now</small>
+                    </div>
+                </div>
+            </div>
+            <div class="post-content">${postText}</div>
+            <div class="actions">
+                <button>👍 Like</button>
+                <button>💬 Comment</button>
+                <button>🔄 Share</button>
+            </div>
+        `;
+        feedContainer.prepend(post);
+        postInput.value = ""; // Clear input after posting
+    }
 });
 
-const loadJoinedPools = () => {
-    joinedPoolsContainer.innerHTML = '';
-    joinedPools.forEach(pool => {
+// ============== SEARCH FUNCTIONALITY ============== 
+const searchInput = document.querySelector('.search-bar input');
+searchInput.addEventListener('keyup', () => {
+    const searchTerm = searchInput.value.toLowerCase();
+    const posts = document.querySelectorAll('.feed');
+
+    posts.forEach(post => {
+        const text = post.querySelector('.post-content').textContent.toLowerCase();
+        post.style.display = text.includes(searchTerm) ? 'block' : 'none';
+    });
+});
+
+// ============== JOINED POOLS FUNCTIONALITY ============== 
+const joinedPoolContainer = document.querySelector('.joined-pool-list');
+const savedPools = JSON.parse(localStorage.getItem('joinedPools')) || [];
+
+const renderPools = () => {
+    joinedPoolContainer.innerHTML = "";
+    savedPools.forEach(pool => {
         const poolItem = document.createElement('div');
         poolItem.classList.add('pool-item');
         poolItem.textContent = pool;
-        joinedPoolsContainer.appendChild(poolItem);
+        joinedPoolContainer.appendChild(poolItem);
     });
 };
 
-// ============== MESSAGE SEARCH ============== 
+renderPools();
 
-const searchMessage = () => {
-    const val = messageSearch.value.toLowerCase();
-    messages.querySelectorAll('.message').forEach(user => {
-        let name = user.querySelector('h5').textContent.toLowerCase();
-        user.style.display = name.includes(val) ? 'flex' : 'none';
-    });
-};
-
-messageSearch.addEventListener('keyup', searchMessage);
-
-// Highlight messages card when messages menu item is clicked
-messageNotification.addEventListener('click', () => {
-    messages.style.boxShadow = '0 0 1rem var(--primary-color)';
-    setTimeout(() => {
-        messages.style.boxShadow = 'none';
-    }, 2000);
-});
-
-// ============== THEME CUSTOMIZATION ============== 
-
-const openThemeModal = () => {
-    themeModal.style.display = 'grid';
-};
-
-const closeThemeModal = (e) => {
-    if (e.target.classList.contains('customize-theme')) {
-        themeModal.style.display = 'none';
-    }
-};
-
-themeModal.addEventListener('click', closeThemeModal);
-theme.addEventListener('click', openThemeModal);
-
-// ============== FONT SIZE ============== 
-
-const removeSizeSelectors = () => {
-    fontSize.forEach(size => size.classList.remove('active'));
-};
-
-fontSize.forEach(size => {
-    size.addEventListener('click', () => {
-        removeSizeSelectors();
-        size.classList.add('active');
-        let fontSize;
-        switch (true) {
-            case size.classList.contains('font-size-1'):
-                fontSize = '10px';
-                break;
-            case size.classList.contains('font-size-2'):
-                fontSize = '13px';
-                break;
-            case size.classList.contains('font-size-3'):
-                fontSize = '16px';
-                break;
-            case size.classList.contains('font-size-4'):
-                fontSize = '19px';
-                break;
-            case size.classList.contains('font-size-5'):
-                fontSize = '22px';
-                break;
+// ============== SAVE POOLS FROM `pool.html` ============== 
+window.addEventListener('load', () => {
+    const params = new URLSearchParams(window.location.search);
+    if (params.has('joinPool')) {
+        const newPool = params.get('joinPool');
+        if (!savedPools.includes(newPool)) {
+            savedPools.push(newPool);
+            localStorage.setItem('joinedPools', JSON.stringify(savedPools));
+            renderPools();
         }
-        document.querySelector('html').style.fontSize = fontSize;
-    });
+    }
 });
 
-// ============== PRIMARY COLOR CUSTOMIZATION ============== 
+// ============== THEME SWITCH FUNCTIONALITY ============== 
+const themeButton = document.querySelector('.menu-item:nth-child(6)'); // Theme button in sidebar
 
-const changeActiveColorClass = () => {
-    colorPalette.forEach(colorPicker => colorPicker.classList.remove('active'));
-};
-
-colorPalette.forEach(color => {
-    color.addEventListener('click', () => {
-        changeActiveColorClass();
-        color.classList.add('active');
-        const primaryHues = {
-            'color-1': 220,
-            'color-2': 52,
-            'color-3': 352,
-            'color-4': 152,
-            'color-5': 202
-        };
-        root.style.setProperty('--primary-color-hue', primaryHues[color.classList[0]]);
-    });
+themeButton.addEventListener('click', () => {
+    document.body.classList.toggle('dark-mode');
+    localStorage.setItem('theme', document.body.classList.contains('dark-mode') ? 'dark' : 'light');
 });
 
-// ============== POST SYSTEM (Create, Store & Load) ============== 
-
-const loadPosts = () => {
-    postFeed.innerHTML = '';
-    posts.forEach((post, index) => {
-        const postElement = document.createElement('div');
-        postElement.classList.add('feed');
-        postElement.innerHTML = `
-            <div class="head">
-                <div class="user">
-                    <div class="profile-photo">
-                        <img src="./images/user-profile.jpg">
-                    </div>
-                    <div class="info">
-                        <h3>${post.username}</h3>
-                        <small>${post.timestamp}</small>
-                    </div>
-                </div>
-                <span class="edit">
-                    <i class="uil uil-ellipsis-h"></i>
-                </span>
-            </div>
-            <p>${post.text}</p>
-            <div class="action-buttons">
-                <span class="like-btn" onclick="likePost(${index})">
-                    <i class="uil uil-heart"></i> ${post.likes}
-                </span>
-                <span class="comment-btn" onclick="toggleComments(${index})">
-                    <i class="uil uil-comment-dots"></i> ${post.comments.length}
-                </span>
-            </div>
-            <div class="comments" id="comments-${index}" style="display: none;">
-                ${post.comments.map(comment => `<p>${comment}</p>`).join('')}
-                <input type="text" placeholder="Add a comment..." id="comment-input-${index}">
-                <button onclick="addComment(${index})">Post</button>
-            </div>
-        `;
-        postFeed.appendChild(postElement);
-    });
-};
-
-const addPost = (e) => {
-    e.preventDefault();
-    const text = postInput.value.trim();
-    if (!text) return;
-    const newPost = {
-        username: 'Simon Drastil',
-        text,
-        timestamp: new Date().toLocaleString(),
-        likes: 0,
-        comments: []
-    };
-    posts.unshift(newPost);
-    localStorage.setItem('posts', JSON.stringify(posts));
-    postInput.value = '';
-    loadPosts();
-};
-
-postForm.addEventListener('submit', addPost);
-
-// ============== LIKE SYSTEM ============== 
-
-const likePost = (index) => {
-    posts[index].likes++;
-    localStorage.setItem('posts', JSON.stringify(posts));
-    loadPosts();
-};
-
-// ============== COMMENT SYSTEM ============== 
-
-const toggleComments = (index) => {
-    const commentSection = document.getElementById(`comments-${index}`);
-    commentSection.style.display = commentSection.style.display === 'none' ? 'block' : 'none';
-};
-
-const addComment = (index) => {
-    const commentInput = document.getElementById(`comment-input-${index}`);
-    const commentText = commentInput.value.trim();
-    if (!commentText) return;
-    posts[index].comments.push(commentText);
-    localStorage.setItem('posts', JSON.stringify(posts));
-    commentInput.value = '';
-    loadPosts();
-};
-
-// Initial Load
-loadPosts();
-loadJoinedPools();
+// Apply saved theme
+if (localStorage.getItem('theme') === 'dark') {
+    document.body.classList.add('dark-mode');
+}
