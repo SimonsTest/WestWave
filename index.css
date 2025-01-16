@@ -1,4 +1,4 @@
-/* General Variables and Styling */
+/* General Variables */
 .wrapper {
   --input-focus: #2d8cf0;
   --font-color: #323232;
@@ -96,7 +96,7 @@
   text-decoration: underline;
 }
 
-/* Flip Card Inner */
+/* Flip Card */
 .flip-card__inner {
   width: 300px;
   height: 350px;
@@ -152,7 +152,7 @@
   color: var(--main-color);
 }
 
-/* Input Styling */
+/* Inputs */
 .flip-card__input {
   width: 250px;
   height: 40px;
@@ -191,7 +191,7 @@
   cursor: pointer;
 }
 
-.flip-card__btn:active {
+.flip-card__btn:active, .button-confirm:active {
   box-shadow: 0px 0px var(--main-color);
   transform: translate(3px, 3px);
 }
