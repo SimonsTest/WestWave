@@ -4,20 +4,14 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>WestWave | Loading</title>
-    <link rel="stylesheet" href="loader.css">
+    <link rel="stylesheet" href="loader.css"> <!-- Link to the CSS -->
 </head>
 <body>
-    <!-- Loader -->
+    <!-- Loader Container -->
     <div class="loader-container">
-        <div class="loader"></div>
+        <div class="loader"></div> <!-- The loader animation -->
     </div>
 
-    <script>
-        window.onload = function() {
-            setTimeout(function() {
-                window.location.href = 'home.html';  // Redirect to home after the loader finishes
-            }, 3000);  // Adjust the timeout duration as needed (currently set to 3 seconds)
-        };
-    </script>
+    <script src="loader.js"></script> <!-- Link to the JS -->
 </body>
 </html>
