@@ -10,7 +10,6 @@
     <div class="wrapper">
         <div class="login-form">
             <h1>Log In</h1>
-            <!-- Add the onsubmit event to redirect after login -->
             <form onsubmit="redirectToHome(event)">
                 <input type="email" placeholder="Email" required>
                 <input type="password" placeholder="Password" required>
@@ -28,11 +27,9 @@
         </div>
     </div>
 
-    <!-- Add the JavaScript for redirection -->
     <script>
         function redirectToHome(event) {
             event.preventDefault(); // Prevent default form submission
-            // Add validation logic here if needed
             window.location.href = "home.html"; // Redirect to the home page
         }
     </script>
