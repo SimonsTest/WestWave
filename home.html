@@ -1,19 +1,20 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <link rel="stylesheet" href="home.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>WestWave | Home</title>
+    <link rel="stylesheet" href="home.css">
+    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
 </head>
 <body>
 
-    <!-- Header Section -->
+    <!-- Navbar (Instagram-style top bar) -->
     <header>
         <nav class="navbar">
             <div class="container">
                 <div class="logo">
-                    <a href="#">
-                        <img src="westwave_logo.png" alt="WestWave Logo" height="30px">
-                    </a>
+                    <a href="#"><img src="westwave_logo.png" alt="WestWave Logo" height="30px"></a>
                 </div>
                 <div class="searchbar">
                     <input type="text" placeholder="Search WestWave">
@@ -38,9 +39,10 @@
         </nav>
     </header>
 
-    <!-- Pools Section (Similar to Instagram Stories) -->
+    <!-- Main Layout -->
     <main>
         <div class="container">
+            <!-- Left Column: Pools (Replacing Stories) -->
             <div class="col-9">
                 <div class="pools">
                     <div class="pool">
@@ -69,11 +71,11 @@
                     </div>
                 </div>
 
-                <!-- Post Feed (From Local Storage) -->
+                <!-- Post Feed -->
                 <div id="feed-container"></div>
             </div>
 
-            <!-- Sidebar with Suggestions -->
+            <!-- Right Column: Suggested Pools -->
             <div class="col-3">
                 <div class="card">
                     <h4>Suggested Pools</h4>
@@ -104,81 +106,6 @@
         </div>
     </main>
 
-    <script>
-        document.addEventListener("DOMContentLoaded", loadPosts);
-
-        function loadPosts() {
-            const feedContainer = document.getElementById("feed-container");
-            feedContainer.innerHTML = "";
-
-            let posts = JSON.parse(localStorage.getItem("posts")) || [];
-
-            posts.forEach((post, index) => {
-                const postElement = document.createElement("div");
-                postElement.classList.add("post");
-
-                postElement.innerHTML = `
-                    <div class="post-header">
-                        <div class="user-info">
-                            <img src="user_avatar.png" alt="User">
-                            <h3>WestWave User</h3>
-                        </div>
-                        <span class="dot">⋮</span>
-                    </div>
-                    <p>${post.text}</p>
-                    ${post.image ? `<img src="${post.image}" alt="Post Image">` : ""}
-                    <div class="post-actions">
-                        <button onclick="toggleComments(${index})">💬 Comments</button>
-                    </div>
-                    <div class="comments hidden" id="comments-${index}">
-                        <input type="text" id="commentInput-${index}" placeholder="Write a comment">
-                        <button onclick="addComment(${index})">Post</button>
-                        <ul id="commentList-${index}">
-                            ${post.comments.map(comment => `<li>${comment}</li>`).join('')}
-                        </ul>
-                    </div>
-                `;
-
-                feedContainer.appendChild(postElement);
-            });
-        }
-
-        function addPost() {
-            let postText = document.getElementById("postText").value.trim();
-            let postImage = document.getElementById("postImageURL").value.trim();
-            
-            if (!postText) return;
-
-            let posts = JSON.parse(localStorage.getItem("posts")) || [];
-            posts.unshift({ text: postText, image: postImage, comments: [] });
-
-            localStorage.setItem("posts", JSON.stringify(posts));
-            document.getElementById("postText").value = "";
-            document.getElementById("postImageURL").value = "";
-
-            loadPosts();
-        }
-
-        function addComment(index) {
-            let commentInput = document.getElementById(`commentInput-${index}`);
-            let commentText = commentInput.value.trim();
-
-            if (!commentText) return;
-
-            let posts = JSON.parse(localStorage.getItem("posts")) || [];
-            posts[index].comments.push(commentText);
-
-            localStorage.setItem("posts", JSON.stringify(posts));
-            commentInput.value = "";
-
-            loadPosts();
-        }
-
-        function toggleComments(index) {
-            let commentSection = document.getElementById(`comments-${index}`);
-            commentSection.classList.toggle("hidden");
-        }
-    </script>
-
+    <script src="home.js"></script>
 </body>
 </html>
