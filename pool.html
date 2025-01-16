@@ -11,16 +11,30 @@
 
     <div class="container">
         <h1>Join a Pool</h1>
-        <p>Flip the cards to learn more and join a pool.</p>
+        <p>Use the arrows to flip through pools. Click the card to flip it.</p>
 
-        <div class="pool-grid" id="pool-list">
-            <!-- Pool cards will be dynamically generated here -->
+        <div class="flashcard-container">
+            <button class="nav-btn" id="prev-btn">&#10094;</button> 
+
+            <div class="card" id="pool-card">
+                <div class="content">
+                    <div class="front" id="pool-front">
+                        <p class="pool-name"></p>
+                    </div>
+                    <div class="back" id="pool-back">
+                        <p class="pool-description"></p>
+                        <button class="join-btn" id="join-pool-btn">Join</button>
+                    </div>
+                </div>
+            </div>
+
+            <button class="nav-btn" id="next-btn">&#10095;</button>
         </div>
 
         <button class="btn-primary" id="go-home">Go to Home</button>
     </div>
 
-    <script src="./pool.js"></script>
+    <script src="pool.js"></script>
 
 </body>
 </html>
