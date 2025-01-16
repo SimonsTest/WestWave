@@ -4,110 +4,95 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>WestWave | Home</title>
-    <link rel="stylesheet" href="home.css">
+    <link rel="stylesheet" href="index.css">
 </head>
 <body>
-    <!-- Header Section -->
+
     <header>
-        <div class="header-container">
-            <!-- Logo -->
-            <div class="logo">
-                <img src="Screenshot_2025-01-15_at_10.26.27_PM-removebg-preview.png" alt="WestWave Logo">
-            </div>
-            <!-- Navigation Icons -->
-            <div class="nav-icons">
-                <img src="icons/heart.svg" alt="Notifications">
-                <img src="icons/chat.svg" alt="Messages">
-                <img src="icons/add.svg" alt="Add Post">
-            </div>
-        </div>
+        <h1>WestWave</h1>
+        <button id="addPostBtn">+ Add Post</button>
     </header>
 
-    <!-- Stories Section -->
-    <section class="stories">
-        <div class="story-container">
-            <div class="story">
-                <img src="story1.jpg" alt="Your Story">
-                <p>Your Story</p>
-            </div>
-            <div class="story">
-                <img src="story2.jpg" alt="Friend's Story">
-                <p>Friend</p>
-            </div>
-            <div class="story">
-                <img src="story3.jpg" alt="Another Story">
-                <p>Another</p>
-            </div>
-            <div class="story">
-                <img src="story4.jpg" alt="More Story">
-                <p>More</p>
-            </div>
-        </div>
-    </section>
-
-    <!-- Feed Section -->
     <main>
-        <!-- Post 1 -->
-        <article class="post">
-            <header class="post-header">
-                <div class="post-user">
-                    <img src="profile-placeholder.png" alt="User Profile">
-                    <p><strong>Username</strong></p>
-                </div>
-                <img src="icons/more.svg" alt="More Options">
-            </header>
-            <div class="post-image">
-                <img src="post-image-placeholder.jpg" alt="Post Image">
-            </div>
-            <div class="post-actions">
-                <button class="action-btn">Like</button>
-                <button class="action-btn">Comment</button>
-                <button class="action-btn">Share</button>
-            </div>
-            <div class="post-details">
-                <p><strong>Username</strong> Caption text goes here...</p>
-                <p>Liked by <strong>user1</strong> and others</p>
-                <a href="#">View all comments</a>
-            </div>
-        </article>
+        <div id="postFormContainer" class="hidden">
+            <textarea id="postText" placeholder="Write something..."></textarea>
+            <input type="text" id="postImageURL" placeholder="Image URL (optional)">
+            <button onclick="addPost()">Post</button>
+        </div>
 
-        <!-- Post 2 -->
-        <article class="post">
-            <header class="post-header">
-                <div class="post-user">
-                    <img src="profile-placeholder.png" alt="User Profile">
-                    <p><strong>AnotherUser</strong></p>
-                </div>
-                <img src="icons/more.svg" alt="More Options">
-            </header>
-            <div class="post-image">
-                <img src="post-image-placeholder-2.jpg" alt="Post Image">
-            </div>
-            <div class="post-actions">
-                <button class="action-btn">Like</button>
-                <button class="action-btn">Comment</button>
-                <button class="action-btn">Share</button>
-            </div>
-            <div class="post-details">
-                <p><strong>AnotherUser</strong> Another caption...</p>
-                <p>Liked by <strong>user2</strong> and others</p>
-                <a href="#">View all comments</a>
-            </div>
-        </article>
+        <div id="feed-container"></div>
     </main>
 
-    <!-- Bottom Navigation -->
-    <footer>
-        <nav class="bottom-nav">
-            <img src="icons/home.svg" alt="Home">
-            <img src="icons/search.svg" alt="Search">
-            <img src="icons/add.svg" alt="Add Post">
-            <img src="icons/heart.svg" alt="Notifications">
-            <img src="icons/profile.svg" alt="Profile">
-        </nav>
-    </footer>
+    <script>
+        document.addEventListener("DOMContentLoaded", loadPosts);
 
-    <!-- JavaScript -->
-    <script src="home.js"></script>
+        function loadPosts() {
+            const feedContainer = document.getElementById("feed-container");
+            feedContainer.innerHTML = "";
+
+            let posts = JSON.parse(localStorage.getItem("posts")) || [];
+
+            posts.forEach((post, index) => {
+                const postElement = document.createElement("div");
+                postElement.classList.add("post");
+
+                postElement.innerHTML = `
+                    <p>${post.text}</p>
+                    ${post.image ? `<img src="${post.image}" alt="Post Image">` : ""}
+                    <button onclick="toggleComments(${index})">💬 Comments</button>
+                    <div class="comments hidden" id="comments-${index}">
+                        <input type="text" id="commentInput-${index}" placeholder="Write a comment">
+                        <button onclick="addComment(${index})">Post</button>
+                        <ul id="commentList-${index}">
+                            ${post.comments.map(comment => `<li>${comment}</li>`).join('')}
+                        </ul>
+                    </div>
+                `;
+
+                feedContainer.appendChild(postElement);
+            });
+        }
+
+        function addPost() {
+            let postText = document.getElementById("postText").value;
+            let postImage = document.getElementById("postImageURL").value;
+            
+            if (!postText.trim()) return;
+
+            let posts = JSON.parse(localStorage.getItem("posts")) || [];
+            posts.push({ text: postText, image: postImage, comments: [] });
+
+            localStorage.setItem("posts", JSON.stringify(posts));
+            document.getElementById("postText").value = "";
+            document.getElementById("postImageURL").value = "";
+
+            loadPosts();
+        }
+
+        function addComment(index) {
+            let commentInput = document.getElementById(`commentInput-${index}`);
+            let commentText = commentInput.value.trim();
+
+            if (!commentText) return;
+
+            let posts = JSON.parse(localStorage.getItem("posts")) || [];
+            posts[index].comments.push(commentText);
+
+            localStorage.setItem("posts", JSON.stringify(posts));
+            commentInput.value = "";
+
+            loadPosts();
+        }
+
+        function toggleComments(index) {
+            let commentSection = document.getElementById(`comments-${index}`);
+            commentSection.classList.toggle("hidden");
+        }
+
+        document.getElementById("addPostBtn").addEventListener("click", () => {
+            document.getElementById("postFormContainer").classList.toggle("hidden");
+        });
+    </script>
+
 </body>
 </html>
