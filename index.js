@@ -1,42 +1,41 @@
 <script>
-    // Redirect to Loader.html after form submission
-    function redirectToLoader(event) {
-        event.preventDefault(); // Prevent the default form submission behavior
-        window.location.href = "Loader.html"; // Redirect to the loader page
-    }
+    // Handle form submission with server interaction
+    async function handleFormSubmit(event) {
+        event.preventDefault(); // Prevent default form submission
 
-    // Optional: Add form validation
-    function validateForm(event) {
         const form = event.target;
-        const emailInput = form.querySelector('input[name="email"]');
-        const passwordInput = form.querySelector('input[name="password"]');
+        const email = form.querySelector('input[name="email"]').value;
+        const password = form.querySelector('input[name="password"]').value;
 
-        // Check if fields are empty
-        if (!emailInput.value || !passwordInput.value) {
-            alert("All fields are required!");
-            event.preventDefault(); // Stop submission
-            return false;
+        try {
+            // Send data to the server
+            const response = await fetch('/api/auth', { // Replace '/api/auth' with your actual endpoint
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ email, password }),
+            });
+
+            if (response.ok) {
+                // If login/signup succeeds, redirect to the loader
+                window.location.href = "Loader.html";
+            } else {
+                // Handle errors (e.g., invalid credentials)
+                const errorData = await response.json();
+                alert(errorData.message || "Something went wrong. Please try again.");
+            }
+        } catch (error) {
+            console.error("Error during form submission:", error);
+            alert("An error occurred. Please check your connection and try again.");
         }
-
-        // Validate email format
-        if (!emailInput.value.includes("@")) {
-            alert("Please enter a valid email address.");
-            event.preventDefault(); // Stop submission
-            return false;
-        }
-
-        // If all checks pass, proceed to loader
-        redirectToLoader(event);
     }
 
-    // Attach validation to the forms
+    // Attach the new handler to forms
     document.addEventListener("DOMContentLoaded", () => {
-        // Select all forms on the page
         const forms = document.querySelectorAll(".flip-card__form");
 
-        // Add the validateForm function to each form's submit event
+        // Add the server interaction function to each form's submit event
         forms.forEach((form) => {
-            form.addEventListener("submit", validateForm);
+            form.addEventListener("submit", handleFormSubmit);
         });
     });
 </script>
