@@ -1,113 +1,142 @@
-// List of pools with descriptions
+// List of available pools
 const pools = [
-    { name: "Terra", desc: "Environmental and sustainability discussions." },
-    { name: "Tor", desc: "A place for tech enthusiasts and security experts." },
-    { name: "Titus", desc: "Leadership and debate community." },
-    { name: "Triton", desc: "Oceanography and marine studies." },
-    { name: "Executive", desc: "Exclusive community for student executives." },
-    { name: "Grades", desc: "Homework help and academic discussions." },
-    { name: "Committees", desc: "Organizing events and school committees." },
-    { name: "All US", desc: "All United States student discussions." },
-    { name: "Announcement", desc: "Important school-wide announcements." },
-    { name: "Common Wealth", desc: "A hub for financial and economics talks." },
-    { name: "Baking", desc: "For aspiring and professional bakers." },
-    { name: "Book", desc: "Book club and literary discussions." },
-    { name: "Model UN", desc: "Model United Nations strategy and preparation." },
-    { name: "Climbing", desc: "Rock climbing and outdoor adventures." },
-    { name: "Yearbook", desc: "Photography and yearbook contributions." },
-    { name: "Mandarin", desc: "Learning Mandarin and Chinese culture." },
-    { name: "Quizbowl", desc: "Competitive trivia and knowledge games." },
-    { name: "Community Service", desc: "Volunteering and social impact projects." },
-    { name: "Debate", desc: "Formal debating and argumentation practice." },
-    { name: "Cheer", desc: "Cheerleading squad discussions and practices." },
-    { name: "Basketball", desc: "For basketball players and fans." },
-    { name: "Cross Country", desc: "Long-distance running and training." },
-    { name: "Track", desc: "Track and field training and events." },
-    { name: "Volleyball", desc: "Volleyball team and competitive matches." },
-    { name: "Middle School Basketball", desc: "MS basketball team discussions." },
-    { name: "MS Track", desc: "Middle school track and field group." }
+    { name: "Terra", description: "An exclusive group for deep discussions and research." },
+    { name: "Tor", description: "A place for tech enthusiasts and coding experts." },
+    { name: "Titus", description: "Leadership and mentorship community." },
+    { name: "Triton", description: "A dynamic hub for competitive debate and public speaking." },
+    { name: "Executive", description: "For student leaders managing key decisions." },
+    { name: "Grades", description: "Study groups and academic resources." },
+    { name: "Committees", description: "Organizational discussions and event planning." },
+    { name: "All US", description: "General forum for all US students." },
+    { name: "Announcement", description: "Stay updated with important school news." },
+    { name: "Common Wealth", description: "A collaborative space for international students." },
+    { name: "Baking", description: "Share recipes and baking tips with fellow food lovers." },
+    { name: "Book", description: "Book club for literature lovers and authors." },
+    { name: "Model UN", description: "Engage in international diplomacy and Model UN events." },
+    { name: "Climbing", description: "A group for rock climbers and adventure seekers." },
+    { name: "Yearbook", description: "Contribute to the school yearbook and capture memories." },
+    { name: "Mandarin", description: "Learn and practice Mandarin together." },
+    { name: "Quizbol", description: "For trivia and quiz bowl enthusiasts." },
+    { name: "Community Service", description: "Organize and participate in charity events." },
+    { name: "Debate", description: "Engage in structured debates and argumentation." },
+    { name: "Cheer", description: "Cheerleading squad discussions and coordination." },
+    { name: "Basketball", description: "Basketball news, training, and team discussions." },
+    { name: "Cross Country", description: "Long-distance running and endurance training." },
+    { name: "Track", description: "Sprint training and track & field competitions." },
+    { name: "Volleyball", description: "For volleyball players and enthusiasts." },
+    { name: "Middle School Basketball", description: "Basketball team for younger students." },
+    { name: "MS Track", description: "Middle school track team coordination." }
 ];
 
-// Load previously joined pools from Local Storage
-const joinedPools = JSON.parse(localStorage.getItem('joinedPools')) || [];
+// Elements
+const cardContainer = document.querySelector(".card-container");
+const joinedList = document.querySelector(".joined-list");
+const leftBtn = document.querySelector(".nav-btn.left");
+const rightBtn = document.querySelector(".nav-btn.right");
 
-// Get DOM elements
-const poolCard = document.getElementById("pool-card");
-const poolName = document.getElementById("pool-name");
-const poolDescription = document.getElementById("pool-description");
-const joinPoolBtn = document.getElementById("join-pool-btn");
-const prevBtn = document.getElementById("prev-btn");
-const nextBtn = document.getElementById("next-btn");
+// Load joined pools from localStorage
+let joinedPools = JSON.parse(localStorage.getItem("joinedPools")) || [];
 
-// Current pool index
-let currentPoolIndex = 0;
-
-// Function to Load Current Pool
-const loadPool = () => {
-    const pool = pools[currentPoolIndex];
-    poolName.textContent = pool.name;
-    poolDescription.textContent = pool.desc;
-
-    // Update button text based on join status
-    if (joinedPools.includes(pool.name)) {
-        joinPoolBtn.textContent = "Joined";
-        joinPoolBtn.classList.add("joined");
+// Function to update the joined pools section
+function updateJoinedPools() {
+    joinedList.innerHTML = "";
+    if (joinedPools.length === 0) {
+        joinedList.innerHTML = "<p>No pools joined yet.</p>";
     } else {
-        joinPoolBtn.textContent = "Join";
-        joinPoolBtn.classList.remove("joined");
+        joinedPools.forEach(pool => {
+            const poolItem = document.createElement("div");
+            poolItem.classList.add("pool-item");
+            poolItem.textContent = pool;
+            joinedList.appendChild(poolItem);
+        });
     }
-};
+}
 
-// Function to Flip Card
-poolCard.addEventListener("click", () => {
-    poolCard.classList.toggle("flipped");
-});
+// Function to create pool cards
+function createPoolCards() {
+    cardContainer.innerHTML = "";
+    pools.forEach((pool, index) => {
+        const card = document.createElement("div");
+        card.classList.add("card");
 
-// Function to Navigate to the Previous Pool
-prevBtn.addEventListener("click", () => {
-    if (currentPoolIndex > 0) {
-        currentPoolIndex--;
-        poolCard.classList.remove("flipped"); // Reset flip
-        loadPool();
-    }
-});
+        card.innerHTML = `
+            <div class="content">
+                <div class="front">
+                    <div class="img">
+                        <div class="circle"></div>
+                        <div class="circle" id="right"></div>
+                        <div class="circle" id="bottom"></div>
+                    </div>
+                    <div class="front-content">
+                        <small class="badge">${index + 1} / ${pools.length}</small>
+                        <div class="description">
+                            <div class="title">
+                                <p class="title"><strong>${pool.name}</strong></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="back">
+                    <div class="back-content">
+                        <p>${pool.description}</p>
+                        <button class="join-btn" data-pool="${pool.name}">
+                            ${joinedPools.includes(pool.name) ? "Joined ✅" : "Join Pool"}
+                        </button>
+                    </div>
+                </div>
+            </div>
+        `;
 
-// Function to Navigate to the Next Pool
-nextBtn.addEventListener("click", () => {
-    if (currentPoolIndex < pools.length - 1) {
-        currentPoolIndex++;
-        poolCard.classList.remove("flipped"); // Reset flip
-        loadPool();
-    }
-});
+        cardContainer.appendChild(card);
+    });
 
-// Function to Join/Unjoin a Pool
-joinPoolBtn.addEventListener("click", (e) => {
-    e.stopPropagation(); // Prevent flipping when clicking the button
+    // Attach event listeners for join buttons
+    document.querySelectorAll(".join-btn").forEach(button => {
+        button.addEventListener("click", function () {
+            const poolName = this.getAttribute("data-pool");
 
-    const pool = pools[currentPoolIndex].name;
+            if (!joinedPools.includes(poolName)) {
+                joinedPools.push(poolName);
+                this.textContent = "Joined ✅";
+            }
 
-    if (joinedPools.includes(pool)) {
-        // Remove from joined pools
-        const index = joinedPools.indexOf(pool);
-        joinedPools.splice(index, 1);
-        joinPoolBtn.textContent = "Join";
-        joinPoolBtn.classList.remove("joined");
+            localStorage.setItem("joinedPools", JSON.stringify(joinedPools));
+            updateJoinedPools();
+        });
+    });
+}
+
+// Carousel Navigation
+let currentIndex = 0;
+
+function showCurrentCard() {
+    const cards = document.querySelectorAll(".card");
+    cards.forEach((card, index) => {
+        card.style.display = index === currentIndex ? "block" : "none";
+    });
+}
+
+// Left Button Click
+leftBtn.addEventListener("click", () => {
+    if (currentIndex > 0) {
+        currentIndex--;
     } else {
-        // Add to joined pools
-        joinedPools.push(pool);
-        joinPoolBtn.textContent = "Joined";
-        joinPoolBtn.classList.add("joined");
+        currentIndex = pools.length - 1; // Loop to last card
     }
-
-    // Save the updated joined pools list in Local Storage
-    localStorage.setItem('joinedPools', JSON.stringify(joinedPools));
+    showCurrentCard();
 });
 
-// Function to Redirect to Home Page
-document.getElementById("go-home").addEventListener("click", () => {
-    window.location.href = "home.html";
+// Right Button Click
+rightBtn.addEventListener("click", () => {
+    if (currentIndex < pools.length - 1) {
+        currentIndex++;
+    } else {
+        currentIndex = 0; // Loop to first card
+    }
+    showCurrentCard();
 });
 
-// Initial Load
-loadPool();
+// Initialize
+createPoolCards();
+showCurrentCard();
+updateJoinedPools();
