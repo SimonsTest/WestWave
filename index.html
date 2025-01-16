@@ -3,39 +3,38 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Registration | WestWave</title>
-    <link rel="stylesheet" href="index.css">
+    <title>Log In | WestWave</title>
+    <link rel="stylesheet" href="registration.css">
 </head>
 <body>
     <div class="wrapper">
-        <div class="card-switch">
-            <label class="switch">
-                <input type="checkbox" class="toggle">
-                <span class="slider"></span>
-                <span class="card-side"></span>
-                <div class="flip-card__inner">
-                    <!-- Login Form -->
-                    <div class="flip-card__front">
-                        <div class="title">Log in</div>
-                        <form class="flip-card__form" action="Loader.html">
-                            <input class="flip-card__input" name="email" placeholder="Email" type="email" required>
-                            <input class="flip-card__input" name="password" placeholder="Password" type="password" required>
-                            <button type="submit" class="flip-card__btn">Let`s go!</button>
-                        </form>
-                    </div>
-                    <!-- Sign Up Form -->
-                    <div class="flip-card__back">
-                        <div class="title">Sign up</div>
-                        <form class="flip-card__form" action="Loader.html">
-                            <input class="flip-card__input" name="name" placeholder="Name" type="text" required>
-                            <input class="flip-card__input" name="email" placeholder="Email" type="email" required>
-                            <input class="flip-card__input" name="password" placeholder="Password" type="password" required>
-                            <button type="submit" class="flip-card__btn">Confirm!</button>
-                        </form>
-                    </div>
-                </div>
-            </label>
-        </div>   
+        <div class="login-form">
+            <h1>Log In</h1>
+            <!-- Add the onsubmit event to redirect after login -->
+            <form onsubmit="redirectToHome(event)">
+                <input type="email" placeholder="Email" required>
+                <input type="password" placeholder="Password" required>
+                <button type="submit">Log In</button>
+            </form>
+        </div>
+        <div class="signup-form">
+            <h1>Sign Up</h1>
+            <form action="Loader.html">
+                <input type="text" placeholder="Name" required>
+                <input type="email" placeholder="Email" required>
+                <input type="password" placeholder="Password" required>
+                <button type="submit">Sign Up</button>
+            </form>
+        </div>
     </div>
+
+    <!-- Add the JavaScript for redirection -->
+    <script>
+        function redirectToHome(event) {
+            event.preventDefault(); // Prevent default form submission
+            // Add validation logic here if needed
+            window.location.href = "home.html"; // Redirect to the home page
+        }
+    </script>
 </body>
 </html>
