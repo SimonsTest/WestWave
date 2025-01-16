@@ -1,102 +1,105 @@
-// ============== SIDEBAR FUNCTIONALITY ============== 
-const menuItems = document.querySelectorAll('.menu-item');
-
-const changeActiveItem = () => {
-    menuItems.forEach(item => {
-        item.classList.remove('active');
-    });
-};
-
-menuItems.forEach(item => {
-    item.addEventListener('click', () => {
-        changeActiveItem();
-        item.classList.add('active');
-    });
+// 🌊 Load Posts on Page Load
+document.addEventListener("DOMContentLoaded", () => {
+    loadPosts();
+    updateOnlineFriends();
 });
 
-// ============== CREATE POST FUNCTIONALITY ============== 
-const postInput = document.querySelector('.create-post input');
-const postButton = document.querySelector('.create-post .btn-primary');
-const feedContainer = document.querySelector('.feed-container');
+// 📌 Load Posts from Local Storage
+function loadPosts() {
+    const postsContainer = document.getElementById("posts-container");
+    let posts = JSON.parse(localStorage.getItem("posts")) || [];
 
-postButton.addEventListener('click', () => {
-    const postText = postInput.value.trim();
+    postsContainer.innerHTML = ""; // Clear container before reloading posts
 
-    if (postText !== "") {
-        const post = document.createElement('div');
-        post.classList.add('feed');
-        post.innerHTML = `
-            <div class="head">
-                <div class="user-info">
-                    <img src="profile-pic.png" alt="User">
-                    <div class="details">
-                        <h4>Simon Drastil</h4>
-                        <small>Just now</small>
-                    </div>
-                </div>
+    posts.forEach((post, index) => {
+        const postElement = document.createElement("div");
+        postElement.classList.add("post");
+
+        postElement.innerHTML = `
+            <p>${post.text}</p>
+            ${post.image ? `<img src="${post.image}" class="post-image">` : ""}
+            <small>Posted at ${post.time}</small>
+            <div class="post-actions">
+                <button onclick="likePost(${index})">❤️ ${post.likes} Likes</button>
+                <button onclick="commentPost(${index})">💬 ${post.comments.length} Comments</button>
+                <button onclick="sharePost(${index})">🔗 Share</button>
             </div>
-            <div class="post-content">${postText}</div>
-            <div class="actions">
-                <button>👍 Like</button>
-                <button>💬 Comment</button>
-                <button>🔄 Share</button>
+            <div class="comments-section" id="comments-${index}">
+                ${post.comments.map(comment => `<p><strong>@user:</strong> ${comment}</p>`).join("")}
             </div>
         `;
-        feedContainer.prepend(post);
-        postInput.value = ""; // Clear input after posting
-    }
-});
 
-// ============== SEARCH FUNCTIONALITY ============== 
-const searchInput = document.querySelector('.search-bar input');
-searchInput.addEventListener('keyup', () => {
-    const searchTerm = searchInput.value.toLowerCase();
-    const posts = document.querySelectorAll('.feed');
-
-    posts.forEach(post => {
-        const text = post.querySelector('.post-content').textContent.toLowerCase();
-        post.style.display = text.includes(searchTerm) ? 'block' : 'none';
+        postsContainer.appendChild(postElement);
     });
-});
-
-// ============== JOINED POOLS FUNCTIONALITY ============== 
-const joinedPoolContainer = document.querySelector('.joined-pool-list');
-const savedPools = JSON.parse(localStorage.getItem('joinedPools')) || [];
-
-const renderPools = () => {
-    joinedPoolContainer.innerHTML = "";
-    savedPools.forEach(pool => {
-        const poolItem = document.createElement('div');
-        poolItem.classList.add('pool-item');
-        poolItem.textContent = pool;
-        joinedPoolContainer.appendChild(poolItem);
-    });
-};
-
-renderPools();
-
-// ============== SAVE POOLS FROM `pool.html` ============== 
-window.addEventListener('load', () => {
-    const params = new URLSearchParams(window.location.search);
-    if (params.has('joinPool')) {
-        const newPool = params.get('joinPool');
-        if (!savedPools.includes(newPool)) {
-            savedPools.push(newPool);
-            localStorage.setItem('joinedPools', JSON.stringify(savedPools));
-            renderPools();
-        }
-    }
-});
-
-// ============== THEME SWITCH FUNCTIONALITY ============== 
-const themeButton = document.querySelector('.menu-item:nth-child(6)'); // Theme button in sidebar
-
-themeButton.addEventListener('click', () => {
-    document.body.classList.toggle('dark-mode');
-    localStorage.setItem('theme', document.body.classList.contains('dark-mode') ? 'dark' : 'light');
-});
-
-// Apply saved theme
-if (localStorage.getItem('theme') === 'dark') {
-    document.body.classList.add('dark-mode');
 }
+
+// 📌 Submit New Post
+function submitPost() {
+    const postInput = document.getElementById("postInput");
+    const imageInput = document.getElementById("imageUpload");
+
+    let postText = postInput.value.trim();
+    if (postText === "") return;
+
+    let imageFile = imageInput.files[0];
+    let imageURL = imageFile ? URL.createObjectURL(imageFile) : null;
+
+    let newPost = {
+        text: postText,
+        image: imageURL,
+        time: new Date().toLocaleTimeString(),
+        likes: 0,
+        comments: []
+    };
+
+    let posts = JSON.parse(localStorage.getItem("posts")) || [];
+    posts.unshift(newPost);
+    localStorage.setItem("posts", JSON.stringify(posts));
+
+    postInput.value = "";
+    imageInput.value = "";
+    loadPosts();
+}
+
+// 📌 Like a Post
+function likePost(index) {
+    let posts = JSON.parse(localStorage.getItem("posts"));
+    posts[index].likes += 1;
+    localStorage.setItem("posts", JSON.stringify(posts));
+    loadPosts();
+}
+
+// 📌 Comment on a Post
+function commentPost(index) {
+    let commentText = prompt("Enter your comment:");
+    if (!commentText) return;
+
+    let posts = JSON.parse(localStorage.getItem("posts"));
+    posts[index].comments.push(commentText);
+    localStorage.setItem("posts", JSON.stringify(posts));
+    loadPosts();
+}
+
+// 📌 Share a Post
+function sharePost(index) {
+    alert("Post link copied to clipboard!");
+}
+
+// 📌 Update Online Friends
+function updateOnlineFriends() {
+    let friendsList = document.querySelector(".friends-section ul");
+    let friends = ["@friend1", "@friend2", "@friend3", "@friend4"];
+
+    friendsList.innerHTML = "";
+    friends.forEach(friend => {
+        let listItem = document.createElement("li");
+        listItem.innerHTML = `<span class="online-dot"></span> ${friend}`;
+        friendsList.appendChild(listItem);
+    });
+}
+
+// 📌 Auto-Update Every 30 Seconds
+setInterval(() => {
+    updateOnlineFriends();
+    loadPosts();
+}, 30000);
