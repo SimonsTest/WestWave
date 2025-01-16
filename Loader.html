@@ -1,12 +1,23 @@
-/* From Uiverse.io by G4b413l */ 
-<div class="newtons-cradle">
-<div class="newtons-cradle__dot"></div>
-<div class="newtons-cradle__dot"></div>
-<div class="newtons-cradle__dot"></div>
-<div class="newtons-cradle__dot"></div>
-</div> 
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WestWave | Loading</title>
+    <link rel="stylesheet" href="loader.css">
+</head>
+<body>
+    <!-- Loader -->
+    <div class="loader-container">
+        <div class="loader"></div>
+    </div>
 
-    <!-- Link to the loader.js file -->
-    <script src="loader.js"></script>
+    <script>
+        window.onload = function() {
+            setTimeout(function() {
+                window.location.href = 'home.html';  // Redirect to home after the loader finishes
+            }, 3000);  // Adjust the timeout duration as needed (currently set to 3 seconds)
+        };
+    </script>
 </body>
 </html>
