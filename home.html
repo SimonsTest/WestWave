@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>WestWave - Connect & Share</title>
     <!-- IconScout CDN -->
-    <link rel="stylesheet" href="Screenshot_2025-01-15_at_10.26.27_PM-removebg-preview.png">
+    <link rel="stylesheet" href="https://unicons.iconscout.com/release/v2.1.6/css/unicons.css">
     <!-- Stylesheet -->
     <link rel="stylesheet" href="./home.css">
 </head>
@@ -15,7 +15,7 @@
     <nav>
         <div class="container">
             <div class="logo">
-                <img src="Screenshot_2025-01-15_at_10.26.27_PM-removebg-preview.png" alt="WestWave Logo">
+                <img src="./images/Screenshot_2025-01-15_at_10.26.27_PM-removebg-preview.png" alt="WestWave Logo">
             </div>
             <div class="search-bar">
                 <i class="uil uil-search"></i>
@@ -51,9 +51,9 @@
                         <span><i class="uil uil-home"></i></span>
                         <h3>Home</h3>   
                     </a>
-                    <a class="menu-item">
-                        <span><i class="uil uil-users-alt"></i></span>
-                        <h3>Pools</h3>
+                    <a class="menu-item" id="join-pool">
+                        <span><i class="uil uil-plus-circle"></i></span>
+                        <h3>Join Pools</h3>
                     </a>
                     <a class="menu-item" id="notifications">
                         <span><i class="uil uil-bell"><small class="notification-count">5</small></i></span>
@@ -81,22 +81,11 @@
 
             <!----------------- MIDDLE CONTENT -------------------->
             <div class="middle">
-                <!----------------- POOLS -------------------->
-                <div class="pools">
-                    <h2>Join Pools</h2>
-                    <div class="pool-list">
-                        <div class="pool">
-                            <img src="./images/pool-1.jpg">
-                            <p>Tech Enthusiasts</p>
-                        </div>
-                        <div class="pool">
-                            <img src="./images/pool-2.jpg">
-                            <p>Basketball Fans</p>
-                        </div>
-                        <div class="pool">
-                            <img src="./images/pool-3.jpg">
-                            <p>Gaming Legends</p>
-                        </div>
+                <!----------------- JOINED POOLS SECTION -------------------->
+                <div class="joined-pools">
+                    <h2>Joined Pools</h2>
+                    <div class="joined-pool-list">
+                        <!-- Joined pools will be dynamically added here -->
                     </div>
                 </div>
 
