@@ -7,42 +7,144 @@
     <link rel="stylesheet" href="home.css">
 </head>
 <body>
-    <header class="home-header">
-        <h1>Welcome to WestWave</h1>
+    <!-- Header Section -->
+    <header>
+        <div class="container">
+            <!-- Logo -->
+            <div class="logo">
+                <img src="Screenshot_2025-01-15_at_10.26.27_PM-removebg-preview.png" alt="WestWave Logo">
+            </div>
+            <!-- Search Bar -->
+            <div class="search-bar">
+                <input type="text" placeholder="Search WestWave">
+            </div>
+            <!-- Navigation Icons -->
+            <div class="nav-icons">
+                <a href="#"><img src="icons/home.svg" alt="Home"></a>
+                <a href="#"><img src="icons/pools.svg" alt="Pools"></a>
+                <a href="#"><img src="icons/stories.svg" alt="Stories"></a>
+                <a href="#"><img src="icons/profile.svg" alt="Profile"></a>
+            </div>
+        </div>
     </header>
-    <main class="home-content">
-        <div id="navbody">
-            <form action="#">
-                <ul class="ul">
-                    <input checked name="rad" class="radio" id="choose1" type="radio" />
-                    <label for="choose1">
-                        <li class="li">
-                            🏠 Home
-                        </li>
-                    </label>
-                    <input class="radio" name="rad" id="choose2" type="radio" />
-                    <label for="choose2">
-                        <li class="li">
-                            🔍 Search
-                        </li>
-                    </label>
-                    <input class="radio" name="rad" id="choose3" type="radio" />
-                    <label for="choose3">
-                        <li class="li">
-                            📌 Favorites
-                        </li>
-                    </label>
-                    <input class="radio" name="rad" id="choose4" type="radio" />
-                    <label for="choose4">
-                        <li class="li">
-                            👤 Profile
-                        </li>
-                    </label>
-                </ul>
-            </form>
+
+    <!-- Main Content Section -->
+    <main>
+        <div class="container">
+            <!-- Left Sidebar -->
+            <aside class="sidebar-left">
+                <div class="user-profile">
+                    <img src="profile-placeholder.png" alt="User Profile Picture">
+                    <p>Welcome, <strong>Username</strong></p>
+                </div>
+                <nav>
+                    <ul>
+                        <li><a href="#">🏠 Home</a></li>
+                        <li><a href="#">💬 Pools</a></li>
+                        <li><a href="#">📸 Stories</a></li>
+                        <li><a href="#">👤 Profile</a></li>
+                    </ul>
+                </nav>
+            </aside>
+
+            <!-- Feed Section -->
+            <section class="feed">
+                <!-- Stories Section -->
+                <div class="stories">
+                    <h2>Stories</h2>
+                    <div class="story-container">
+                        <div class="story">Story 1</div>
+                        <div class="story">Story 2</div>
+                        <div class="story">Story 3</div>
+                        <div class="story">Story 4</div>
+                    </div>
+                </div>
+
+                <!-- Posts -->
+                <div class="post">
+                    <header>
+                        <div class="post-user">
+                            <img src="profile-placeholder.png" alt="User Profile Picture">
+                            <p><strong>Username</strong></p>
+                        </div>
+                        <div class="post-options">
+                            <img src="icons/more.svg" alt="More Options">
+                        </div>
+                    </header>
+                    <div class="post-image">
+                        <img src="post-image-placeholder.jpg" alt="Post Image">
+                    </div>
+                    <div class="post-actions">
+                        <img src="icons/like.svg" alt="Like">
+                        <img src="icons/comment.svg" alt="Comment">
+                        <img src="icons/share.svg" alt="Share">
+                    </div>
+                    <div class="post-caption">
+                        <p><strong>Username</strong> Caption text goes here...</p>
+                    </div>
+                    <div class="post-comments">
+                        <p><a href="#">View all comments</a></p>
+                    </div>
+                    <div class="post-time">
+                        <p>2 hours ago</p>
+                    </div>
+                </div>
+
+                <!-- Additional Posts -->
+                <div class="post">
+                    <header>
+                        <div class="post-user">
+                            <img src="profile-placeholder.png" alt="User Profile Picture">
+                            <p><strong>AnotherUser</strong></p>
+                        </div>
+                        <div class="post-options">
+                            <img src="icons/more.svg" alt="More Options">
+                        </div>
+                    </header>
+                    <div class="post-image">
+                        <img src="post-image-placeholder-2.jpg" alt="Post Image">
+                    </div>
+                    <div class="post-actions">
+                        <img src="icons/like.svg" alt="Like">
+                        <img src="icons/comment.svg" alt="Comment">
+                        <img src="icons/share.svg" alt="Share">
+                    </div>
+                    <div class="post-caption">
+                        <p><strong>AnotherUser</strong> Another caption...</p>
+                    </div>
+                    <div class="post-comments">
+                        <p><a href="#">View all comments</a></p>
+                    </div>
+                    <div class="post-time">
+                        <p>5 hours ago</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Right Sidebar -->
+            <aside class="sidebar-right">
+                <h3>Suggestions for You</h3>
+                <div class="suggestion">
+                    <img src="profile-placeholder.png" alt="Suggested User">
+                    <p><strong>User1</strong></p>
+                    <button>Follow</button>
+                </div>
+                <div class="suggestion">
+                    <img src="profile-placeholder.png" alt="Suggested User">
+                    <p><strong>User2</strong></p>
+                    <button>Follow</button>
+                </div>
+                <div class="suggestion">
+                    <img src="profile-placeholder.png" alt="Suggested User">
+                    <p><strong>User3</strong></p>
+                    <button>Follow</button>
+                </div>
+            </aside>
         </div>
     </main>
-    <footer class="home-footer">
+
+    <!-- Footer -->
+    <footer>
         <p>&copy; 2025 WestWave. All rights reserved.</p>
     </footer>
 </body>
