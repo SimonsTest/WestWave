@@ -1,119 +1,197 @@
-/* General Reset */
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
+/* General Variables and Styling */
+.wrapper {
+  --input-focus: #2d8cf0;
+  --font-color: #323232;
+  --font-color-sub: #666;
+  --bg-color: #fff;
+  --bg-color-alt: #666;
+  --main-color: #323232;
 }
 
-/* Body and Background */
-body {
-    font-family: Arial, sans-serif;
-    background: linear-gradient(135deg, #764ba2, #667eea); /* Turquoise gradient */
-    color: white;
-    margin: 0;
-    display: flex;
-    flex-direction: column;
-    min-height: 100vh;
+/* Switch Card */
+.switch {
+  transform: translateY(-200px);
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 30px;
+  width: 50px;
+  height: 20px;
 }
 
-/* Header */
-.home-header {
-    text-align: center;
-    padding: 20px;
-    background: rgba(0, 0, 0, 0.2);
-    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+.card-side::before {
+  position: absolute;
+  content: 'Log in';
+  left: -70px;
+  top: 0;
+  width: 100px;
+  text-decoration: underline;
+  color: var(--font-color);
+  font-weight: 600;
 }
 
-.home-header h1 {
-    font-size: 2rem;
+.card-side::after {
+  position: absolute;
+  content: 'Sign up';
+  left: 70px;
+  top: 0;
+  width: 100px;
+  text-decoration: none;
+  color: var(--font-color);
+  font-weight: 600;
 }
 
-/* Main Content */
-.home-content {
-    flex: 1;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+/* Toggle and Slider */
+.toggle {
+  opacity: 0;
+  width: 0;
+  height: 0;
 }
 
-/* Navigation Menu */
-#navbody {
-    width: 300px;
-    height: 60px;
-    background-color: rgb(255, 255, 255); /* White background */
-    border-radius: 40px;
-    box-shadow: 0px 10px 15px rgba(0, 0, 0, 0.041); /* Subtle shadow */
-    display: flex;
-    align-items: center;
-    justify-content: center;
+.slider {
+  box-sizing: border-box;
+  border-radius: 5px;
+  border: 2px solid var(--main-color);
+  box-shadow: 4px 4px var(--main-color);
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: var(--bg-color);
+  transition: 0.3s;
 }
 
-/* Menu Items */
-.ul {
-    list-style: none;
-    width: 100%;
-    background-color: transparent;
-    display: flex;
-    justify-content: space-between;
-    margin-top: 5px;
+.slider:before {
+  box-sizing: border-box;
+  position: absolute;
+  content: "";
+  height: 20px;
+  width: 20px;
+  border: 2px solid var(--main-color);
+  border-radius: 5px;
+  left: -2px;
+  bottom: 2px;
+  background-color: var(--bg-color);
+  box-shadow: 0 3px 0 var(--main-color);
+  transition: 0.3s;
 }
 
-.ul .li {
-    display: inline-block;
+.toggle:checked + .slider {
+  background-color: var(--input-focus);
 }
 
-/* Radio Buttons */
-.radio {
-    display: none;
+.toggle:checked + .slider:before {
+  transform: translateX(30px);
 }
 
-/* SVG Icons */
-.svg {
-    width: 70px;
-    height: 70px;
-    opacity: 80%;
-    cursor: pointer;
-    padding: 13px 20px;
-    transition: 0.2s;
+.toggle:checked ~ .card-side:before {
+  text-decoration: none;
 }
 
-/* Hover Effect on Icons */
-.ul .li .svg:hover {
-    transition: 0.1s;
-    color: rgb(235, 40, 176); /* Pink hover color */
-    position: relative;
-    margin-top: -4px; /* Subtle lift on hover */
-    opacity: 100%;
+.toggle:checked ~ .card-side:after {
+  text-decoration: underline;
 }
 
-/* Selected Icon Style */
-.radio:checked + label .li .svg {
-    color: rgb(235, 40, 176); /* Pink for selected icon */
-    fill-rule: evenodd;
+/* Flip Card Inner */
+.flip-card__inner {
+  width: 300px;
+  height: 350px;
+  position: relative;
+  background-color: transparent;
+  perspective: 1000px;
+  text-align: center;
+  transition: transform 0.8s;
+  transform-style: preserve-3d;
 }
 
-/* Footer */
-.home-footer {
-    text-align: center;
-    padding: 10px;
-    background: rgba(0, 0, 0, 0.2);
-    border-top: 1px solid rgba(255, 255, 255, 0.2);
-    font-size: 0.9rem;
+.toggle:checked ~ .flip-card__inner {
+  transform: rotateY(180deg);
 }
 
-/* Responsive Design */
-@media (max-width: 480px) {
-    #navbody {
-        width: 90%; /* Adjust width for smaller screens */
-    }
+.toggle:checked ~ .flip-card__front {
+  box-shadow: none;
+}
 
-    .svg {
-        width: 50px; /* Smaller icons on mobile */
-        height: 50px;
-        padding: 10px;
-    }
+.flip-card__front, .flip-card__back {
+  padding: 20px;
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+  background: lightgrey;
+  gap: 20px;
+  border-radius: 5px;
+  border: 2px solid var(--main-color);
+  box-shadow: 4px 4px var(--main-color);
+}
 
-    .home-header h1 {
-        font-size: 1.5rem; /* Adjust header size */
-    }
+.flip-card__back {
+  width: 100%;
+  transform: rotateY(180deg);
+}
+
+/* Forms */
+.flip-card__form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+}
+
+.title {
+  margin: 20px 0;
+  font-size: 25px;
+  font-weight: 900;
+  text-align: center;
+  color: var(--main-color);
+}
+
+/* Input Styling */
+.flip-card__input {
+  width: 250px;
+  height: 40px;
+  border-radius: 5px;
+  border: 2px solid var(--main-color);
+  background-color: var(--bg-color);
+  box-shadow: 4px 4px var(--main-color);
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--font-color);
+  padding: 5px 10px;
+  outline: none;
+}
+
+.flip-card__input::placeholder {
+  color: var(--font-color-sub);
+  opacity: 0.8;
+}
+
+.flip-card__input:focus {
+  border: 2px solid var(--input-focus);
+}
+
+/* Buttons */
+.flip-card__btn {
+  margin: 20px 0;
+  width: 120px;
+  height: 40px;
+  border-radius: 5px;
+  border: 2px solid var(--main-color);
+  background-color: var(--bg-color);
+  box-shadow: 4px 4px var(--main-color);
+  font-size: 17px;
+  font-weight: 600;
+  color: var(--font-color);
+  cursor: pointer;
+}
+
+.flip-card__btn:active {
+  box-shadow: 0px 0px var(--main-color);
+  transform: translate(3px, 3px);
 }
