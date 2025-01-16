@@ -3,88 +3,81 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>WestWave Home</title>
-    <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
-    <!-- Icons -->
-    <link rel="stylesheet" href="https://unicons.iconscout.com/release/v4.0.0/css/line.css">
-    <!-- CSS -->
+    <title>WestWave - Home</title>
     <link rel="stylesheet" href="home.css">
 </head>
 <body>
-    <!-- Navigation Bar -->
+
+    <!-- Navbar -->
     <nav>
         <div class="container">
             <div class="logo">
-                <img src="Screenshot_2025-01-15_at_10.26.27_PM-removebg-preview.png" alt="WestWave">
+                <img src="logo.png" alt="WestWave Logo">
             </div>
             <div class="search-bar">
-                <i class="uil uil-search"></i>
                 <input type="text" placeholder="Search for creators, inspirations, and communities">
             </div>
-            <div class="nav-links">
-                <a href="#" class="nav-item"><i class="uil uil-home"></i></a>
-                <a href="#" class="nav-item"><i class="uil uil-bell"></i></a>
-                <a href="#" class="nav-item"><i class="uil uil-envelope"></i></a>
-                <div class="profile-photo">
-                    <img src="./images/profile.jpg" alt="Profile">
-                </div>
+            <div class="nav-icons">
+                <i class="fas fa-home active"></i>
+                <i class="fas fa-users"></i>
+                <i class="fas fa-envelope"></i>
+                <i class="fas fa-cog"></i>
+                <img src="profile.png" class="profile-icon" alt="Profile">
             </div>
         </div>
     </nav>
 
     <!-- Main Content -->
-    <main>
-        <div class="container">
-            <!-- Sidebar -->
-            <aside class="left">
-                <div class="profile">
-                    <div class="profile-photo">
-                        <img src="./images/profile.jpg" alt="User">
-                    </div>
-                    <h3>John Doe</h3>
-                    <p>@johndoe</p>
-                </div>
-                <div class="menu">
-                    <a href="#" class="menu-item active"><i class="uil uil-home"></i>Home</a>
-                    <a href="pool.html" class="menu-item"><i class="uil uil-users-alt"></i>Join Pools</a>
-                    <a href="#" class="menu-item"><i class="uil uil-cog"></i>Settings</a>
-                </div>
-            </aside>
+    <main class="container">
+        <!-- Left Sidebar -->
+        <aside class="left-sidebar">
+            <div class="profile-card">
+                <img src="profile.png" alt="User">
+                <h3>John Doe</h3>
+                <p>@johndoe</p>
+            </div>
 
-            <!-- Middle Section -->
-            <section class="middle">
-                <div class="create-post">
-                    <div class="profile-photo">
-                        <img src="./images/profile.jpg" alt="User">
-                    </div>
-                    <input type="text" id="post-content" placeholder="What's on your mind, John?" />
-                    <button id="post-button" class="btn btn-primary">Post</button>
-                </div>
+            <ul class="sidebar-menu">
+                <li class="active"><i class="fas fa-home"></i> Home</li>
+                <li><i class="fas fa-users"></i> Join Pools</li>
+                <li><i class="fas fa-cog"></i> Settings</li>
+            </ul>
 
-                <div class="feeds" id="feed-container">
-                    <!-- Posts will be dynamically added here -->
-                </div>
-            </section>
+            <div class="suggested-pools">
+                <h4>Suggested Pools</h4>
+                <ul>
+                    <li>Terra</li>
+                    <li>Tor</li>
+                    <li>Triton</li>
+                    <li>Executive</li>
+                    <li>Grades</li>
+                </ul>
+            </div>
+        </aside>
 
-            <!-- Right Sidebar -->
-            <aside class="right">
-                <div class="suggestions">
-                    <h4>Suggested Pools</h4>
-                    <ul>
-                        <li><a href="#">Terra</a></li>
-                        <li><a href="#">Tor</a></li>
-                        <li><a href="#">Triton</a></li>
-                        <li><a href="#">Executive</a></li>
-                        <li><a href="#">Grades</a></li>
-                    </ul>
-                </div>
-            </aside>
-        </div>
+        <!-- Feed Section -->
+        <section class="feed">
+            <div class="post-box">
+                <img src="profile.png" class="post-user" alt="User">
+                <input type="text" id="post-input" placeholder="What's on your mind?" maxlength="280">
+                <button id="post-btn">Post</button>
+            </div>
+
+            <div id="feed-content"></div>
+        </section>
+
     </main>
 
-    <!-- JavaScript -->
+    <!-- Bottom Navigation -->
+    <footer class="bottom-nav">
+        <ul>
+            <li><i class="fas fa-home active"></i></li>
+            <li><i class="fas fa-users"></i></li>
+            <li><i class="fas fa-envelope"></i></li>
+            <li><i class="fas fa-cog"></i></li>
+        </ul>
+    </footer>
+
     <script src="home.js"></script>
 </body>
 </html>
