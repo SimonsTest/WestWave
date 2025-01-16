@@ -9,10 +9,12 @@ document.addEventListener("DOMContentLoaded", () => {
     const notificationIcon = document.getElementById("notification-icon");
     const notificationPanel = document.getElementById("notification-panel");
     const searchBar = document.getElementById("search-bar");
+    const joinedPoolsContainer = document.getElementById("joined-pools-list");
 
     // ===================== Load Previous Data =====================
     loadPosts();
     loadTheme();
+    loadJoinedPools(); // Load joined pools
     updateSidebarState();
 
     // ===================== Event Listeners =====================
@@ -22,11 +24,18 @@ document.addEventListener("DOMContentLoaded", () => {
         const postText = postInput.value.trim();
         if (postText === "") return;
 
+        const joinedPools = JSON.parse(localStorage.getItem("joinedPools")) || [];
+        if (joinedPools.length === 0) {
+            alert("Join at least one pool before posting!");
+            return;
+        }
+
         const newPost = {
             id: Date.now(),
             username: "User",
             content: postText,
             timestamp: new Date().toLocaleString(),
+            pool: joinedPools[0] // Assign to the first joined pool by default
         };
 
         savePost(newPost);
@@ -86,7 +95,7 @@ document.addEventListener("DOMContentLoaded", () => {
         postElement.classList.add("post");
         postElement.innerHTML = `
             <div class="post-header">
-                <h3>${post.username}</h3>
+                <h3>${post.username} <span class="pool-name">(${post.pool})</span></h3>
                 <small>${post.timestamp}</small>
             </div>
             <p>${post.content}</p>
@@ -157,4 +166,32 @@ document.addEventListener("DOMContentLoaded", () => {
             post.style.display = content.includes(query) ? "block" : "none";
         });
     }
+
+    // Load joined pools from localStorage and display them
+    function loadJoinedPools() {
+        const joinedPools = JSON.parse(localStorage.getItem("joinedPools")) || [];
+        joinedPoolsContainer.innerHTML = "";
+
+        if (joinedPools.length === 0) {
+            joinedPoolsContainer.innerHTML = "<p>No pools joined yet.</p>";
+        } else {
+            joinedPools.forEach(pool => {
+                const poolItem = document.createElement("div");
+                poolItem.classList.add("joined-pool");
+                poolItem.innerHTML = `
+                    <span>${pool}</span>
+                    <button class="leave-pool-btn" onclick="leavePool('${pool}')">❌ Leave</button>
+                `;
+                joinedPoolsContainer.appendChild(poolItem);
+            });
+        }
+    }
+
+    // Leave pool functionality
+    window.leavePool = (poolName) => {
+        let joinedPools = JSON.parse(localStorage.getItem("joinedPools")) || [];
+        joinedPools = joinedPools.filter(pool => pool !== poolName);
+        localStorage.setItem("joinedPools", JSON.stringify(joinedPools));
+        loadJoinedPools();
+    };
 });
