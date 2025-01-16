@@ -1,12 +1,7 @@
-// Function to handle the redirection after the loader animation
-function redirectToHome() {
-    // Redirect to home.html after 3 seconds
-    setTimeout(() => {
-        window.location.href = "home.html";
-    }, 3000); // Adjust the timing if needed
-}
-
-// Call the function when the DOM is fully loaded
-document.addEventListener("DOMContentLoaded", () => {
-    redirectToHome();
-});
+window.onload = function() {
+    // Set the duration for the loader animation
+    setTimeout(function() {
+        // Redirect to the home page after the loader finishes
+        window.location.href = 'home.html'; // Change to the correct home page URL
+    }, 3000);  // Duration of the loader in milliseconds (3 seconds in this case)
+};
