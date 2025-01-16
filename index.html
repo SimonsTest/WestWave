@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Registration | WestWave</title>
-    <link rel="stylesheet" href="registration.css">
+    <title>Sign Up | WestWave</title>
+    <link rel="stylesheet" href="index.css">
 </head>
 <body>
     <div class="wrapper">
@@ -14,19 +14,19 @@
                 <span class="slider"></span>
                 <span class="card-side"></span>
                 <div class="flip-card__inner">
-                    <!-- Log In Form -->
+                    <!-- Log In Section -->
                     <div class="flip-card__front">
                         <div class="title">Log in</div>
-                        <form class="flip-card__form" action="Loader.html">
+                        <form class="flip-card__form" onsubmit="redirectToLoader(event)">
                             <input class="flip-card__input" name="email" placeholder="Email" type="email" required>
                             <input class="flip-card__input" name="password" placeholder="Password" type="password" required>
                             <button class="flip-card__btn" type="submit">Let`s go!</button>
                         </form>
                     </div>
-                    <!-- Sign Up Form -->
+                    <!-- Sign Up Section -->
                     <div class="flip-card__back">
                         <div class="title">Sign up</div>
-                        <form class="flip-card__form" action="Loader.html">
+                        <form class="flip-card__form" onsubmit="redirectToLoader(event)">
                             <input class="flip-card__input" placeholder="Name" type="text" required>
                             <input class="flip-card__input" name="email" placeholder="Email" type="email" required>
                             <input class="flip-card__input" name="password" placeholder="Password" type="password" required>
@@ -35,7 +35,15 @@
                     </div>
                 </div>
             </label>
-        </div>
+        </div>   
     </div>
+
+    <script>
+        // Redirect to Loader.html after form submission
+        function redirectToLoader(event) {
+            event.preventDefault(); // Prevent default form submission
+            window.location.href = "Loader.html"; // Redirect to Loader
+        }
+    </script>
 </body>
 </html>
