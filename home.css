@@ -8,7 +8,7 @@
 /* Body Styling */
 body {
     font-family: Arial, sans-serif;
-    background: #f8f9fa; /* Light background */
+    background: linear-gradient(135deg, #61b0b0, #4e8e8e); /* Turquoise gradient background */
     color: #333;
     margin: 0;
     display: flex;
@@ -121,7 +121,7 @@ main {
     font-family: Arial, sans-serif;
     font-size: 14px;
     color: #fff;
-    background: linear-gradient(135deg, #764ba2, #667eea);
+    background: linear-gradient(135deg, #4e8e8e, #61b0b0); /* Turquoise buttons */
     border: none;
     border-radius: 20px;
     padding: 10px 20px;
@@ -132,7 +132,7 @@ main {
 }
 
 .action-btn:hover {
-    background: linear-gradient(135deg, #667eea, #764ba2);
+    background: linear-gradient(135deg, #61b0b0, #4e8e8e);
     transform: translateY(-2px);
     box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15);
 }
