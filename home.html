@@ -1,26 +1,107 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="home.css">
     <title>WestWave | Home</title>
-    <link rel="stylesheet" href="index.css">
 </head>
 <body>
 
+    <!-- Header Section -->
     <header>
-        <h1>WestWave</h1>
-        <button id="addPostBtn">+ Add Post</button>
+        <nav class="navbar">
+            <div class="container">
+                <div class="logo">
+                    <a href="#">
+                        <img src="westwave_logo.png" alt="WestWave Logo" height="30px">
+                    </a>
+                </div>
+                <div class="searchbar">
+                    <input type="text" placeholder="Search WestWave">
+                    <img src="search_icon.png" height="18" alt="Search">
+                </div>
+                <div class="nav-links">
+                    <ul class="nav-group">
+                        <li class="nav-item"><a href="#"><i class="fas fa-home"></i></a></li>
+                        <li class="nav-item"><a href="#"><i class="fas fa-comments"></i></a></li>
+                        <li class="nav-item"><a href="#"><i class="fas fa-users"></i></a></li>
+                        <li class="nav-item"><a href="#"><i class="far fa-heart"></i></a></li>
+                        <li class="nav-item">
+                            <div class="action">
+                                <div class="profile" onclick="menuToggle()">
+                                    <img src="user_avatar.png" alt="User Avatar">
+                                </div>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
     </header>
 
+    <!-- Pools Section (Similar to Instagram Stories) -->
     <main>
-        <div id="postFormContainer" class="hidden">
-            <textarea id="postText" placeholder="Write something..."></textarea>
-            <input type="text" id="postImageURL" placeholder="Image URL (optional)">
-            <button onclick="addPost()">Post</button>
-        </div>
+        <div class="container">
+            <div class="col-9">
+                <div class="pools">
+                    <div class="pool">
+                        <div class="image">
+                            <img src="pool1.png" alt="Pool 1">
+                        </div>
+                        <p>Basketball Fans</p>
+                    </div>
+                    <div class="pool">
+                        <div class="image">
+                            <img src="pool2.png" alt="Pool 2">
+                        </div>
+                        <p>School Events</p>
+                    </div>
+                    <div class="pool">
+                        <div class="image">
+                            <img src="pool3.png" alt="Pool 3">
+                        </div>
+                        <p>Music Club</p>
+                    </div>
+                    <div class="pool">
+                        <div class="image">
+                            <img src="pool4.png" alt="Pool 4">
+                        </div>
+                        <p>Gaming Zone</p>
+                    </div>
+                </div>
 
-        <div id="feed-container"></div>
+                <!-- Post Feed (From Local Storage) -->
+                <div id="feed-container"></div>
+            </div>
+
+            <!-- Sidebar with Suggestions -->
+            <div class="col-3">
+                <div class="card">
+                    <h4>Suggested Pools</h4>
+                    <div class="top">
+                        <h3>🏀 Westwood Hoops</h3>
+                        <a href="#" class="join">Join</a>
+                    </div>
+                    <div class="top">
+                        <h3>📚 Study Buddies</h3>
+                        <a href="#" class="join">Join</a>
+                    </div>
+                    <div class="top">
+                        <h3>🎮 Gamers Unite</h3>
+                        <a href="#" class="join">Join</a>
+                    </div>
+                </div>
+
+                <!-- Footer -->
+                <div class="footer">
+                    <a href="#">About</a>
+                    <a href="#">Help</a>
+                    <a href="#">Privacy</a>
+                    <a href="#">Terms</a>
+                    <br>
+                    <span>&copy; 2025 WestWave</span>
+                </div>
+            </div>
+        </div>
     </main>
 
     <script>
@@ -37,9 +118,18 @@
                 postElement.classList.add("post");
 
                 postElement.innerHTML = `
+                    <div class="post-header">
+                        <div class="user-info">
+                            <img src="user_avatar.png" alt="User">
+                            <h3>WestWave User</h3>
+                        </div>
+                        <span class="dot">⋮</span>
+                    </div>
                     <p>${post.text}</p>
                     ${post.image ? `<img src="${post.image}" alt="Post Image">` : ""}
-                    <button onclick="toggleComments(${index})">💬 Comments</button>
+                    <div class="post-actions">
+                        <button onclick="toggleComments(${index})">💬 Comments</button>
+                    </div>
                     <div class="comments hidden" id="comments-${index}">
                         <input type="text" id="commentInput-${index}" placeholder="Write a comment">
                         <button onclick="addComment(${index})">Post</button>
@@ -54,13 +144,13 @@
         }
 
         function addPost() {
-            let postText = document.getElementById("postText").value;
-            let postImage = document.getElementById("postImageURL").value;
+            let postText = document.getElementById("postText").value.trim();
+            let postImage = document.getElementById("postImageURL").value.trim();
             
-            if (!postText.trim()) return;
+            if (!postText) return;
 
             let posts = JSON.parse(localStorage.getItem("posts")) || [];
-            posts.push({ text: postText, image: postImage, comments: [] });
+            posts.unshift({ text: postText, image: postImage, comments: [] });
 
             localStorage.setItem("posts", JSON.stringify(posts));
             document.getElementById("postText").value = "";
@@ -88,10 +178,6 @@
             let commentSection = document.getElementById(`comments-${index}`);
             commentSection.classList.toggle("hidden");
         }
-
-        document.getElementById("addPostBtn").addEventListener("click", () => {
-            document.getElementById("postFormContainer").classList.toggle("hidden");
-        });
     </script>
 
 </body>
