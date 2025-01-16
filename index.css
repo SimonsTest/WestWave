@@ -10,7 +10,7 @@
 /* Switch card */
 .switch {
   transform: translateY(-200px);
-  position: relative;
+  position: absolute;
   display: flex;
   flex-direction: column;
   justify-content: center;
