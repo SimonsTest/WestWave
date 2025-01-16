@@ -1,98 +1,72 @@
-body {
-    background: linear-gradient(135deg, #667eea, #764ba2);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-    margin: 0;
-    overflow: hidden;
+/* From Uiverse.io by G4b413l */ 
+.newtons-cradle {
+ --uib-size: 50px;
+ --uib-speed: 1.2s;
+ --uib-color: #474554;
+ position: relative;
+ display: flex;
+ align-items: center;
+ justify-content: center;
+ width: var(--uib-size);
+ height: var(--uib-size);
 }
 
-.wrapper {
-    width: 200px;
-    height: 60px;
-    position: relative;
-    z-index: 1;
+.newtons-cradle__dot {
+ position: relative;
+ display: flex;
+ align-items: center;
+ height: 100%;
+ width: 25%;
+ transform-origin: center top;
 }
 
-.circle {
-    width: 20px;
-    height: 20px;
-    position: absolute;
-    border-radius: 50%;
-    background-color: #fff;
-    left: 15%;
-    transform-origin: 50%;
-    animation: circle7124 .5s alternate infinite ease;
+.newtons-cradle__dot::after {
+ content: '';
+ display: block;
+ width: 100%;
+ height: 25%;
+ border-radius: 50%;
+ background-color: var(--uib-color);
 }
 
-@keyframes circle7124 {
-    0% {
-        top: 60px;
-        height: 5px;
-        border-radius: 50px 50px 25px 25px;
-        transform: scaleX(1.7);
-    }
-
-    40% {
-        height: 20px;
-        border-radius: 50%;
-        transform: scaleX(1);
-    }
-
-    100% {
-        top: 0%;
-    }
+.newtons-cradle__dot:first-child {
+ animation: swing var(--uib-speed) linear infinite;
 }
 
-.circle:nth-child(2) {
-    left: 45%;
-    animation-delay: .2s;
+.newtons-cradle__dot:last-child {
+ animation: swing2 var(--uib-speed) linear infinite;
 }
 
-.circle:nth-child(3) {
-    left: auto;
-    right: 15%;
-    animation-delay: .3s;
+@keyframes swing {
+ 0% {
+  transform: rotate(0deg);
+  animation-timing-function: ease-out;
+ }
+
+ 25% {
+  transform: rotate(70deg);
+  animation-timing-function: ease-in;
+ }
+
+ 50% {
+  transform: rotate(0deg);
+  animation-timing-function: linear;
+ }
 }
 
-.shadow {
-    width: 20px;
-    height: 4px;
-    border-radius: 50%;
-    background-color: rgba(0,0,0,0.9);
-    position: absolute;
-    top: 62px;
-    transform-origin: 50%;
-    z-index: -1;
-    left: 15%;
-    filter: blur(1px);
-    animation: shadow046 .5s alternate infinite ease;
-}
+@keyframes swing2 {
+ 0% {
+  transform: rotate(0deg);
+  animation-timing-function: linear;
+ }
 
-@keyframes shadow046 {
-    0% {
-        transform: scaleX(1.5);
-    }
+ 50% {
+  transform: rotate(0deg);
+  animation-timing-function: ease-out;
+ }
 
-    40% {
-        transform: scaleX(1);
-        opacity: .7;
-    }
-
-    100% {
-        transform: scaleX(.2);
-        opacity: .4;
-    }
-}
-
-.shadow:nth-child(4) {
-    left: 45%;
-    animation-delay: .2s
-}
-
-.shadow:nth-child(5) {
-    left: auto;
-    right: 15%;
-    animation-delay: .3s;
+ 75% {
+  transform: rotate(-70deg);
+  animation-timing-function: ease-in;
+ }
 }
