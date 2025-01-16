@@ -5,51 +5,63 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>WestWave</title>
     <link rel="stylesheet" href="index.css">
+    <link rel="stylesheet" href="Loader.css">
 </head>
 <body>
-    <header class="hero">
-        <nav class="navbar">
-            <div class="logo">WestWave</div>
-            <ul class="nav-links">
-                <li><a href="#features">Features</a></li>
-                <li><a href="#about">About</a></li>
-                <li><a href="#join">Join</a></li>
-            </ul>
-        </nav>
-        <div class="hero-content">
-            <h1>Welcome to WestWave</h1>
-            <p>Your ultimate social experience combining community, fun, and creativity.</p>
-            <a href="#join" class="cta-button">Join Now</a>
-        </div>
-    </header>
-    <section id="features" class="features">
-        <h2>Features</h2>
-        <div class="features-container">
-            <div class="feature">
-                <h3>Pools</h3>
-                <p>Join communities based on your interests and passions.</p>
+    <!-- Loader Section -->
+    <div id="loader">
+        <div class="spinner"></div>
+        <p>Loading WestWave...</p>
+    </div>
+
+    <!-- Main Content -->
+    <div id="main-content" style="display: none;">
+        <header class="hero">
+            <nav class="navbar">
+                <div class="logo">WestWave</div>
+                <ul class="nav-links">
+                    <li><a href="Homemenu.html">Home Menu</a></li>
+                    <li><a href="registrationpage.html">Sign Up</a></li>
+                </ul>
+            </nav>
+            <div class="hero-content">
+                <h1>Welcome to WestWave</h1>
+                <p>Your ultimate social experience combining community, fun, and creativity.</p>
+                <a href="registrationpage.html" class="cta-button">Join Now</a>
             </div>
-            <div class="feature">
-                <h3>Social Sharing</h3>
-                <p>Share moments and connect in real-time with friends.</p>
+        </header>
+        <section id="features" class="features">
+            <h2>Features</h2>
+            <div class="features-container">
+                <div class="feature">
+                    <h3>Pools</h3>
+                    <p>Join communities based on your interests and passions.</p>
+                </div>
+                <div class="feature">
+                    <h3>Social Sharing</h3>
+                    <p>Share moments and connect in real-time with friends.</p>
+                </div>
+                <div class="feature">
+                    <h3>Interactive Chat</h3>
+                    <p>Engage in meaningful conversations with advanced chat options.</p>
+                </div>
             </div>
-            <div class="feature">
-                <h3>Interactive Chat</h3>
-                <p>Engage in meaningful conversations with advanced chat options.</p>
-            </div>
-        </div>
-    </section>
-    <section id="about" class="about">
-        <h2>About Us</h2>
-        <p>WestWave is designed to bridge the gap between community and fun. Create meaningful interactions and unforgettable experiences with our innovative platform.</p>
-    </section>
-    <section id="join" class="join">
-        <h2>Get Started</h2>
-        <p>Sign up today to explore WestWave and experience the difference.</p>
-        <a href="#" class="cta-button">Sign Up</a>
-    </section>
-    <footer>
-        <p>&copy; 2025 WestWave. All rights reserved.</p>
-    </footer>
+        </section>
+        <footer>
+            <p>&copy; 2025 WestWave. All rights reserved.</p>
+        </footer>
+    </div>
+
+    <script>
+        // Loader functionality
+        window.onload = function() {
+            const loader = document.getElementById('loader');
+            const mainContent = document.getElementById('main-content');
+            setTimeout(() => {
+                loader.style.display = 'none';
+                mainContent.style.display = 'block';
+            }, 3000); // Adjust delay as needed
+        };
+    </script>
 </body>
 </html>
