@@ -10,11 +10,25 @@
     --secondary-color: hsl(var(--primary-color-hue), 100%, 80%);
     --success-color: hsl(120, 95%, 65%);
     --danger-color: hsl(0, 95%, 65%);
+
     --border-radius: 2rem;
     --card-border-radius: 1rem;
     --btn-padding: 0.6rem 2rem;
     --search-padding: 0.6rem 1rem;
     --card-padding: 1rem;
+
+    --sticky-top-left: 5.4rem;
+    --sticky-top-right: -18rem;
+}
+
+*, *::before, *::after {
+    margin: 0;
+    padding: 0;
+    outline: 0;
+    box-sizing: border-box;
+    text-decoration: none;
+    list-style: none;
+    border: none;
 }
 
 /* Background Styling */
@@ -22,217 +36,149 @@ body {
     font-family: 'Poppins', sans-serif;
     color: var(--dark-text);
     background-color: #ffffff;
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100%25'%3E%3Cdefs%3E%3ClinearGradient id='a' gradientUnits='userSpaceOnUse' x1='0' x2='0' y1='0' y2='100%25' gradientTransform='rotate(239,720,389)'%3E%3Cstop offset='0' stop-color='%23ffffff'/%3E%3Cstop offset='1' stop-color='%234FE'/%3E%3C/linearGradient%3E%3Cpattern patternUnits='userSpaceOnUse' id='b' width='467' height='389.2' x='0' y='0' viewBox='0 0 1080 900'%3E%3Cg fill-opacity='0.05'%3E%3Cpolygon fill='%23444' points='90 150 0 300 180 300'/%3E%3Cpolygon points='90 150 180 0 0 0'/%3E%3Cpolygon fill='%23AAA' points='270 150 360 0 180 0'/%3E%3Cpolygon fill='%23DDD' points='450 150 360 300 540 300'/%3E%3Cpolygon fill='%23999' points='450 150 540 0 360 0'/%3E%3C/g%3E%3C/pattern%3E%3C/defs%3E%3Crect x='0' y='0' fill='url(%23a)' width='100%25' height='100%25'/%3E%3Crect x='0' y='0' fill='url(%23b)' width='100%25' height='100%25'/%3E%3C/svg%3E");
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100%25'%3E%3Cdefs%3E%3ClinearGradient id='a' gradientUnits='userSpaceOnUse' x1='0' x2='0' y1='0' y2='100%25' gradientTransform='rotate(239,720,389)'%3E%3Cstop offset='0' stop-color='%23ffffff'/%3E%3Cstop offset='1' stop-color='%234FE'/%3E%3C/linearGradient%3E%3Cpattern patternUnits='userSpaceOnUse' id='b' width='467' height='389.2' x='0' y='0' viewBox='0 0 1080 900'%3E%3Cg fill-opacity='0.05'%3E%3Cpolygon fill='%23444' points='90 150 0 300 180 300'/%3E%3Cpolygon points='90 150 180 0 0 0'/%3E%3Cpolygon fill='%23AAA' points='270 150 360 0 180 0'/%3E%3Cpolygon fill='%23DDD' points='450 150 360 300 540 300'/%3E%3Cpolygon fill='%23999' points='450 150 540 0 360 0'/%3E%3Cpolygon points='630 150 540 300 720 300'/%3E%3Cpolygon fill='%23DDD' points='630 150 720 0 540 0'/%3E%3C/g%3E%3C/pattern%3E%3C/defs%3E%3Crect x='0' y='0' fill='url(%23a)' width='100%25' height='100%25'/%3E%3Crect x='0' y='0' fill='url(%23b)' width='100%25' height='100%25'/%3E%3C/svg%3E");
     background-attachment: fixed;
     background-size: cover;
     overflow-x: hidden;
 }
 
-/* Navbar */
-nav {
-    width: 100%;
-    background: var(--dark-card);
-    padding: 1rem 0;
-    position: fixed;
-    top: 0;
-    z-index: 10;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    box-shadow: 0 2px 10px var(--dark-border);
-}
-
-nav .container {
-    display: flex;
-    width: 90%;
+/* General Layout */
+.container {
+    width: 80%;
     margin: 0 auto;
-    justify-content: space-between;
-    align-items: center;
 }
 
-.logo img {
-    height: 50px;
+/* Header */
+h1 {
+    text-align: center;
+    font-size: 2rem;
+    margin: 2rem 0;
+    color: var(--primary-color);
 }
 
-nav h2 {
-    color: var(--dark-text);
-    font-size: 1.5rem;
-    font-weight: 600;
-}
-
-.btn {
-    background: var(--primary-color);
-    color: white;
-    padding: var(--btn-padding);
-    border-radius: var(--border-radius);
-    cursor: pointer;
-    transition: all 300ms ease;
-    font-size: 0.9rem;
-}
-
-.btn:hover {
-    opacity: 0.8;
-}
-
-/* Pool Carousel */
-.pool-carousel {
+/* Pool Cards Grid */
+.pool-container {
     display: flex;
+    flex-wrap: wrap;
     justify-content: center;
-    align-items: center;
-    margin-top: 8rem;
-    position: relative;
+    gap: 1.5rem;
+    margin-top: 2rem;
 }
 
+/* Flip Card */
 .card {
-    width: 300px;
-    height: 400px;
+    width: 220px;
+    height: 300px;
     perspective: 1000px;
 }
 
-.content {
+.card .content {
     width: 100%;
     height: 100%;
+    position: relative;
     transform-style: preserve-3d;
-    transition: transform 0.5s;
-    box-shadow: 0px 0px 10px 2px var(--dark-border);
-    border-radius: var(--card-border-radius);
+    transition: transform 0.6s;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
     background: var(--dark-card);
-}
-
-.front, .back {
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    backface-visibility: hidden;
-    -webkit-backface-visibility: hidden;
-    border-radius: var(--card-border-radius);
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-}
-
-.front {
-    background: var(--dark-card);
-    color: white;
-}
-
-.front-content {
-    text-align: center;
-}
-
-.badge {
-    background: var(--primary-color);
-    padding: 5px 15px;
-    border-radius: 12px;
-    font-weight: 600;
-    font-size: 1rem;
-}
-
-.description h3 {
-    font-size: 1.4rem;
-    margin-top: 10px;
-}
-
-.description p {
-    font-size: 1rem;
-    opacity: 0.8;
-}
-
-.back {
-    background: var(--primary-color);
-    transform: rotateY(180deg);
-    color: white;
-    text-align: center;
-    padding: 20px;
 }
 
 .card:hover .content {
     transform: rotateY(180deg);
 }
 
-.join-btn {
-    background: white;
-    color: var(--primary-color);
-    padding: 10px 20px;
+/* Front & Back Styling */
+.card .front,
+.card .back {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    backface-visibility: hidden;
     border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    color: var(--dark-text);
+    padding: 1rem;
+}
+
+.card .front {
+    background: var(--primary-color);
+    color: white;
+    font-size: 1.2rem;
     font-weight: bold;
+}
+
+/* Back */
+.card .back {
+    background: var(--dark-border);
+    transform: rotateY(180deg);
+    font-size: 0.9rem;
+}
+
+/* Join Button */
+.join-btn {
+    background: var(--success-color);
+    color: white;
+    padding: 0.5rem 1.2rem;
+    border-radius: var(--border-radius);
     cursor: pointer;
-    transition: 0.3s ease;
+    transition: all 300ms ease;
+    margin-top: 1rem;
+    font-size: 0.9rem;
 }
 
 .join-btn:hover {
-    background: var(--dark-bg);
-    color: white;
-}
-
-/* Carousel Navigation */
-.nav-btn {
-    position: absolute;
-    top: 50%;
     background: var(--primary-color);
-    color: white;
-    border: none;
-    font-size: 2rem;
-    padding: 10px 15px;
-    border-radius: 50%;
-    cursor: pointer;
-    transform: translateY(-50%);
 }
 
-.left {
-    left: 10%;
-}
-
-.right {
-    right: 10%;
-}
-
-/* Joined Pools Section */
-.joined-pools {
-    text-align: center;
-    margin-top: 2rem;
-}
-
-.joined-pools h2 {
-    color: var(--dark-text);
-    font-size: 1.5rem;
-}
-
-.joined-list {
+/* Bottom Navigation */
+.bottom-nav {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100vw;
+    background: var(--dark-card);
+    z-index: 99;
     display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 10px;
-    margin-top: 10px;
+    justify-content: space-around;
+    padding: 1rem 0;
 }
 
-.joined-list .pool-item {
-    background: var(--primary-color);
-    color: white;
-    padding: 10px 20px;
-    border-radius: 15px;
-    font-size: 1rem;
-    font-weight: bold;
+.bottom-nav .menu-item {
+    text-align: center;
+    color: var(--dark-text);
 }
 
-/* Responsive */
-@media screen and (max-width: 768px) {
-    .nav-btn {
-        font-size: 1.5rem;
-        padding: 5px 10px;
+/* Media Queries */
+@media screen and (max-width: 1200px) {
+    .container {
+        width: 96%;
+    }
+
+    .pool-container {
+        gap: 1rem;
     }
 
     .card {
-        width: 250px;
-        height: 350px;
+        width: 200px;
+        height: 280px;
+    }
+}
+
+@media screen and (max-width: 992px) {
+    .container {
+        width: 100%;
     }
 
-    .left {
-        left: 5%;
+    .pool-container {
+        justify-content: center;
     }
 
-    .right {
-        right: 5%;
+    .card {
+        width: 180px;
+        height: 260px;
     }
 }
