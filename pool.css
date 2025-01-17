@@ -42,18 +42,19 @@ body {
     overflow-x: hidden;
 }
 
-/* General Layout */
+/* Page Layout */
 .container {
     width: 80%;
     margin: 0 auto;
+    padding-top: 5rem;
 }
 
 /* Header */
 h1 {
     text-align: center;
-    font-size: 2rem;
-    margin: 2rem 0;
+    font-size: 2.5rem;
     color: var(--primary-color);
+    margin-bottom: 2rem;
 }
 
 /* Pool Cards Grid */
@@ -100,7 +101,6 @@ h1 {
     justify-content: center;
     align-items: center;
     text-align: center;
-    color: var(--dark-text);
     padding: 1rem;
 }
 
@@ -116,6 +116,7 @@ h1 {
     background: var(--dark-border);
     transform: rotateY(180deg);
     font-size: 0.9rem;
+    color: var(--dark-text);
 }
 
 /* Join Button */
@@ -152,7 +153,7 @@ h1 {
     color: var(--dark-text);
 }
 
-/* Media Queries */
+/* Responsive Design */
 @media screen and (max-width: 1200px) {
     .container {
         width: 96%;
