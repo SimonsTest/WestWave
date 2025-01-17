@@ -10,28 +10,15 @@
     --secondary-color: hsl(var(--primary-color-hue), 100%, 80%);
     --success-color: hsl(120, 95%, 65%);
     --danger-color: hsl(0, 95%, 65%);
-
+    
     --border-radius: 2rem;
     --card-border-radius: 1rem;
     --btn-padding: 0.6rem 2rem;
     --search-padding: 0.6rem 1rem;
     --card-padding: 1rem;
-
-    --sticky-top-left: 5.4rem;
-    --sticky-top-right: -18rem;
 }
 
-*, *::before, *::after {
-    margin: 0;
-    padding: 0;
-    outline: 0;
-    box-sizing: border-box;
-    text-decoration: none;
-    list-style: none;
-    border: none;
-}
-
-/* Background Styling */
+/* 🌟 Background Styling */
 body {
     font-family: 'Poppins', sans-serif;
     color: var(--dark-text);
@@ -42,144 +29,215 @@ body {
     overflow-x: hidden;
 }
 
-/* Page Layout */
-.container {
-    width: 80%;
-    margin: 0 auto;
-    padding-top: 5rem;
-}
-
-/* Header */
-h1 {
-    text-align: center;
-    font-size: 2.5rem;
-    color: var(--primary-color);
-    margin-bottom: 2rem;
-}
-
-/* Pool Cards Grid */
-.pool-container {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 1.5rem;
-    margin-top: 2rem;
-}
-
-/* Flip Card */
-.card {
-    width: 220px;
-    height: 300px;
-    perspective: 1000px;
-}
-
-.card .content {
+/* ===================== 🏠 Navbar ===================== */
+nav {
     width: 100%;
-    height: 100%;
-    position: relative;
-    transform-style: preserve-3d;
-    transition: transform 0.6s;
-    border-radius: 10px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
     background: var(--dark-card);
+    padding: 0.7rem 0;
+    position: fixed;
+    top: 0;
+    z-index: 10;
+    box-shadow: 0 2px 10px var(--dark-border);
 }
 
-.card:hover .content {
-    transform: rotateY(180deg);
-}
-
-/* Front & Back Styling */
-.card .front,
-.card .back {
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    backface-visibility: hidden;
-    border-radius: 10px;
+nav .container {
     display: flex;
-    flex-direction: column;
-    justify-content: center;
     align-items: center;
-    text-align: center;
-    padding: 1rem;
+    justify-content: space-between;
 }
 
-.card .front {
-    background: var(--primary-color);
-    color: white;
-    font-size: 1.2rem;
-    font-weight: bold;
+.logo img {
+    height: 40px;
 }
 
-/* Back */
-.card .back {
-    background: var(--dark-border);
-    transform: rotateY(180deg);
+.search-bar {
+    background: var(--dark-bg);
+    border-radius: var(--border-radius);
+    padding: var(--search-padding);
+    display: flex;
+    align-items: center;
+}
+
+.search-bar input[type="text"] {
+    background: transparent;
+    width: 30vw;
+    margin-left: 1rem;
     font-size: 0.9rem;
     color: var(--dark-text);
 }
 
-/* Join Button */
-.join-btn {
-    background: var(--success-color);
+.search-bar input::placeholder {
+    color: var(--secondary-color);
+}
+
+.nav-icons i {
+    font-size: 1.4rem;
+    color: var(--secondary-color);
+    margin: 0 1rem;
+    cursor: pointer;
+}
+
+.nav-icons .active {
+    color: var(--primary-color);
+}
+
+/* ===================== 📌 Sidebar (Left Panel) ===================== */
+.left-sidebar {
+    position: fixed;
+    top: 5rem;
+    left: 0;
+    width: 250px;
+    height: 100vh;
+    background: var(--dark-card);
+    padding: 1rem;
+    border-right: 2px solid var(--dark-border);
+}
+
+.profile-card {
+    text-align: center;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid var(--dark-border);
+}
+
+.profile-card img {
+    width: 50px;
+    border-radius: 50%;
+}
+
+.sidebar-menu {
+    list-style: none;
+    margin-top: 1rem;
+}
+
+.sidebar-menu li {
+    padding: 1rem;
+    font-size: 1rem;
+    color: var(--dark-text);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.sidebar-menu .active {
+    background: var(--primary-color);
+    border-radius: var(--border-radius);
+}
+
+.suggested-pools {
+    margin-top: 1rem;
+}
+
+.suggested-pools h4 {
+    font-size: 1rem;
+    margin-bottom: 0.5rem;
+}
+
+.suggested-pools ul {
+    list-style: none;
+}
+
+/* ===================== 📝 Feed Section ===================== */
+.feed {
+    margin-left: 270px;
+    padding: 2rem;
+    max-width: 600px;
+    background: var(--dark-card);
+    border-radius: var(--card-border-radius);
+    box-shadow: 0 4px 10px var(--dark-border);
+}
+
+/* Post Input */
+.post-box {
+    display: flex;
+    align-items: center;
+    background: var(--dark-bg);
+    padding: 1rem;
+    border-radius: var(--border-radius);
+    margin-bottom: 1rem;
+}
+
+.post-user {
+    width: 40px;
+    border-radius: 50%;
+    margin-right: 1rem;
+}
+
+#post-input {
+    flex: 1;
+    background: transparent;
+    color: var(--dark-text);
+    border: none;
+    font-size: 1rem;
+    outline: none;
+}
+
+#post-btn {
+    background: var(--primary-color);
     color: white;
-    padding: 0.5rem 1.2rem;
+    padding: 0.5rem 1rem;
     border-radius: var(--border-radius);
     cursor: pointer;
-    transition: all 300ms ease;
+}
+
+/* Feed Content */
+#feed-content {
     margin-top: 1rem;
-    font-size: 0.9rem;
 }
 
-.join-btn:hover {
-    background: var(--primary-color);
+.post {
+    background: var(--dark-card);
+    padding: 1rem;
+    border-radius: var(--border-radius);
+    margin-bottom: 1rem;
 }
 
-/* Bottom Navigation */
+.post h3 {
+    color: var(--primary-color);
+}
+
+.post p {
+    color: var(--dark-text);
+}
+
+/* ===================== 🔻 Bottom Navigation ===================== */
 .bottom-nav {
     position: fixed;
     bottom: 0;
     left: 0;
-    width: 100vw;
+    width: 100%;
     background: var(--dark-card);
-    z-index: 99;
+    padding: 0.7rem 0;
     display: flex;
-    justify-content: space-around;
-    padding: 1rem 0;
+    justify-content: center;
 }
 
-.bottom-nav .menu-item {
-    text-align: center;
-    color: var(--dark-text);
+.bottom-nav ul {
+    display: flex;
+    gap: 2rem;
+    list-style: none;
 }
 
-/* Responsive Design */
-@media screen and (max-width: 1200px) {
-    .container {
-        width: 96%;
-    }
-
-    .pool-container {
-        gap: 1rem;
-    }
-
-    .card {
-        width: 200px;
-        height: 280px;
-    }
+.bottom-nav ul li {
+    font-size: 1.5rem;
+    color: var(--secondary-color);
+    cursor: pointer;
 }
 
+.bottom-nav .active {
+    color: var(--primary-color);
+}
+
+/* ===================== 📱 Responsive Design ===================== */
 @media screen and (max-width: 992px) {
-    .container {
-        width: 100%;
+    .left-sidebar {
+        display: none;
     }
-
-    .pool-container {
-        justify-content: center;
+    .feed {
+        margin-left: 0;
+        max-width: 90%;
     }
-
-    .card {
-        width: 180px;
-        height: 260px;
+    .bottom-nav {
+        display: flex;
     }
 }
