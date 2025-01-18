@@ -1,10 +1,5 @@
-// ==========================
-// Home.js - Final Version
-// Features: Posts, Pools, UI interactions, LocalStorage
-// ==========================
-
-// =============== SIDEBAR FUNCTIONALITY ===============
-const menuItems = document.querySelectorAll('.sidebar-menu li');
+// ============== SIDEBAR TOGGLE ============== 
+const menuItems = document.querySelectorAll('.menu li');
 
 // Remove active class from all menu items
 const changeActiveItem = () => {
@@ -13,6 +8,7 @@ const changeActiveItem = () => {
     });
 };
 
+// Add click event to menu items
 menuItems.forEach(item => {
     item.addEventListener('click', () => {
         changeActiveItem();
@@ -20,174 +16,157 @@ menuItems.forEach(item => {
     });
 });
 
-// =============== POST FUNCTIONALITY ===============
-const postInput = document.getElementById("post-input");
-const postButton = document.getElementById("create-post-btn");
-const feedContainer = document.querySelector(".feed-container");
-
-// Load posts from LocalStorage
-document.addEventListener("DOMContentLoaded", () => {
-    loadPosts();
-});
-
-// Add new post
-postButton.addEventListener("click", () => {
-    let postText = postInput.value.trim();
-    if (postText === "") return;
-
-    let posts = JSON.parse(localStorage.getItem("posts")) || [];
-    const newPost = {
-        id: Date.now(),
-        username: localStorage.getItem("username") || "Guest",
-        content: postText,
-        time: new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })
-    };
-
-    posts.unshift(newPost);
-    localStorage.setItem("posts", JSON.stringify(posts));
-    postInput.value = "";
-    renderPost(newPost);
-});
-
-// Function to render a post
-const renderPost = (post) => {
-    const postElement = document.createElement("div");
-    postElement.classList.add("feed-post");
-    postElement.innerHTML = `
-        <div class="post-header">
-            <strong>${post.username}</strong> <span>${post.time}</span>
-        </div>
-        <p>${post.content}</p>
-    `;
-    feedContainer.appendChild(postElement);
-};
-
-// Function to load posts from LocalStorage
-const loadPosts = () => {
-    let posts = JSON.parse(localStorage.getItem("posts")) || [];
-    feedContainer.innerHTML = ""; // Clear feed before rendering
-    posts.forEach(post => renderPost(post));
-};
-
-// =============== JOINED POOLS FUNCTIONALITY ===============
-const joinedPoolsContainer = document.querySelector(".joined-pool-list");
-
-// Load joined pools from LocalStorage
-document.addEventListener("DOMContentLoaded", () => {
-    loadJoinedPools();
-});
-
-// Function to load pools
-const loadJoinedPools = () => {
-    let joinedPools = JSON.parse(localStorage.getItem("joinedPools")) || [];
-    joinedPoolsContainer.innerHTML = ""; // Clear before rendering
-
-    joinedPools.forEach(pool => {
-        const poolItem = document.createElement("div");
-        poolItem.classList.add("pool-item");
-        poolItem.textContent = pool;
-        joinedPoolsContainer.appendChild(poolItem);
-    });
-};
-
-// =============== MESSAGE SEARCH FUNCTIONALITY ===============
-const messageSearch = document.querySelector("#message-search");
-const messages = document.querySelector(".messages");
-const messageItems = messages.querySelectorAll(".message");
-
-messageSearch.addEventListener("keyup", () => {
-    const searchValue = messageSearch.value.toLowerCase();
-    messageItems.forEach(user => {
-        let name = user.querySelector("h5").textContent.toLowerCase();
-        if (name.includes(searchValue)) {
-            user.style.display = "flex";
+// ============== SEARCH FUNCTIONALITY ============== 
+const searchInput = document.querySelector('.search-bar input');
+searchInput.addEventListener('keyup', function() {
+    let query = searchInput.value.toLowerCase();
+    let posts = document.querySelectorAll('.post');
+    
+    posts.forEach(post => {
+        let content = post.textContent.toLowerCase();
+        if (content.includes(query)) {
+            post.style.display = 'block';
         } else {
-            user.style.display = "none";
+            post.style.display = 'none';
         }
     });
 });
 
-// =============== THEME / DISPLAY CUSTOMIZATION ===============
-const theme = document.querySelector("#theme");
-const themeModal = document.querySelector(".customize-theme");
+// ============== CREATE POST FUNCTIONALITY ============== 
+const postInput = document.querySelector('.create-post input');
+const postButton = document.querySelector('.create-post button');
+const feed = document.querySelector('.feed');
 
-// Open Theme Modal
-theme.addEventListener("click", () => {
-    themeModal.style.display = "grid";
+// Load posts from local storage
+document.addEventListener("DOMContentLoaded", () => {
+    let savedPosts = JSON.parse(localStorage.getItem("posts")) || [];
+    savedPosts.forEach(postText => addPostToFeed(postText));
 });
 
-// Close Theme Modal
-themeModal.addEventListener("click", (e) => {
-    if (e.target.classList.contains("customize-theme")) {
-        themeModal.style.display = "none";
+// Add post event listener
+postButton.addEventListener("click", () => {
+    let postText = postInput.value.trim();
+    if (postText) {
+        addPostToFeed(postText);
+        savePostToLocal(postText);
+        postInput.value = "";
     }
 });
 
-// =============== FONT SIZE CUSTOMIZATION ===============
-const fontSizeOptions = document.querySelectorAll(".choose-size span");
-const root = document.querySelector(":root");
+// Function to add a post to the feed
+function addPostToFeed(postText) {
+    let postDiv = document.createElement('div');
+    postDiv.classList.add('post');
+    postDiv.innerHTML = `
+        <p>${postText}</p>
+        <div class="post-actions">
+            <button class="like-btn">❤️ Like</button>
+            <button class="delete-btn">🗑 Delete</button>
+        </div>
+    `;
+    feed.prepend(postDiv);
 
-fontSizeOptions.forEach(size => {
-    size.addEventListener("click", () => {
-        let fontSize;
-        fontSizeOptions.forEach(s => s.classList.remove("active"));
-        size.classList.add("active");
+    // Like Button
+    postDiv.querySelector('.like-btn').addEventListener('click', function() {
+        this.classList.toggle('liked');
+    });
 
-        if (size.classList.contains("font-size-1")) fontSize = "10px";
-        else if (size.classList.contains("font-size-2")) fontSize = "13px";
-        else if (size.classList.contains("font-size-3")) fontSize = "16px";
-        else if (size.classList.contains("font-size-4")) fontSize = "19px";
-        else if (size.classList.contains("font-size-5")) fontSize = "22px";
+    // Delete Button
+    postDiv.querySelector('.delete-btn').addEventListener('click', function() {
+        postDiv.remove();
+        removePostFromLocal(postText);
+    });
+}
 
-        document.documentElement.style.fontSize = fontSize;
+// Function to save posts to local storage
+function savePostToLocal(postText) {
+    let savedPosts = JSON.parse(localStorage.getItem("posts")) || [];
+    savedPosts.push(postText);
+    localStorage.setItem("posts", JSON.stringify(savedPosts));
+}
+
+// Function to remove post from local storage
+function removePostFromLocal(postText) {
+    let savedPosts = JSON.parse(localStorage.getItem("posts")) || [];
+    savedPosts = savedPosts.filter(post => post !== postText);
+    localStorage.setItem("posts", JSON.stringify(savedPosts));
+}
+
+// ============== LOAD JOINED POOLS FROM LOCAL STORAGE ============== 
+document.addEventListener("DOMContentLoaded", () => {
+    let joinedPools = JSON.parse(localStorage.getItem("joinedPools")) || [];
+    const joinedPoolsContainer = document.querySelector('.joined-pool-list');
+
+    joinedPools.forEach(pool => {
+        let poolDiv = document.createElement('div');
+        poolDiv.classList.add('pool-item');
+        poolDiv.textContent = pool;
+        joinedPoolsContainer.appendChild(poolDiv);
     });
 });
 
-// =============== COLOR THEME CUSTOMIZATION ===============
-const colorOptions = document.querySelectorAll(".choose-color span");
+// ============== ADDING SUGGESTED POOLS TO JOIN ============== 
+const suggestedPools = [
+    "Terra", "Tor", "Titus", "Triton", "Executive", "Grades", 
+    "Committees", "All US", "Announcement", "Common Wealth", 
+    "Baking", "Book", "Model UN", "Climbing", "Yearbook", 
+    "Mandarin", "Quizbowl", "Community Service", "Debate", 
+    "Cheer", "Basketball", "Cross Country", "Track", "Volleyball",
+    "Middle School Basketball", "MS Track"
+];
 
-colorOptions.forEach(color => {
-    color.addEventListener("click", () => {
-        let primaryHue;
-        colorOptions.forEach(c => c.classList.remove("active"));
-        color.classList.add("active");
+const suggestedPoolsContainer = document.querySelector('.suggested-pools ul');
 
-        if (color.classList.contains("color-1")) primaryHue = 252;
-        else if (color.classList.contains("color-2")) primaryHue = 52;
-        else if (color.classList.contains("color-3")) primaryHue = 352;
-        else if (color.classList.contains("color-4")) primaryHue = 152;
-        else if (color.classList.contains("color-5")) primaryHue = 202;
-
-        root.style.setProperty("--primary-color-hue", primaryHue);
+suggestedPools.forEach(pool => {
+    let li = document.createElement('li');
+    li.textContent = pool;
+    li.addEventListener('click', function() {
+        joinPool(pool);
     });
+    suggestedPoolsContainer.appendChild(li);
 });
 
-// =============== BACKGROUND CUSTOMIZATION ===============
-const Bg1 = document.querySelector(".bg-1");
-const Bg2 = document.querySelector(".bg-2");
-const Bg3 = document.querySelector(".bg-3");
+// Function to join a pool and save it to local storage
+function joinPool(poolName) {
+    let joinedPools = JSON.parse(localStorage.getItem("joinedPools")) || [];
 
-Bg1.addEventListener("click", () => {
-    document.body.classList.remove("bg-2", "bg-3");
-    document.body.classList.add("bg-1");
+    if (!joinedPools.includes(poolName)) {
+        joinedPools.push(poolName);
+        localStorage.setItem("joinedPools", JSON.stringify(joinedPools));
+
+        // Add to UI
+        let joinedPoolsContainer = document.querySelector('.joined-pool-list');
+        let poolDiv = document.createElement('div');
+        poolDiv.classList.add('pool-item');
+        poolDiv.textContent = poolName;
+        joinedPoolsContainer.appendChild(poolDiv);
+    }
+}
+
+// ============== BOTTOM NAVIGATION CLICK HANDLERS ============== 
+document.querySelector('.bottom-nav button[data-page="home"]').addEventListener('click', function() {
+    window.location.href = "home.html";
 });
 
-Bg2.addEventListener("click", () => {
-    document.body.classList.remove("bg-1", "bg-3");
-    document.body.classList.add("bg-2");
+document.querySelector('.bottom-nav button[data-page="pools"]').addEventListener('click', function() {
+    window.location.href = "pool.html";
 });
 
-Bg3.addEventListener("click", () => {
-    document.body.classList.remove("bg-1", "bg-2");
-    document.body.classList.add("bg-3");
+document.querySelector('.bottom-nav button[data-page="messages"]').addEventListener('click', function() {
+    alert("Messages Feature Coming Soon!");
 });
 
-// =============== MOBILE NAVIGATION FUNCTIONALITY ===============
-const bottomNavItems = document.querySelectorAll(".bottom-nav ul li");
+document.querySelector('.bottom-nav button[data-page="settings"]').addEventListener('click', function() {
+    alert("Settings Feature Coming Soon!");
+});
 
-bottomNavItems.forEach(item => {
-    item.addEventListener("click", () => {
-        bottomNavItems.forEach(i => i.classList.remove("active"));
-        item.classList.add("active");
-    });
+// ============== PROFILE NAME FROM STORAGE ============== 
+document.addEventListener("DOMContentLoaded", () => {
+    let storedUsername = localStorage.getItem("username") || "User";
+    document.querySelector('.profile-name').textContent = storedUsername;
+});
+
+// ============== LOGO CLICK GOES TO HOME ============== 
+document.querySelector('.logo').addEventListener('click', function() {
+    window.location.href = "home.html";
 });
