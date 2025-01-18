@@ -15,19 +15,6 @@
     --btn-padding: 0.6rem 2rem;
     --search-padding: 0.6rem 1rem;
     --card-padding: 1rem;
-    --sticky-top-left: 5.4rem;
-    --sticky-top-right: -18rem;
-}
-
-/* Reset and Global Styling */
-*, *::before, *::after {
-    margin: 0;
-    padding: 0;
-    outline: 0;
-    box-sizing: border-box;
-    text-decoration: none;
-    list-style: none;
-    border: none;
 }
 
 /* Background Styling */
@@ -35,238 +22,232 @@ body {
     font-family: 'Poppins', sans-serif;
     color: var(--dark-text);
     background-color: #ffffff;
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100%25'%3E...");
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100%25'%3E%3Cdefs%3E%3ClinearGradient id='a' gradientUnits='userSpaceOnUse' x1='0' x2='0' y1='0' y2='100%25' gradientTransform='rotate(239,720,389)'%3E%3Cstop offset='0' stop-color='%23ffffff'/%3E%3Cstop offset='1' stop-color='%234FE'/%3E%3C/linearGradient%3E%3Cpattern patternUnits='userSpaceOnUse' id='b' width='467' height='389.2' x='0' y='0' viewBox='0 0 1080 900'%3E%3Cg fill-opacity='0.05'%3E%3Cpolygon fill='%23444' points='90 150 0 300 180 300'/%3E%3Cpolygon points='90 150 180 0 0 0'/%3E%3C/g%3E%3C/pattern%3E%3C/defs%3E%3Crect x='0' y='0' fill='url(%23a)' width='100%25' height='100%25'/%3E%3Crect x='0' y='0' fill='url(%23b)' width='100%25' height='100%25'/%3E%3C/svg%3E");
     background-attachment: fixed;
     background-size: cover;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+    overflow-x: hidden;
 }
 
 /* =============== Navbar ============== */
-nav {
-    width: 100%;
-    background: var(--dark-card);
-    padding: 0.8rem 1.5rem;
-    position: fixed;
-    top: 0;
-    z-index: 10;
-    box-shadow: 0 2px 10px var(--dark-border);
+.top-nav {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    padding: 0.7rem 2rem;
+    background: var(--dark-card);
+    position: fixed;
+    width: 100%;
+    top: 0;
+    left: 0;
+    z-index: 1000;
+    box-shadow: 0 2px 10px var(--dark-border);
 }
 
-.logo img {
+.top-nav .logo img {
     height: 40px;
 }
 
-/* Search Bar */
-.search-bar {
-    flex: 1;
-    background: var(--dark-bg);
-    border-radius: var(--border-radius);
+.search-bar input {
+    background: var(--dark-border);
     padding: var(--search-padding);
-    display: flex;
-    align-items: center;
-    margin: 0 1rem;
-}
-
-.search-bar input[type="search"] {
-    background: transparent;
-    width: 100%;
-    font-size: 0.9rem;
+    border-radius: var(--border-radius);
+    border: none;
     color: var(--dark-text);
+    width: 30vw;
 }
 
 .search-bar input::placeholder {
     color: var(--secondary-color);
 }
 
-nav .create {
+.nav-icons {
     display: flex;
     align-items: center;
     gap: 1rem;
 }
 
-nav .create button {
+.new-post-btn {
     padding: var(--btn-padding);
     background: var(--primary-color);
     color: white;
     border-radius: var(--border-radius);
-    font-size: 0.9rem;
     cursor: pointer;
 }
 
-/* =============== Sidebar ============== */
-.sidebar {
-    position: fixed;
-    left: 0;
-    top: 5rem;
-    width: 250px;
-    height: calc(100vh - 5rem);
-    background: var(--dark-card);
-    padding: 1rem;
-    display: flex;
-    flex-direction: column;
-    border-radius: var(--card-border-radius);
-    box-shadow: 2px 0px 10px var(--dark-border);
-}
-
-.sidebar .menu-item {
-    display: flex;
-    align-items: center;
-    gap: 1rem;
-    padding: 1rem;
-    border-radius: var(--border-radius);
-    font-size: 1rem;
-    cursor: pointer;
-    transition: background 0.3s ease;
-}
-
-.sidebar .menu-item:hover,
-.sidebar .menu-item.active {
-    background: var(--primary-color);
-    color: white;
-}
-
-/* =============== Main Feed ============== */
-main {
-    width: 60%;
-    margin-top: 6rem;
-}
-
-/* Post Creation */
-.create-post {
-    display: flex;
-    align-items: center;
-    gap: 1rem;
-    background: var(--dark-card);
-    padding: 1rem;
-    border-radius: var(--card-border-radius);
-    box-shadow: 0 2px 5px var(--dark-border);
-}
-
-.create-post input {
-    flex: 1;
-    background: transparent;
-    color: var(--dark-text);
-    font-size: 1rem;
-    padding: 0.8rem;
-    border-radius: var(--border-radius);
-    border: 1px solid var(--dark-border);
-}
-
-.create-post button {
-    background: var(--primary-color);
-    color: white;
-    padding: var(--btn-padding);
-    border-radius: var(--border-radius);
-    cursor: pointer;
-}
-
-/* Feed Styling */
-.feed {
-    margin-top: 1.5rem;
-}
-
-.feed .post {
-    background: var(--dark-card);
-    border-radius: var(--card-border-radius);
-    padding: 1rem;
-    margin-bottom: 1.5rem;
-    box-shadow: 0 2px 10px var(--dark-border);
-}
-
-.feed .post .user-info {
-    display: flex;
-    align-items: center;
-    gap: 1rem;
-    margin-bottom: 1rem;
-}
-
-.feed .post .user-info img {
+.profile-icon {
     width: 40px;
     height: 40px;
     border-radius: 50%;
 }
 
-.feed .post .post-content {
-    font-size: 1rem;
-    color: var(--dark-text);
+/* =============== Main Layout ============== */
+.container {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 5rem;
+    padding: 1rem;
 }
 
-.feed .post .post-image {
-    width: 100%;
-    margin-top: 1rem;
+/* =============== Left Sidebar ============== */
+.left-sidebar {
+    width: 20%;
+    background: var(--dark-card);
+    padding: var(--card-padding);
+    border-radius: var(--card-border-radius);
+    position: sticky;
+    top: 5rem;
+}
+
+.profile-card {
+    text-align: center;
+}
+
+.profile-card img {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+}
+
+.menu {
+    list-style: none;
+    padding: 0;
+}
+
+.menu li {
+    padding: 10px;
+    margin: 10px 0;
+    background: var(--dark-border);
+    border-radius: var(--border-radius);
+    cursor: pointer;
+}
+
+.menu li.active {
+    background: var(--primary-color);
+    color: white;
+}
+
+/* =============== Middle Content ============== */
+.middle-content {
+    width: 50%;
+}
+
+/* Stories */
+.stories {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 1rem;
+}
+
+.story {
+    background: var(--dark-border);
+    padding: 10px;
+    text-align: center;
     border-radius: var(--card-border-radius);
 }
 
-.feed .post .actions {
+.story img {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+}
+
+/* Create Post */
+.create-post {
     display: flex;
-    justify-content: space-between;
-    margin-top: 1rem;
-}
-
-.feed .post .actions button {
-    background: transparent;
-    color: var(--secondary-color);
-    cursor: pointer;
-    font-size: 1rem;
-}
-
-/* =============== Bottom Navigation (Mobile) ============== */
-.bottom-nav {
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    width: 100%;
+    align-items: center;
     background: var(--dark-card);
+    padding: var(--card-padding);
+    border-radius: var(--card-border-radius);
+    margin-bottom: 1rem;
+}
+
+.create-post img {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+}
+
+.create-post input {
+    flex: 1;
+    margin: 0 10px;
+    padding: var(--search-padding);
+    border-radius: var(--border-radius);
+    background: var(--dark-border);
+    color: var(--dark-text);
+}
+
+.create-post button {
+    padding: var(--btn-padding);
+    background: var(--primary-color);
+    color: white;
+    border-radius: var(--border-radius);
+    cursor: pointer;
+}
+
+/* Feed */
+.feed {
+    background: var(--dark-card);
+    padding: var(--card-padding);
+    border-radius: var(--card-border-radius);
+}
+
+.post {
+    padding: var(--card-padding);
+    background: var(--dark-border);
+    margin-bottom: 1rem;
+    border-radius: var(--card-border-radius);
+}
+
+/* =============== Right Sidebar ============== */
+.right-sidebar {
+    width: 25%;
+    background: var(--dark-card);
+    padding: var(--card-padding);
+    border-radius: var(--card-border-radius);
+    position: sticky;
+    top: 5rem;
+}
+
+/* Suggested Pools */
+.suggested-pools h3 {
+    margin-bottom: 1rem;
+}
+
+.suggested-pools ul {
+    list-style: none;
+    padding: 0;
+}
+
+.suggested-pools li {
+    background: var(--dark-border);
+    padding: 10px;
+    margin: 5px 0;
+    border-radius: var(--border-radius);
+    cursor: pointer;
+}
+
+/* Messages */
+.messages input {
+    background: var(--dark-border);
+    padding: var(--search-padding);
+    border-radius: var(--border-radius);
+    width: 100%;
+}
+
+/* =============== Bottom Navigation ============== */
+.bottom-nav {
     display: flex;
     justify-content: space-around;
-    padding: 1rem 0;
-    box-shadow: 0 -2px 10px var(--dark-border);
+    padding: 10px;
+    background: var(--dark-card);
+    position: fixed;
+    bottom: 0;
+    width: 100%;
 }
 
-.bottom-nav .nav-item {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+.bottom-nav button {
+    background: none;
+    border: none;
     cursor: pointer;
-}
-
-.bottom-nav .nav-item span {
-    font-size: 0.8rem;
-    margin-top: 0.3rem;
-}
-
-/* =============== Responsive Design ============== */
-@media screen and (max-width: 1200px) {
-    main {
-        width: 80%;
-    }
-}
-
-@media screen and (max-width: 992px) {
-    .sidebar {
-        display: none;
-    }
-
-    main {
-        width: 95%;
-    }
-
-    .bottom-nav {
-        display: flex;
-    }
-}
-
-@media screen and (max-width: 600px) {
-    .search-bar {
-        display: none;
-    }
-
-    .create-post {
-        flex-direction: column;
-    }
+    font-size: 1.5rem;
 }
