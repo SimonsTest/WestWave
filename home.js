@@ -1,14 +1,12 @@
 // ============== SIDEBAR TOGGLE ============== 
 const menuItems = document.querySelectorAll('.menu li');
 
-// Remove active class from all menu items
 const changeActiveItem = () => {
     menuItems.forEach(item => {
         item.classList.remove('active');
     });
 };
 
-// Add click event to menu items
 menuItems.forEach(item => {
     item.addEventListener('click', () => {
         changeActiveItem();
@@ -24,11 +22,7 @@ searchInput.addEventListener('keyup', function() {
     
     posts.forEach(post => {
         let content = post.textContent.toLowerCase();
-        if (content.includes(query)) {
-            post.style.display = 'block';
-        } else {
-            post.style.display = 'none';
-        }
+        post.style.display = content.includes(query) ? 'block' : 'none';
     });
 });
 
@@ -40,7 +34,7 @@ const feed = document.querySelector('.feed');
 // Load posts from local storage
 document.addEventListener("DOMContentLoaded", () => {
     let savedPosts = JSON.parse(localStorage.getItem("posts")) || [];
-    savedPosts.forEach(postText => addPostToFeed(postText));
+    savedPosts.forEach(post => addPostToFeed(post));
 });
 
 // Add post event listener
@@ -58,6 +52,10 @@ function addPostToFeed(postText) {
     let postDiv = document.createElement('div');
     postDiv.classList.add('post');
     postDiv.innerHTML = `
+        <div class="post-header">
+            <img src="user.png" class="post-profile-pic">
+            <span class="post-user">User</span>
+        </div>
         <p>${postText}</p>
         <div class="post-actions">
             <button class="like-btn">❤️ Like</button>
@@ -66,26 +64,24 @@ function addPostToFeed(postText) {
     `;
     feed.prepend(postDiv);
 
-    // Like Button
     postDiv.querySelector('.like-btn').addEventListener('click', function() {
         this.classList.toggle('liked');
     });
 
-    // Delete Button
     postDiv.querySelector('.delete-btn').addEventListener('click', function() {
         postDiv.remove();
         removePostFromLocal(postText);
     });
 }
 
-// Function to save posts to local storage
+// Save posts to local storage
 function savePostToLocal(postText) {
     let savedPosts = JSON.parse(localStorage.getItem("posts")) || [];
     savedPosts.push(postText);
     localStorage.setItem("posts", JSON.stringify(savedPosts));
 }
 
-// Function to remove post from local storage
+// Remove post from local storage
 function removePostFromLocal(postText) {
     let savedPosts = JSON.parse(localStorage.getItem("posts")) || [];
     savedPosts = savedPosts.filter(post => post !== postText);
@@ -105,14 +101,9 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 });
 
-// ============== ADDING SUGGESTED POOLS TO JOIN ============== 
+// ============== SUGGESTED POOLS & JOIN FUNCTIONALITY ============== 
 const suggestedPools = [
-    "Terra", "Tor", "Titus", "Triton", "Executive", "Grades", 
-    "Committees", "All US", "Announcement", "Common Wealth", 
-    "Baking", "Book", "Model UN", "Climbing", "Yearbook", 
-    "Mandarin", "Quizbowl", "Community Service", "Debate", 
-    "Cheer", "Basketball", "Cross Country", "Track", "Volleyball",
-    "Middle School Basketball", "MS Track"
+    "Terra", "Tor", "Titus", "Triton"
 ];
 
 const suggestedPoolsContainer = document.querySelector('.suggested-pools ul');
@@ -120,21 +111,20 @@ const suggestedPoolsContainer = document.querySelector('.suggested-pools ul');
 suggestedPools.forEach(pool => {
     let li = document.createElement('li');
     li.textContent = pool;
+    li.classList.add('suggested-pool-item');
     li.addEventListener('click', function() {
         joinPool(pool);
     });
     suggestedPoolsContainer.appendChild(li);
 });
 
-// Function to join a pool and save it to local storage
+// Function to join a pool
 function joinPool(poolName) {
     let joinedPools = JSON.parse(localStorage.getItem("joinedPools")) || [];
-
     if (!joinedPools.includes(poolName)) {
         joinedPools.push(poolName);
         localStorage.setItem("joinedPools", JSON.stringify(joinedPools));
 
-        // Add to UI
         let joinedPoolsContainer = document.querySelector('.joined-pool-list');
         let poolDiv = document.createElement('div');
         poolDiv.classList.add('pool-item');
@@ -143,20 +133,20 @@ function joinPool(poolName) {
     }
 }
 
-// ============== BOTTOM NAVIGATION CLICK HANDLERS ============== 
-document.querySelector('.bottom-nav button[data-page="home"]').addEventListener('click', function() {
+// ============== BOTTOM NAVIGATION BUTTONS ============== 
+document.querySelector('.bottom-nav button[data-page="home"]').addEventListener('click', () => {
     window.location.href = "home.html";
 });
 
-document.querySelector('.bottom-nav button[data-page="pools"]').addEventListener('click', function() {
+document.querySelector('.bottom-nav button[data-page="pools"]').addEventListener('click', () => {
     window.location.href = "pool.html";
 });
 
-document.querySelector('.bottom-nav button[data-page="messages"]').addEventListener('click', function() {
+document.querySelector('.bottom-nav button[data-page="messages"]').addEventListener('click', () => {
     alert("Messages Feature Coming Soon!");
 });
 
-document.querySelector('.bottom-nav button[data-page="settings"]').addEventListener('click', function() {
+document.querySelector('.bottom-nav button[data-page="settings"]').addEventListener('click', () => {
     alert("Settings Feature Coming Soon!");
 });
 
